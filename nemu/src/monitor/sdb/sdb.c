@@ -34,8 +34,28 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
-    nemu_state.state = NEMU_QUIT;
+  nemu_state.state = NEMU_QUIT;
   return -1;
+}
+
+static int cmd_si(char *args){
+  return 0;
+}
+
+static int cmd_info(char *args) {
+  char *arg = strtok(NULL, " ");
+  if(strcmp(arg, "r") == 0){
+    printf("Print GPRs\n");
+  }else if(strcmp(arg, "w") == 0){
+    printf("Print watching point\n");
+  }else{
+    printf("Unknown command '%s'\n", arg);
+  }
+  return 0;
+}
+
+static int cmd_x(char *args){
+  return 0;
 }
 
 static int cmd_help(char *args);
@@ -48,7 +68,9 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "Execute the program step by step", cmd_si },
+  { "info", "Print the infomation of the program", cmd_info },
+  { "x", "Scan the memory", cmd_x }
   /* TODO: Add more commands */
 
 };
