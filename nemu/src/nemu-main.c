@@ -16,7 +16,5 @@ int main(int argc, char *argv[]) {
   /* Start engine. */
   engine_start();
 
-  int ret = is_exit_status_bad();
-     printf("%d\n", ret);
-    return ret;
+  return is_exit_status_bad();
 }
