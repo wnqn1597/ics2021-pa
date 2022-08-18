@@ -39,6 +39,13 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args){
+  char *arg = strtok(NULL, "");
+  if(arg == NULL){
+    cpu_exec(1);
+  }else{
+    int line = atoi(arg);
+    cpu_exec(line);
+  }
   return 0;
 }
 
@@ -49,7 +56,7 @@ static int cmd_info(char *args) {
   }else if(strcmp(arg, "w") == 0){
     printf("Print watching point\n");
   }else{
-    printf("Unknown command '%s'\n", arg);
+    printf("Unknown command\n");
   }
   return 0;
 }
