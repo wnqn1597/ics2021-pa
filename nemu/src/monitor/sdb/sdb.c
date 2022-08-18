@@ -51,12 +51,14 @@ static int cmd_si(char *args){
 
 static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
-  if(strcmp(arg, "r") == 0){
+  if(arg == NULL){
+    printf("Unknown command\n");
+  }else if(strcmp(arg, "r") == 0){
     printf("Print GPRs\n");
   }else if(strcmp(arg, "w") == 0){
     printf("Print watching point\n");
   }else{
-    printf("Unknown command\n");
+    printf("Unknown command '%s'\n", arg);
   }
   return 0;
 }
