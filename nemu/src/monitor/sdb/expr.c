@@ -6,7 +6,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256, TK_EQ, TK_DEC, TK_HEX, TK_LPA, TK_RPA, TK_NEG
 
   /* TODO: Add more token types */
 
@@ -20,10 +20,17 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
+  {"-", '-'},		// minus
+  {"\\*", '*'},		// multiply
+  {"/", '/'},		// divide
   {"==", TK_EQ},        // equal
+  {"0x[0-9a-f]+", TK_HEX},	// hexadecimal
+  {"[0-9]+", TK_DEC},	// decimal
+  {"\\(", TK_LPA},	// left_parenthese
+  {"\\)", TK_RPA},	// right_parenthese
+  {"_", TK_NEG},	// negative
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -54,8 +61,19 @@ typedef struct token {
 
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
+int tokens_len = 0;
 
-static bool make_token(char *e) {
+static bool make_token(char *s) {
+  char e[strlen(s)+1];
+  strcpy(e, s);
+  char *_e = e;
+  if(*_e == '-') *_e = '_';
+  _e++;
+  while(*_e != '\0'){
+    if((*_e < '0' || *_e > '9') && *(_e+1) == '-') *(_e+1) = '_';
+    _e++;
+  }
+
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -69,8 +87,8 @@ static bool make_token(char *e) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        //Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //    i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
@@ -78,9 +96,12 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+		//TODO: len > 32
         switch (rules[i].token_type) {
-          default: TODO();
+	  	  case TK_NOTYPE: break;
+	  	  case TK_DEC:
+	  	  case TK_HEX: strncpy(tokens[nr_token].str, substr_start, substr_len);
+          default: tokens[nr_token++].type = rules[i].token_type;
         }
 
         break;
@@ -92,19 +113,75 @@ static bool make_token(char *e) {
       return false;
     }
   }
-
+  tokens_len = nr_token - 1;
   return true;
+}
+
+bool check_parentheses(int p, int q){
+  if(tokens[p].type != TK_LPA || tokens[q].type != TK_RPA)return false;
+  int count = 0;
+  bool ret = true;
+  for(int i = p; i <= q; i++){
+    if(tokens[i].type == TK_LPA) count++;
+    else if(tokens[i].type == TK_RPA) count--;
+    if(count < 0) Log("Bad expression.");
+    else if(count == 0 && i != q) ret = false;
+  }
+  return ret;
+}
+
+int get_main_token(int p, int q){
+  int count = 0;
+  bool chosen = false;
+  int ret = -1;
+  for(int i = q; i >= p; i--){
+    if(tokens[i].type == TK_RPA) count++;
+    else if(tokens[i].type == TK_LPA) count--;
+    if(count > 0) continue;
+    if(!chosen && (tokens[i].type == '*' || tokens[i].type == '/')){
+      ret = i;
+      chosen = true;
+    }else if(tokens[i].type == '+' || tokens[i].type == '-') return i;
+  }
+  return ret;
+}
+
+word_t eval(int p, int q){
+  if(p > q){
+    Log("Bad expression.");
+    assert(0);
+  }else if(p == q){
+    if(tokens[p].type == TK_HEX) return (word_t)strtol(tokens[p].str, (char**)NULL, 16);
+    else if(tokens[p].type == TK_DEC) return (word_t)atoi(tokens[p].str);
+    else assert(0);
+  }else if(check_parentheses(p, q) == true){
+    return eval(p+1, q-1);
+  }else{
+    int index = get_main_token(p, q);
+    if(index == -1 && tokens[p].type == TK_NEG && q-p == 1) return -1 * eval(p+1, q);
+    word_t val1 = eval(p, index-1);
+    word_t val2 = eval(index+1, q);
+
+    switch(tokens[index].type){
+      case '+': return val1 + val2;
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': return val1 / val2;
+      default: assert(0);
+    }
+  }
+
 }
 
 
 word_t expr(char *e, bool *success) {
+  init_regex();
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-
-  /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  word_t ret = eval(0, tokens_len);
+  *success = true;
+  return ret;
 }
+

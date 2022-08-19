@@ -89,6 +89,15 @@ static int cmd_x(char *args){
   return 0;
 }
 
+static int cmd_p(char *args){
+  bool success;
+  word_t result = expr(args, &success);
+  if(success) printf("Result: %d\n", result);
+  else printf("Calculation failed.");
+  return 0;
+}
+
+
 static int cmd_help(char *args);
 
 static struct {
@@ -101,7 +110,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute the program step by step", cmd_si },
   { "info", "Print the infomation of the program", cmd_info },
-  { "x", "Scan the memory", cmd_x }
+  { "x", "Scan the memory", cmd_x },
+  { "p", "Calculate the expression", cmd_p},
   /* TODO: Add more commands */
 
 };
