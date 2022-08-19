@@ -68,7 +68,7 @@ static bool make_token(char *s) {
   strcpy(e, s);
   char *_e = e;
   if(*_e == '-') *_e = '_';
-  _e++;
+  //_e++;
   while(*_e != '\0'){
     if((*_e < '0' || *_e > '9') && *(_e+1) == '-') *(_e+1) = '_';
     _e++;
@@ -158,7 +158,7 @@ word_t eval(int p, int q){
     return eval(p+1, q-1);
   }else{
     int index = get_main_token(p, q);
-    if(index == -1 && tokens[p].type == TK_NEG && q-p == 1) return -1 * eval(p+1, q);
+    if(index == -1 && tokens[p].type == TK_NEG) return -1 * eval(p+1, q);
     word_t val1 = eval(p, index-1);
     word_t val2 = eval(index+1, q);
 
