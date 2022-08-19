@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <memory/host.h>
+#include <memory/paddr.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -12,6 +13,7 @@ void init_wp_pool();
 void isa_reg_display();
 uint8_t* guest_to_host(paddr_t paddr);
 static inline word_t host_read(void *addr, int len);
+static inline bool in_pmem(paddr_t addr);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -74,11 +76,15 @@ static int cmd_x(char *args){
   int bytes = atoi(arg1);
   char *base_addr = strtok(NULL, " ");
   if(base_addr == NULL) return 0;
-  uint32_t base_paddr = strtol(base_addr, (char**)NULL, 16);
+  uint32_t paddr = strtol(base_addr, (char**)NULL, 16);
   for(int i = 0; i < bytes; i++){
-    uint32_t content = host_read(guest_to_host(base_paddr), 4);
-    printf("M[%x]: %x\n", base_paddr, content);
-    base_paddr += 4;
+    if(!in_pmem(paddr)){
+      printf("Addr: %x is out of bound.\n", paddr);
+      break;
+    }
+    uint32_t content = host_read(guest_to_host(paddr), 4);
+    printf("M[%x]: %x\n", paddr, content);
+    paddr += 4;
   }	
   return 0;
 }
