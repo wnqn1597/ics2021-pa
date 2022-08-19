@@ -61,7 +61,16 @@ typedef struct token {
 
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
-int tokens_len = 0;
+static int tokens_len = 0;
+
+static void refresh(){
+  for(int i = 0; i < 32; i++){
+    tokens[i].type = 0;
+    memset(tokens[i].str, 0, 32);
+  }
+  nr_token = 0;
+  tokens_len = 0;
+}
 
 static bool make_token(char *s) {
   char e[strlen(s)+1];
@@ -181,6 +190,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   word_t ret = eval(0, tokens_len);
+  refresh();
   *success = true;
   return ret;
 }
