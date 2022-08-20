@@ -29,7 +29,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"!=", TK_NEQ},	// not equal
   {"&&", TK_AND},	// logic and
-  {"([a-z]{1,2}[0-9]{0,2})|$0", TK_REGNAME},	// register name
+  {"([a-z]{1,2}[0-9]{0,2})|(\\$0)", TK_REGNAME},	// register name
   {"0x[0-9a-f]+", TK_HEX},	// hexadecimal
   {"[0-9]+", TK_DEC},	// decimal
   {"\\(", TK_LPA},	// left_parenthese
