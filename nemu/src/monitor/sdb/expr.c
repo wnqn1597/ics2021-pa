@@ -154,16 +154,22 @@ bool check_parentheses(int p, int q){
 
 int get_main_token(int p, int q){
   int count = 0;
-  bool chosen = false;
+  bool chosen_mul = false, chosen_plus = false, chosen_eq = false;
   int ret = -1;
   for(int i = q; i >= p; i--){
     if(tokens[i].type == TK_RPA) count++;
     else if(tokens[i].type == TK_LPA) count--;
     if(count > 0) continue;
-    if(!chosen && (tokens[i].type == '*' || tokens[i].type == '/')){
+    if(!chosen_mul && !chosen_plus && !chosen_eq && (tokens[i].type == '*' || tokens[i].type == '/')){
       ret = i;
-      chosen = true;
-    }else if(tokens[i].type == '+' || tokens[i].type == '-') return i;
+      chosen_mul = true;
+    }else if(!chosen_plus && !chosen_eq && (tokens[i].type == '+' || tokens[i].type == '-')){
+      ret = i;
+      chosen_plus = true;
+    }else if(!chosen_eq && (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)){
+      ret = i;
+      chosen_eq = true;
+    }else if(tokens[i].type == TK_AND) return i;
   }
   return ret;
 }
@@ -175,7 +181,7 @@ word_t eval(int p, int q){
   }else if(p == q){
     if(tokens[p].type == TK_HEX) return (word_t)strtol(tokens[p].str, (char**)NULL, 16);
     else if(tokens[p].type == TK_DEC) return (word_t)atoi(tokens[p].str);
-    else if(tokens[p].type == TK_REGNAME) return regname_to_index(tokens[p].str); //TODO
+    else if(tokens[p].type == TK_REGNAME) return regname_to_index(tokens[p].str);
     else assert(0);
   }else if(check_parentheses(p, q) == true){
     return eval(p+1, q-1);
@@ -202,6 +208,9 @@ word_t eval(int p, int q){
       case '-': return val1 - val2;
       case '*': return val1 * val2;
       case '/': return val1 / val2;
+      case TK_EQ: return val1 == val2;
+      case TK_NEQ: return val1 != val2;
+      case TK_AND: return val1 && val2;
       default: assert(0);
     }
   }
