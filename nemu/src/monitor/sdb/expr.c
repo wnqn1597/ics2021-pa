@@ -36,7 +36,7 @@ static struct rule {
   {"\\)", TK_RPA},	// right_parenthese
   {"_", TK_NEG},	// negative
   {"~", TK_DEREF},	// dereference
-  {"$", TK_REG},	// visit register
+  {"\\$", TK_REG},	// visit register
 };
 
 #define NR_REGEX ARRLEN(rules)
