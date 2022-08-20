@@ -1,5 +1,6 @@
 #include <isa.h>
-
+#include <memory/host.h>
+#include <memory/paddr.h>
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -183,7 +184,7 @@ word_t eval(int p, int q){
     if(index == -1){
       if(tokens[p].type == TK_NEG) return -1 * eval(p+1, q);
       else if(tokens[p].type == TK_DEREF){
-	      
+        return host_read(guest_to_host(eval(p+1, q)), 4);     
       }else if(tokens[p].type == TK_REG){
 	bool success;
         word_t index = eval(p+1, q);
