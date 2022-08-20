@@ -6,7 +6,8 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_DEC, TK_HEX, TK_LPA, TK_RPA, TK_NEG
+  TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_AND, TK_REGNAME,
+  TK_DEC, TK_HEX, TK_LPA, TK_RPA, TK_NEG, TK_DEREF, TK_REG
 
   /* TODO: Add more token types */
 
@@ -26,11 +27,16 @@ static struct rule {
   {"\\*", '*'},		// multiply
   {"/", '/'},		// divide
   {"==", TK_EQ},        // equal
+  {"!=", TK_NEQ},	// not equal
+  {"&&", TK_AND},	// logic and
+  {"[a-z0-9]", TK_REGNAME},	// register name
   {"0x[0-9a-f]+", TK_HEX},	// hexadecimal
   {"[0-9]+", TK_DEC},	// decimal
   {"\\(", TK_LPA},	// left_parenthese
   {"\\)", TK_RPA},	// right_parenthese
   {"_", TK_NEG},	// negative
+  {"~", TK_DEREF},	// dereference
+  {"$", TK_REG},	// visit register
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -61,7 +67,6 @@ typedef struct token {
 
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
-static int tokens_len = 0;
 
 static void refresh(){
   for(int i = 0; i < 32; i++){
@@ -69,7 +74,6 @@ static void refresh(){
     memset(tokens[i].str, 0, 32);
   }
   nr_token = 0;
-  tokens_len = 0;
 }
 
 static inline bool judge(char *c){
@@ -81,9 +85,13 @@ static bool make_token(char *s) {
   strcpy(e, s);
   char *_e = e;
   if(*_e == '-') *_e = '_';
+  if(*_e == '*') *_e = '~';
   //_e++;
   while(*_e != '\0'){
-    if(judge(_e) && *(_e+1) == '-') *(_e+1) = '_';
+    if(judge(_e)){
+      if(*(_e+1) == '-') *(_e+1) = '_';
+      else if(*(_e+1) == '*') *(_e+1) = '~';
+    }
     _e++;
   }
 
@@ -126,7 +134,6 @@ static bool make_token(char *s) {
       return false;
     }
   }
-  tokens_len = nr_token - 1;
   return true;
 }
 
@@ -193,7 +200,7 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  word_t ret = eval(0, tokens_len);
+  word_t ret = eval(0, nr_token-1);
   refresh();
   *success = true;
   return ret;
