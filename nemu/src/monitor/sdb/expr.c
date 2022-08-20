@@ -72,6 +72,10 @@ static void refresh(){
   tokens_len = 0;
 }
 
+static inline bool judge(char *c){
+  return *c == '+' || *c == '-' || *c == '*' || *c == '/' || *c == '(' || *c == '_';
+}
+
 static bool make_token(char *s) {
   char e[strlen(s)+1];
   strcpy(e, s);
@@ -79,7 +83,7 @@ static bool make_token(char *s) {
   if(*_e == '-') *_e = '_';
   //_e++;
   while(*_e != '\0'){
-    if((*_e < '0' || *_e > '9') && *(_e+1) == '-') *(_e+1) = '_';
+    if(judge(_e) && *(_e+1) == '-') *(_e+1) = '_';
     _e++;
   }
 
