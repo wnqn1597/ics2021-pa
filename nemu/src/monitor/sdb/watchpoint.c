@@ -2,16 +2,8 @@
 
 #define NR_WP 32
 
-typedef struct watchpoint {
-  int NO;
-  struct watchpoint *next;
-
-  /* TODO: Add more members if necessary */
-
-} WP;
-
 static WP wp_pool[NR_WP] = {};
-static WP *head = NULL, *free_ = NULL;
+static WP *head = NULL, *free_ = NULL, *headtail = NULL, *freetail = NULL;
 
 void init_wp_pool() {
   int i;
@@ -21,8 +13,48 @@ void init_wp_pool() {
   }
 
   head = NULL;
+  headtail = NULL;
   free_ = wp_pool;
+  freetail = &wp_pool[NR_WP-1];
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* new_up(){
+  if(free_ == NULL){
+    printf("Insufficient watchpoint.\n");
+    assert(0);
+  }
+  if(head == NULL || headtail == NULL){
+    head = free_;
+    free_->NO = 1;
+  }else{
+    headtail->next = free_;
+    free_->NO = headtail->NO + 1;
+  }
+  headtail = free_;
+  free_ = free_->next;
+  if(free_ == NULL) freetail = NULL;
+  return headtail->next;
+}
 
+void free_wp(WP *wp){
+  if(head == wp){
+    head = wp->next;
+    if(head == NULL) headtail = NULL;
+  }else{
+    WP *now = head;
+    while(now != NULL){
+      if(now->next == wp)break;
+      now = now->next;
+    }
+    if(now == NULL){
+      printf("Not using watchpoint\n");
+      assert(0);
+    }
+    now->next = wp->next;
+  }
+  wp->next = NULL;
+  if(free_ == NULL || freetail == NULL) free_ = wp;
+  else freetail->next = wp;
+  freetail = wp;
+}

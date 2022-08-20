@@ -3,7 +3,7 @@
 #include <cpu/difftest.h>
 #include <isa-all-instr.h>
 #include <locale.h>
-
+#include "../monitor/sdb/sdb.h"
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -18,6 +18,10 @@ static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 
+// add
+word_t expr(char *e, bool *success);
+static WP *head;
+
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
 
@@ -27,6 +31,26 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+
+  //TODO: watchingpoint
+  WP *now = head;
+  while(now != NULL){
+    bool success;
+    char *expression = "";
+    int now_val = expr(expression, &success);
+    if(!success){
+      printf("Failed to handle the expression in NO %d", now->NO);
+      now = now->next;
+      continue;
+    }
+    if(now_val != now->pre_val){
+      printf("Stop at %s %d.\n", now->type == 0 ? "watchpoint":"breakpoint", now->NO);
+      printf("Old value: %d\nNew Value: %d\n", now->pre_val, now_val);
+      nemu_state.state = NEMU_STOP;
+    }
+    now = now->next;
+  }
+
 }
 
 #include <isa-exec.h>
