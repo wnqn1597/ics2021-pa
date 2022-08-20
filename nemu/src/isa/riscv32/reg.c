@@ -14,6 +14,23 @@ void isa_reg_display() {
   }
 }
 
+int regname_to_index(const char *s){
+  int i;
+  for(i = 0; i < 32; i++){
+    if(strcmp(s, regs[i]) == 0) break;
+  }
+  if(i == 32){
+    printf("Unknown register name: %s\n", s);
+  }
+  return i;
+}
+
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+  int i = regname_to_index(s);
+  if(i == 32){
+    *success = false;
+    return 0;
+  }
+  *success = true;
+  return cpu.gpr[i]._32;
 }

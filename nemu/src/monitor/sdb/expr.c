@@ -120,6 +120,7 @@ static bool make_token(char *s) {
 		//TODO: len > 32
         switch (rules[i].token_type) {
 	  	  case TK_NOTYPE: break;
+		  case TK_REGNAME:
 	  	  case TK_DEC:
 	  	  case TK_HEX: strncpy(tokens[nr_token].str, substr_start, substr_len);
           default: tokens[nr_token++].type = rules[i].token_type;
@@ -173,12 +174,25 @@ word_t eval(int p, int q){
   }else if(p == q){
     if(tokens[p].type == TK_HEX) return (word_t)strtol(tokens[p].str, (char**)NULL, 16);
     else if(tokens[p].type == TK_DEC) return (word_t)atoi(tokens[p].str);
+    else if(tokens[p].type == TK_REGNAME) return regname_to_index(tokens[p].str); //TODO
     else assert(0);
   }else if(check_parentheses(p, q) == true){
     return eval(p+1, q-1);
   }else{
     int index = get_main_token(p, q);
-    if(index == -1 && tokens[p].type == TK_NEG) return -1 * eval(p+1, q);
+    if(index == -1){
+      if(tokens[p].type == TK_NEG) return -1 * eval(p+1, q);
+      else if(tokens[p].type == TK_DEREF){
+	      
+      }else if(tokens[p].type == TK_REG){
+	bool success;
+        word_t index = eval(p+1, q);
+	if(index >= 32||index < 0)assert(0);
+        word_t ret = isa_reg_str2val(regs[index], &success);
+	if(success)return ret;
+	else assert(0);
+      }
+    }
     word_t val1 = eval(p, index-1);
     word_t val2 = eval(index+1, q);
 
