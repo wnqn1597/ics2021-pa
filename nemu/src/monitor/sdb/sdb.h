@@ -7,7 +7,7 @@ typedef struct watchpoint {
   int type;	// 0: watching 1: break
   int NO;
   struct watchpoint *next;
-  char *expression;
+  char expression[32];
   int pre_val;
   
   /* TODO: Add more members if necessary */

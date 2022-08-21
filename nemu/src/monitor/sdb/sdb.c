@@ -116,7 +116,7 @@ static int cmd_w(char *args){
     return 0;
   }
   printf("cmd_w wpaddr:%p\n", nwp);
-  nwp->expression = e;
+  strcpy(nwp->expression, e);
   printf("%s\n", nwp->expression);
   return 0;
 }
