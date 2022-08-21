@@ -69,12 +69,9 @@ void watchpoint_display(){
     printf("No created watchpoint.\n");
     return;
   }
-  printf("head addr: %p\n", head);
   printf("No\tType\tValue\t\tExpression\n");
   WP *now = head;
   while(now != NULL){
-    printf("Addr: %p\n", now);
-    printf("%s\n", now->expression);
     bool success;
     word_t value = expr(now->expression, &success);
     if(!success) printf("%d\t%d\tUNDEFINED\t%s\n", now->NO, now->type, now->expression);  

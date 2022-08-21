@@ -33,7 +33,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
   //TODO: watchingpoint
   WP *now = get_head();
-  printf("HEAD: %p\n", now);
   while(now != NULL){
     bool success;
     int now_val = expr(now->expression, &success);
@@ -42,8 +41,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
       now = now->next;
       continue;
     }
-    printf("NOWVAL%d\n", now_val);
-    printf("PREVAL%d\n", now->pre_val);
     if(now_val != now->pre_val){
       printf("Stop at %s %d.\n", now->type == 0 ? "watchpoint":"breakpoint", now->NO);
       printf("Old value: %d\nNew Value: %d\n", now->pre_val, now_val);
