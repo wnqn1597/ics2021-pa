@@ -120,10 +120,8 @@ static int cmd_w(char *args){
     return 0;
   }
   WP *nwp = new_up();
-  printf("cmd_w wpaddr:%p\n", nwp);
   strcpy(nwp->expression, e);
   nwp->pre_val = value;
-  printf("%s\n", nwp->expression);
   return 0;
 }
 
