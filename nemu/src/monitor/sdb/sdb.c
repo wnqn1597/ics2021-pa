@@ -115,6 +115,7 @@ static int cmd_w(char *args){
     printf("No watchpoint address given.\n");
     return 0;
   }
+  printf("cmd_w Expression: %s\n", e);
   nwp->expression = e;
   return 0;
 }
