@@ -109,8 +109,8 @@ static bool make_token(char *s) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        //Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //    i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
@@ -225,7 +225,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   word_t ret = eval(0, nr_token-1);
-  printf("Expression result: %d\n", ret);
+  //printf("Expression result: %d\n", ret);
   refresh();
   *success = true;
   return ret;
