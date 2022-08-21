@@ -75,7 +75,7 @@ void watchpoint_display(){
     bool success;
     word_t value = expr(now->expression, &success);
     if(!success) printf("%d\t%d\t%s\t%s\n", now->NO, now->type, "NULL", now->expression);
-    else printf("%d\t%d\t%d\t%s\n", now->NO, now->type, value, now->expression);
+    else printf("%d\t%d\t%x\t%s\n", now->NO, now->type, value, now->expression);
     now = now->next;
   }
 
