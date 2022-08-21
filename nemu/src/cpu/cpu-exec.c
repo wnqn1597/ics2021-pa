@@ -20,7 +20,6 @@ rtlreg_t tmp_reg[4];
 
 // add
 word_t expr(char *e, bool *success);
-static WP *head;
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);

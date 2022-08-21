@@ -14,7 +14,7 @@ typedef struct watchpoint {
 
 } WP;
 
-
+static WP *head;
 word_t expr(char *e, bool *success);
 
 #endif
