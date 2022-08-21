@@ -46,6 +46,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     if(now_val != now->pre_val){
       printf("Stop at %s %d.\n", now->type == 0 ? "watchpoint":"breakpoint", now->NO);
       printf("Old value: %d\nNew Value: %d\n", now->pre_val, now_val);
+      now->pre_val = now_val;
       nemu_state.state = NEMU_STOP;
     }
     now = now->next;

@@ -16,6 +16,9 @@ static inline word_t host_read(void *addr, int len);
 static inline bool in_pmem(paddr_t addr);
 WP* new_up();
 void free_wp(WP *wp);
+extern WP *head;
+void watchpoint_display();
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -62,10 +65,11 @@ static int cmd_info(char *args) {
   if(arg == NULL){
     printf("Unknown command\n");
   }else if(strcmp(arg, "r") == 0){
-    printf("Print GPRs\n");
+    //printf("Print GPRs\n");
     isa_reg_display();
   }else if(strcmp(arg, "w") == 0){
-    printf("Print watching point\n");
+    //printf("Print watching point\n");
+    watchpoint_display();
   }else{
     printf("Unknown command '%s'\n", arg);
   }
@@ -93,23 +97,45 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
   bool success;
-  word_t result = expr(args, &success);
+  char *e = strtok(NULL, " ");
+  if(e == NULL){
+    printf("No expression given.\n");
+    return 0;
+  }
+  word_t result = expr(e, &success);
   if(success) printf("Result: %d\n", result);
   else printf("Calculation failed.");
   return 0;
 }
 
 static int cmd_w(char *args){
-  //WP *nwp = new_up();
-  char *expr = strtok(NULL, " ");
-  if(expr == NULL){
-  
+  WP *nwp = new_up();
+  char *e = strtok(NULL, " ");
+  if(e == NULL){
+    printf("No watchpoint address given.\n");
+    return 0;
   }
-  //nwp->expr
+  nwp->expression = e;
   return 0;
 }
 
 static int cmd_d(char *args){
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL){
+    printf("No watchpoint number given.\n");
+    return 0;
+  }
+  int NO = atoi(arg);
+  WP *nwp = head;
+  while(nwp != NULL){
+    if(nwp->NO == NO) break;
+    nwp = nwp->next;
+  }
+  if(nwp == NULL){
+    printf("Cannot find watchpoint NO %d\n", NO);
+    return 0;
+  }
+  free_wp(nwp);
   return 0;
 }
 

@@ -58,3 +58,20 @@ void free_wp(WP *wp){
   else freetail->next = wp;
   freetail = wp;
 }
+
+void watchpoint_display(){
+  if(head == NULL){
+    printf("No created watchpoint.\n");
+    return;
+  }
+  printf("No\tType\tAddress\t\tExpression\n");
+  WP *now = head;
+  while(now != NULL){
+    bool success;
+    word_t addr = expr(now->expression, &success);
+    if(!success) printf("%d\t%d\tUNDEFINED\t\t%s\n", now->NO, now->type, now->expression);  
+    else printf("%d\t%d\t%x\t\t%s\n", now->NO, now->type, addr, now->expression);
+    now = now->next;
+  }
+
+}
