@@ -33,6 +33,7 @@ WP* new_up(){
   }
   headtail = free_;
   free_ = free_->next;
+  headtail->next = NULL;
   if(free_ == NULL) freetail = NULL;
   return headtail;
 }
