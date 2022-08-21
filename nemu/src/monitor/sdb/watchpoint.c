@@ -22,7 +22,7 @@ void init_wp_pool() {
 WP* new_up(){
   if(free_ == NULL){
     printf("Insufficient watchpoint.\n");
-    assert(0);
+    return NULL;
   }
   if(head == NULL || headtail == NULL){
     head = free_;
@@ -34,7 +34,7 @@ WP* new_up(){
   headtail = free_;
   free_ = free_->next;
   if(free_ == NULL) freetail = NULL;
-  return headtail->next;
+  return headtail;
 }
 
 void free_wp(WP *wp){
@@ -49,7 +49,7 @@ void free_wp(WP *wp){
     }
     if(now == NULL){
       printf("Not using watchpoint\n");
-      assert(0);
+      return;
     }
     now->next = wp->next;
   }
