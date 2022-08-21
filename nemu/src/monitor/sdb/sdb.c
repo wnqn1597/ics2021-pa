@@ -14,6 +14,8 @@ void isa_reg_display();
 uint8_t* guest_to_host(paddr_t paddr);
 static inline word_t host_read(void *addr, int len);
 static inline bool in_pmem(paddr_t addr);
+WP* new_up();
+void free_wp(WP *wp);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -97,6 +99,19 @@ static int cmd_p(char *args){
   return 0;
 }
 
+static int cmd_w(char *args){
+  //WP *nwp = new_up();
+  char *expr = strtok(NULL, " ");
+  if(expr == NULL){
+  
+  }
+  //nwp->expr
+  return 0;
+}
+
+static int cmd_d(char *args){
+  return 0;
+}
 
 static int cmd_help(char *args);
 
@@ -112,6 +127,8 @@ static struct {
   { "info", "Print the infomation of the program", cmd_info },
   { "x", "Scan the memory", cmd_x },
   { "p", "Calculate the expression", cmd_p},
+  { "w", "Create a new watchpoint", cmd_w},
+  { "d", "Delete a watchpoint", cmd_d},
   /* TODO: Add more commands */
 
 };
