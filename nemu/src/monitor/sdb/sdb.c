@@ -134,7 +134,7 @@ static int cmd_d(char *args){
     return 0;
   }
   int NO = atoi(arg);
-  WP *nwp = head;
+  WP *nwp = get_head();
   while(nwp != NULL){
     if(nwp->NO == NO) break;
     nwp = nwp->next;
