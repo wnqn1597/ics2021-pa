@@ -16,7 +16,6 @@ static inline word_t host_read(void *addr, int len);
 static inline bool in_pmem(paddr_t addr);
 WP* new_up();
 void free_wp(WP *wp);
-static WP *head;
 void watchpoint_display();
 
 
