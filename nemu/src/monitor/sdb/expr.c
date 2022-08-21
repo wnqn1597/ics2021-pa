@@ -225,6 +225,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   word_t ret = eval(0, nr_token-1);
+  printf("Expression result: %d\n", ret);
   refresh();
   *success = true;
   return ret;
