@@ -8,7 +8,7 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_AND, TK_REGNAME,
-  TK_DEC, TK_HEX, TK_LPA, TK_RPA, TK_NEG, TK_DEREF, TK_REG
+  TK_DEC, TK_HEX, TK_LPA, TK_RPA, TK_NEG, TK_DEREF, TK_PC, TK_REG
 
   /* TODO: Add more token types */
 
@@ -37,6 +37,7 @@ static struct rule {
   {"\\)", TK_RPA},	// right_parenthese
   {"_", TK_NEG},	// negative
   {"~", TK_DEREF},	// dereference
+  {"\\$pc", TK_PC},	// visit pc
   {"\\$", TK_REG},	// visit register
 };
 
@@ -182,6 +183,7 @@ word_t eval(int p, int q){
     if(tokens[p].type == TK_HEX) return (word_t)strtol(tokens[p].str, (char**)NULL, 16);
     else if(tokens[p].type == TK_DEC) return (word_t)atoi(tokens[p].str);
     else if(tokens[p].type == TK_REGNAME) return regname_to_index(tokens[p].str);
+    else if(tokens[p].type == TK_PC) return cpu.pc;
     else assert(0);
   }else if(check_parentheses(p, q) == true){
     return eval(p+1, q-1);
