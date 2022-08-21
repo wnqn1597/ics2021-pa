@@ -8,7 +8,7 @@ typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
   char expression[32];
-  int pre_val;
+  unsigned pre_val;
   
   /* TODO: Add more members if necessary */
 

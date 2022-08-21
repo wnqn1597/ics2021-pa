@@ -104,19 +104,26 @@ static int cmd_p(char *args){
   }
   word_t result = expr(e, &success);
   if(success) printf("Result: %d\n", result);
-  else printf("Calculation failed.");
+  else printf("Calculation failed.\n");
   return 0;
 }
 
 static int cmd_w(char *args){
-  WP *nwp = new_up();
   char *e = strtok(NULL, " ");
   if(e == NULL){
     printf("No watchpoint address given.\n");
     return 0;
   }
+  bool success;
+  word_t value = expr(e, &success);
+  if(!success){
+    printf("Caculation failed.\n");
+    return 0;
+  }
+  WP *nwp = new_up();
   printf("cmd_w wpaddr:%p\n", nwp);
   strcpy(nwp->expression, e);
+  nwp->pre_val = value;
   printf("%s\n", nwp->expression);
   return 0;
 }

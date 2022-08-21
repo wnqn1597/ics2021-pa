@@ -66,15 +66,15 @@ void watchpoint_display(){
     return;
   }
   printf("head addr: %p\n", head);
-  printf("No\tType\tAddress\t\tExpression\n");
+  printf("No\tType\tValue\t\tExpression\n");
   WP *now = head;
   while(now != NULL){
     printf("Addr: %p\n", now);
     printf("%s\n", now->expression);
     bool success;
-    word_t addr = expr(now->expression, &success);
-    if(!success) printf("%d\t%d\tUNDEFINED\t\t%s\n", now->NO, now->type, now->expression);  
-    else printf("%d\t%d\t%x\t\t%s\n", now->NO, now->type, addr, now->expression);
+    word_t value = expr(now->expression, &success);
+    if(!success) printf("%d\t%d\tUNDEFINED\t%s\n", now->NO, now->type, now->expression);  
+    else printf("%d\t%d\t%d\t%s\n", now->NO, now->type, value, now->expression);
     now = now->next;
   }
 
