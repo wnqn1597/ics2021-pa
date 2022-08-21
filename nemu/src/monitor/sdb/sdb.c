@@ -102,7 +102,7 @@ static int cmd_p(char *args){
     return 0;
   }
   word_t result = expr(e, &success);
-  if(success) printf("Result:\ns: %d\nu: %u\nh: %x", result, result, result);
+  if(success) printf("Result:\ns: %d\nu: %u\nh: %x\n", result, result, result);
   else printf("Calculation failed.\n");
   return 0;
 }
