@@ -32,7 +32,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
   //TODO: watchingpoint
-  WP *now = head;
+  WP *now = get_head();
   printf("HEAD%p\n", head);
   while(now != NULL){
     bool success;

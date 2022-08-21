@@ -19,6 +19,10 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* get_head(){
+  return head;
+}
+
 WP* new_up(){
   if(free_ == NULL){
     printf("Insufficient watchpoint.\n");
