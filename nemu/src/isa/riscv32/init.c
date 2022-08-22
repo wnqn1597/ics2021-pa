@@ -19,6 +19,7 @@ static const uint32_t img [] = {
   0x0,
   0x117,
   0x110193,
+  0x0000006b,
 };
 
 static void restart() {
