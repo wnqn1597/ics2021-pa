@@ -7,7 +7,8 @@ def_EHelper(sw) {
 }
 
 def_EHelper(jal) {
-  rtl_addi(s, &(s->dnpc), &(s->pc), id_src1->imm);
+  //rtl_addi(s, &(s->dnpc), &(s->pc), id_src1->imm);
+  rtl_j(s, s->pc + id_src1->imm);
   rtl_mv(s, ddest, &(s->snpc));
 }
 
