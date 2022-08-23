@@ -31,8 +31,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
-  printf("%x: %x\n", _this->pc, _this->isa.instr.val);
-
   //TODO: watchingpoint
   WP *now = get_head();
   while(now != NULL){
@@ -132,6 +130,11 @@ void cpu_exec(uint64_t n) {
 
   uint64_t timer_end = get_time();
   g_timer += timer_end - timer_start;
+  
+
+  printf("%d\n", nemu_state.state == NEMU_STOP);
+  printf("%d\n", nemu_state.state == NEMU_ABORT);
+  printf("%d\n", nemu_state.state == NEMU_QUIT);
 
   switch (nemu_state.state) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
