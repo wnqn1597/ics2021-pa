@@ -132,9 +132,9 @@ void cpu_exec(uint64_t n) {
   g_timer += timer_end - timer_start;
   
 
-  printf("%d\n", nemu_state.state == NEMU_STOP);
-  printf("%d\n", nemu_state.state == NEMU_ABORT);
-  printf("%d\n", nemu_state.state == NEMU_QUIT);
+  Log("%d", nemu_state.state == NEMU_STOP);
+  Log("%d", nemu_state.state == NEMU_ABORT);
+  Log("%d", nemu_state.state == NEMU_QUIT);
 
   switch (nemu_state.state) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
