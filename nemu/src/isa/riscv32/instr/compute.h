@@ -82,3 +82,26 @@ def_EHelper(srl) {
 def_EHelper(sra) {
   rtl_sra(s, ddest, dsrc1, dsrc2);
 }
+
+def_EHelper(mulu_lo) {
+  rtl_mulu_lo(s, ddest, dsrc1, dsrc2);
+}
+def_EHelper(mulu_hi) {
+  rtl_mulu_hi(s, ddest, dsrc1, dsrc2);
+}
+def_EHelper(muls_hi) {
+  rtl_muls_hi(s, ddest, dsrc1, dsrc2);
+}
+
+def_EHelper(divu_q) {
+  rtl_divu_q(s, ddest, dsrc1, dsrc2);
+}
+def_EHelper(divu_r) {
+  rtl_divu_r(s, ddest, dsrc1, dsrc2);
+}
+def_EHelper(divs_q) {
+  rtl_divs_q(s, ddest, dsrc1, dsrc2);
+}
+def_EHelper(divs_r) {
+  rtl_divs_r(s, ddest, dsrc1, dsrc2);
+}
