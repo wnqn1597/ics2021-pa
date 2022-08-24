@@ -5,10 +5,6 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-int printf(const char *fmt, ...) {
-  panic("Not implemented");
-}
-
 int vsprintf(char *buf, const char *fmt, va_list args) {
     char *str;
 
@@ -53,6 +49,19 @@ int sprintf(char *buf, const char *fmt, ...) {
     va_end(args);
 
     return n;
+}
+
+int printf(const char *fmt, ...) {
+  char buffer[50];
+  va_list args;
+  int n;
+  va_start(args, fmt);
+  n = vsprintf(buffer, fmt, args);
+  va_end(args);
+
+  for(int i = 0; i < 50 && buffer[i] != '\0'; i++) putch(buffer[i]);
+  putch('@');
+  return n;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
