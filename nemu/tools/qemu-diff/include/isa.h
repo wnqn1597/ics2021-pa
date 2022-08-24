@@ -31,9 +31,9 @@ union isa_gdb_regs {
     uint64_t fpr[32];
     uint64_t pc;
 #elif defined(CONFIG_ISA_x86)
-    uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-    uint32_t eip, eflags;
-    uint32_t cs, ss, ds, es, fs, gs;
+    //uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+    //uint32_t eip, eflags;
+    //uint32_t cs, ss, ds, es, fs, gs;
 #endif
   };
   struct {
