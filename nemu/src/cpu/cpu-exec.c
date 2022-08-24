@@ -70,7 +70,7 @@ static void fetch_decode_exec_updatepc(Decode *s) {
 
 static void statistic() {
   
-  display_pool();
+  //display_pool();
 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%ld", "%'ld")
@@ -82,6 +82,7 @@ static void statistic() {
 
 void assert_fail_msg() {
   isa_reg_display();
+  display_pool();
   statistic();
 }
 
@@ -154,6 +155,7 @@ void cpu_exec(uint64_t n) {
             ASNI_FMT("HIT BAD TRAP", ASNI_FG_RED))),
           nemu_state.halt_pc);
       // fall through
+      if(nemu_state.halt_ret != 0) display_pool();
     case NEMU_QUIT: statistic();
   }
 }
