@@ -26,7 +26,7 @@ static const uint32_t img [] = {
   0x00000413,
   0x00009117,
   0xffc10113,
-  0x0a8000ef,
+  //0x0a8000ef,
 };
 
 static void restart() {
