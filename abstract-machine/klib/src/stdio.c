@@ -33,12 +33,10 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 			  a--;
 			}
 			str += c;
-			break;
         }else if(*fmt == 's') {
             char *arg = va_arg(args, char*);
             strcpy(str, arg);
             str += strlen(arg);
-            break;
         }
     } /* end of for (str = buf; *fmt; fmt++) */
 
