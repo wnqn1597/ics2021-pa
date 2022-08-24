@@ -45,7 +45,6 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 }
 
 int sprintf(char *buf, const char *fmt, ...) {
-	panic("Not implemented");
     va_list args;
     int n;
 
