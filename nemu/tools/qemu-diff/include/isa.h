@@ -24,10 +24,10 @@ union isa_gdb_regs {
     uint32_t gpr[32];
     uint32_t status, lo, hi, badvaddr, cause, pc;
 #elif defined(CONFIG_ISA_riscv32)
-    uint32_t gpr[32];
+    //uint32_t gpr[32];
     uint32_t pc;
 #elif defined(CONFIG_ISA_riscv64)
-    uint64_t gprh[32];
+    uint64_t gpr[32];
     uint64_t fpr[32];
     uint64_t pc;
 #elif defined(CONFIG_ISA_x86)
