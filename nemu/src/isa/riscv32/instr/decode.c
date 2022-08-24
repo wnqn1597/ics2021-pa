@@ -148,8 +148,9 @@ def_THelper(main) {
   return table_inv(s);
 };
 
-int isa_fetch_decode(Decode *s) {
+int isa_fetch_decode(Decode *s, uint32_t *instr_val) {
   s->isa.instr.val = instr_fetch(&s->snpc, 4);
+  *instr_val = s->isa.instr.val;
   int idx = table_main(s);
   return idx;
 }

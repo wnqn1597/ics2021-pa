@@ -20,6 +20,9 @@ rtlreg_t tmp_reg[4];
 
 // add
 word_t expr(char *e, bool *success);
+void init_pool();
+void insert(uint32_t instr, uint32_t pc);
+void display_pool();
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
@@ -66,6 +69,9 @@ static void fetch_decode_exec_updatepc(Decode *s) {
 }
 
 static void statistic() {
+  
+  display_pool();
+
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%ld", "%'ld")
   Log("host time spent = " NUMBERIC_FMT " us", g_timer);
@@ -82,7 +88,11 @@ void assert_fail_msg() {
 void fetch_decode(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
-  int idx = isa_fetch_decode(s);
+
+  uint32_t instr_value;
+  int idx = isa_fetch_decode(s, &instr_value);
+  insert(instr_value, pc);
+
   s->dnpc = s->snpc;
   s->EHelper = g_exec_table[idx];
 #ifdef CONFIG_ITRACE
@@ -109,6 +119,9 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
+
+  init_pool();
+
   g_print_step = (n < MAX_INSTR_TO_PRINT);
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
