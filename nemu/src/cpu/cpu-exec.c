@@ -155,7 +155,7 @@ void cpu_exec(uint64_t n) {
             ASNI_FMT("HIT BAD TRAP", ASNI_FG_RED))),
           nemu_state.halt_pc);
       // fall through
-      if(nemu_state.halt_ret != 0) display_pool();
+      if(nemu_state.state == NEMU_ABORT || nemu_state.halt_ret != 0) display_pool();
     case NEMU_QUIT: statistic();
   }
 }
