@@ -47,7 +47,7 @@ int sprintf(char *buf, const char *fmt, ...) {
     va_start(args, fmt);
     n = vsprintf(buf, fmt, args);
     va_end(args);
-
+    for(char *b = buf;*b != '\0'; b++) putch(*b);
     return n;
 }
 
@@ -60,7 +60,6 @@ int printf(const char *fmt, ...) {
   va_end(args);
 
   for(int i = 0; i < 50 && buffer[i] != '\0'; i++) putch(buffer[i]);
-  putch('@');
   return n;
 }
 
