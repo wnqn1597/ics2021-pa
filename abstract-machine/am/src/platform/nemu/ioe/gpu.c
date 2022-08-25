@@ -25,9 +25,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   if (ctl->sync) {
-    printf("func it!\n");
     uint32_t *fb = (uint32_t*)(uintptr_t)FB_ADDR;
-    outl(SYNC_ADDR, 1);
     uint32_t bias = ctl->y * 400 + ctl->x;
     for(int i = 0; i < ctl->h; i++) {
       for(int j = 0; j < ctl->w; j++) {
@@ -35,6 +33,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
         fb[bias + i * 400 + j] = j * 100;
       }
     }
+    outl(SYNC_ADDR, 1);
   }
 }
 
