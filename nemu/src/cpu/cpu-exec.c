@@ -92,6 +92,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
   uint32_t instr_value;
   int idx = isa_fetch_decode(s, &instr_value);
+  printf("%08x\n", instr_value);
   insert(instr_value, pc);
 
   s->dnpc = s->snpc;
