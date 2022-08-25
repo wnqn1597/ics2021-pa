@@ -17,7 +17,7 @@ void init_alarm();
 
 void send_key(uint8_t, bool);
 void vga_update_screen();
-void rtc_io_handler();
+void rtc_io_handler(uint32_t offset, int len, bool is_write);
 
 void device_update() {
   static uint64_t last = 0;
@@ -26,7 +26,7 @@ void device_update() {
     return;
   }
   last = now;
-  IFDEF(CONFIG_HAS_TIMER, rtc_io_handler());
+  IFDEF(CONFIG_HAS_TIMER, rtc_io_handler(4, 0, true));
   IFDEF(CONFIG_HAS_VGA, vga_update_screen());
 
 #ifndef CONFIG_TARGET_AM
