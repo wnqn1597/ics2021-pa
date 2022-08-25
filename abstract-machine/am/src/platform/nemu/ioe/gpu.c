@@ -5,8 +5,8 @@
 
 void __am_gpu_init() {
   int i;
-  int w = 32;
-  int h = 32;
+  int w = 384;
+  int h = 288;
   uint32_t *fb = (uint32_t*)(uintptr_t)FB_ADDR;
   for(i = 0; i < w*h; i++) fb[i] = i*100;
   outl(SYNC_ADDR, 1);
@@ -14,9 +14,8 @@ void __am_gpu_init() {
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
   uint32_t wh = inl(VGACTL_ADDR);
-  uint32_t height = wh & 65535;
-  uint32_t width = (wh & (65535 << 16)) >> 16;
-  printf("%d--%d\n", height, width);
+  uint32_t height = wh & 65535; // 300
+  uint32_t width = (wh & (65535 << 16)) >> 16; // 400
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
     .width = width, .height = height,
