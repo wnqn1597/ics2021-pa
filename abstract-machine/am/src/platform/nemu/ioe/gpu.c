@@ -32,7 +32,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     //    fb[bias + i * 400 + j] = ((uint32_t*)(ctl->pixels))[i * ctl->w + j];
     //  }
     //}
-    fb[0] = 1000;
+    fb[399] = 1000;
     outl(SYNC_ADDR, 1);
   }
 }
