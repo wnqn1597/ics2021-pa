@@ -9,7 +9,8 @@ void __am_timer_init() {
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint32_t sec = inl(RTC_ADDR);
-  printf("%d\n", sec);
+  char buf[30];
+  sprintf(buf, "%d\n", sec);
   uptime->us = 0;
 }
 
