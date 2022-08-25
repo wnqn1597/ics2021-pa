@@ -3,16 +3,18 @@
 #include <klib.h>
 #include <riscv/riscv.h>
 
-void __am_timer_init() {
+static uint64_t boot_us = 0;
 
+void __am_timer_init() {
+  uint32_t secl = inl(RTC_ADDR);
+  uint64_t sech = inl(RTC_ADDR+4);
+  boot_us = (sech << 32) | secl;
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uint32_t sec = inl(RTC_ADDR);
-  //if(sec == 0){ putch('!');}
-  char buf[30];
-  sprintf(buf, "%d\n", sec);
-  uptime->us = 0;
+  uint32_t secl = inl(RTC_ADDR);
+  uint64_t sech = inl(RTC_ADDR+4);
+  uptime->us = ((sech << 32) | secl) - boot_us;
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
