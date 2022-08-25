@@ -16,9 +16,9 @@
   ({ for (const char *p = s; *p; p++) putch(*p); })
 
 #define io_read(reg) \
-  ({ \
-    ioe_read(reg, &reg##_reg); \
-    reg##_reg; })
+  ({ reg##_T __io_param; \
+    ioe_read(reg, &__io_param); \
+    __io_param; })
 
 #define io_write(reg, ...) \
   ({ reg##_T __io_param = (reg##_T) { __VA_ARGS__ }; \
