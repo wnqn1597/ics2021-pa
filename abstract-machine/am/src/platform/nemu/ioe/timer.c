@@ -1,11 +1,10 @@
 #include <am.h>
 #include <nemu.h>
-#include <klib.h>
+
 void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  printf("%d\n", uptime->us);
   uptime->us += 1000;
 }
 
