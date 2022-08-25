@@ -9,7 +9,7 @@ void __am_gpu_init() {
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
   uint32_t wh = inl(VGACTL_ADDR);
   uint32_t height = wh & 65535;
-  uint32_t width = wh & (65535 << 16);
+  uint32_t width = (wh & (65535 << 16)) >> 16;
   printf("%d-@-%d\n", width, height);
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
