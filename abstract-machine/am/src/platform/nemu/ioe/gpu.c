@@ -27,10 +27,10 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   if (ctl->sync) {
     uint32_t *fb = (uint32_t*)(uintptr_t)FB_ADDR;
     //uint32_t bias = ctl->y * 400 + ctl->x;
-    for(int i = 0; i < ctl->h; i++) {
-      for(int j = 0; j < ctl->w; j++) {
+    for(int i = 0; i < 300; i++) {
+      for(int j = 0; j < 400; j++) {
         //fb[bias + i * 400 + j] = ((uint32_t*)(ctl->pixels))[i * ctl->w + j];
-        fb[i * 400 + j] = j * 100;
+        fb[i * 400 + j] = i;
       }
     }
     outl(SYNC_ADDR, 1);
