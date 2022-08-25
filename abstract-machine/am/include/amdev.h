@@ -5,7 +5,8 @@
 
 #define AM_DEVREG(id, reg, perm, ...) \
   enum { AM_##reg = (id) }; \
-  typedef struct { __VA_ARGS__; } AM_##reg##_T; 
+  typedef struct { __VA_ARGS__; } AM_##reg##_T; \
+  AM_##reg##_T AM_##reg##_reg;
 
 AM_DEVREG( 1, UART_CONFIG,  RD, bool present);
 AM_DEVREG( 2, UART_TX,      WR, char data);
