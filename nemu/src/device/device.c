@@ -26,7 +26,7 @@ void device_update() {
     return;
   }
   last = now;
-  rtc_io_handler(4, 0, false);
+  IFDEF(CONFIG_HAS_TIMER, rtc_io_handler(4, 0, false));
   IFDEF(CONFIG_HAS_VGA, vga_update_screen());
 
 #ifndef CONFIG_TARGET_AM
