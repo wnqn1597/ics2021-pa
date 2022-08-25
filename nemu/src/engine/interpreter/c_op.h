@@ -38,9 +38,9 @@
 #endif
 
 #define c_divu_q(a, b) ((a) / (b))
-#define c_divu_r(a, b)  ((a) % (b))
+#define c_divu_r(a, b) ((a) % (b))
 #define c_divs_q(a, b) ((sword_t)(a) / (sword_t)(b))
-#define c_divs_r(a, b)  ((sword_t)(a) % (sword_t)(b))
+#define c_divs_r(a, b) ((sword_t)(a) % (sword_t)(b))
 
 static inline bool interpret_relop(uint32_t relop, const rtlreg_t src1, const rtlreg_t src2) {
   switch (relop) {
