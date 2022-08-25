@@ -1,15 +1,19 @@
 #include <am.h>
 #include <nemu.h>
-
+#include <klib.h>
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
 void __am_gpu_init() {
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
+  uint32_t wh = inl(VGACTL_ADDR);
+  uint32_t height = wh & 65535;
+  uint32_t width = wh & (65535 << 16);
+  printf("%d, %d", width, height);
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
-    .width = 0, .height = 0,
+    .width = width, .height = height,
     .vmemsz = 0
   };
 }
