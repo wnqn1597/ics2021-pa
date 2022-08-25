@@ -15,7 +15,7 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
         }
         fmt++;
         if(*fmt == 'd') {
-			int arg = va_arg(args, int);
+			long arg = va_arg(args, long);
 			int b = 1, c = 0;
 			while(arg / b != 0) {
 			  b *= 10;
