@@ -1,6 +1,6 @@
 #include <isa.h>
 
-CSR csr_reg;
+CSR csr_reg = {.mstatus = 0x1800};
 
 uint32_t* get_csr(uint32_t code) {
   switch(code) {
