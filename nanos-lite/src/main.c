@@ -30,6 +30,7 @@ int main() {
 
   Log("Finish initialization");
 
+  printf("1\n");
 #ifdef HAS_CTE
   yield();
 #endif
