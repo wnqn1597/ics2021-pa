@@ -45,8 +45,6 @@ typedef struct csr {
   uint32_t mcause;
 } CSR;
 
-CSR csr_reg = {};
-
 uint32_t* get_csr(uint32_t code);
 void write_csr(uint32_t code, word_t value);
 vaddr_t isa_out_intr(word_t NO);

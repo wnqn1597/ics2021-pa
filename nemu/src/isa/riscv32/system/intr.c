@@ -1,5 +1,7 @@
 #include <isa.h>
 
+CSR csr_reg;
+
 uint32_t* get_csr(uint32_t code) {
   switch(code) {
     case 0x300: return &csr_reg.mstatus;
