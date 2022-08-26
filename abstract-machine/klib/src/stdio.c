@@ -47,19 +47,27 @@ int sprintf(char *buf, const char *fmt, ...) {
     va_start(args, fmt);
     n = vsprintf(buf, fmt, args);
     va_end(args);
-    for(char *b = buf;*b != '\0'; b++) putch(*b);
+
+    char *b;
+    for(b = buf; *b != '\0'; b++) putch(*b);
+    putch(*b);
     return n;
 }
 
 int printf(const char *fmt, ...) {
-  char buffer[100];
+  //char *buf;
+  char buf[50];
   va_list args;
   int n;
   va_start(args, fmt);
-  n = vsprintf(buffer, fmt, args);
+  n = vsprintf(buf, fmt, args);
   va_end(args);
 
-  for(int i = 0; i < 100 && buffer[i] != '\0'; i++) putch(buffer[i]);
+  //for(; *buf != '\0'; buf++) putch(*buf);
+  //putch(*buf);
+  int i;
+  for(i = 0; i < 50 && buf[i] != '\0'; i++) putch(buf[i]);
+  putch(buf[i]);
   return n;
 }
 
