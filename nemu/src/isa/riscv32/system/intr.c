@@ -32,8 +32,10 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 }
 
 word_t isa_out_intr(word_t NO) {
-  csr_reg.mstatus = NO;
-  return csr_reg.mepc;
+  uint32_t mcause = csr_reg.mcause;
+  csr_reg.mcause = NO;
+  if(mcause == -1) return csr_reg.mepc + 4;
+  else return csr_reg.mepc;
 }
 
 word_t isa_query_intr() {
