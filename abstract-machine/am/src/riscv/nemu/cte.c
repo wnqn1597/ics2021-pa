@@ -5,7 +5,8 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
-  printf("%d, %d, %d\n", c->mcause, c->mstatus, c->mepc);
+  assert(c->mstatus == 1);
+  assert(c->mcause == 0);
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
