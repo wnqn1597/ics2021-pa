@@ -7,7 +7,7 @@ def_EHelper(nemu_trap) {
 }
 
 def_EHelper(ecall) {
-  s->dnpc = isa_raise_intr(1, s->snpc);
+  s->dnpc = isa_raise_intr(1, s->snpc); //TODO 1 -> gpr[17]
 }
 
 def_EHelper(mret) {
