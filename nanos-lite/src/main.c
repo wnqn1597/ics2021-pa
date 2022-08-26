@@ -16,16 +16,21 @@ int main() {
 
   init_mm();
 
+  printf("1\n");
   init_device();
 
+  printf("1\n");
   init_ramdisk();
 
+  printf("1\n");
 #ifdef HAS_CTE
   init_irq();
 #endif
 
+  printf("1\n");
   init_fs();
 
+  printf("1\n");
   init_proc();
 
   Log("Finish initialization");
