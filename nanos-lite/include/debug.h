@@ -8,6 +8,7 @@
 #define Log(format, ...) \
   printf("[%s,%d,%s] " format, \
       __FILE__, __LINE__, __func__, ## __VA_ARGS__)
+
 #undef panic
 #define panic(format, ...) \
   do { \
