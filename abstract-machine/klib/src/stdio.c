@@ -56,7 +56,7 @@ int sprintf(char *buf, const char *fmt, ...) {
 
 int printf(const char *fmt, ...) {
   //char *buf;
-  char buf[50];
+  char buf[100];
   va_list args;
   int n;
   va_start(args, fmt);
@@ -66,7 +66,7 @@ int printf(const char *fmt, ...) {
   //for(; *buf != '\0'; buf++) putch(*buf);
   //putch(*buf);
   int i;
-  for(i = 0; i < 50 && buf[i] != '\0'; i++) putch(buf[i]);
+  for(i = 0; i < 100 && buf[i] != '\0'; i++) putch(buf[i]);
   putch(buf[i]);
   return n;
 }
