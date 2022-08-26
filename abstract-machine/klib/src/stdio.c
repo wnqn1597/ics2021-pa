@@ -15,20 +15,20 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
         }
         fmt++;
         if(*fmt == 'd') {
-			long arg = va_arg(args, long);
-			int b = 1, c = 0;
-			while(arg / b != 0) {
-			  b *= 10;
-			  c++;
-			}
-			int a = c - 1;
-			while(arg > 0) {
-			  int r = arg % 10;
-			  *(str+a) = (char)('0' + r);
-			  arg /= 10;
-			  a--;
-			}
-			str += c;
+	  long arg = va_arg(args, long);
+	  int b = 1, c = 0;
+	  while(arg / b != 0) {
+	    b *= 10;
+	    c++;
+	  }
+	  int a = c - 1;
+	  while(arg > 0) {
+	    int r = arg % 10;
+	    *(str+a) = (char)('0' + r);
+	    arg /= 10;
+	    a--;
+	  }
+	  str += c;
         }else if(*fmt == 's') {
             char *arg = va_arg(args, char*);
             strcpy(str, arg);
@@ -59,7 +59,7 @@ int printf(const char *fmt, ...) {
   n = vsprintf(buffer, fmt, args);
   va_end(args);
 
-  for(int i = 0; i < 50 && buffer[i] != '\0'; i++) putch(buffer[i]);
+  for(int i = 0; i < 100 && buffer[i] != '\0'; i++) putch(buffer[i]);
   return n;
 }
 
