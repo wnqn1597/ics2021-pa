@@ -9,8 +9,7 @@ def_EHelper(nemu_trap) {
 }
 
 def_EHelper(ecall) {
-  printf("a7: %d\n", cpu.gpr[17]._32);
-  s->dnpc = isa_raise_intr(cpu.gpr[17]._32, s->pc); //TODO -1 -> gpr[17]
+  s->dnpc = isa_raise_intr(cpu.gpr[17]._32, s->pc);
 }
 
 def_EHelper(mret) {
