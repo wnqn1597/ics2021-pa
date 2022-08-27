@@ -2,6 +2,7 @@
 
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
+    case 0: halt(0);
     case EVENT_YIELD: printf("YIELD\n");break;
     case EVENT_SYSCALL: printf("SYSCALL\n");break;
     default: panic("Unhandled event ID = %d", e.event);
