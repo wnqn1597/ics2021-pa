@@ -28,13 +28,14 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	    case 'd': scale = 10;break;
 	    default: scale = 10;
 	  }
-	    unsigned long long arg = va_arg(args, unsigned long long);
-	    int b = 1, c = 0;
+	    unsigned long arg = va_arg(args, unsigned long);
+	    unsigned long b = 1;
+	    unsigned c = 0;
 	    while(arg / b != 0) {
 	      b *= scale;
 	      c++;
 	    }
-	    int a = c - 1;
+	    unsigned a = c - 1;
 	    while(arg > 0) {
 	      int r = arg % scale;
 	      *(str+a) = int_to_char(r);
