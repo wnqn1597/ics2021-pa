@@ -5,6 +5,12 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+char int_to_char(int n) {
+  if(n >= 0 && n < 10) return (char)('0' + n);
+  else if(n >= 10 && n < 16) return (char)('0' + n + 39);
+  else return ' ';
+}
+
 int vsprintf(char *buf, const char *fmt, va_list args) {
     char *str;
 
@@ -14,21 +20,27 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
             continue;
         }
         fmt++;
-        if(*fmt == 'd') {
-	  long arg = va_arg(args, long);
-	  int b = 1, c = 0;
-	  while(arg / b != 0) {
-	    b *= 10;
-	    c++;
+        if(*fmt == 'd' || *fmt == 'x' || *fmt == 'p') {
+	  int scale;
+	  switch(*fmt){
+	    case 'x': 
+	    case 'p': scale = 16;break;
+	    case 'd': scale = 10;
 	  }
-	  int a = c - 1;
-	  while(arg > 0) {
-	    int r = arg % 10;
-	    *(str+a) = (char)('0' + r);
-	    arg /= 10;
-	    a--;
-	  }
-	  str += c;
+	    long arg = va_arg(args, long);
+	    int b = 1, c = 0;
+	    while(arg / b != 0) {
+	      b *= scale;
+	      c++;
+	    }
+	    int a = c - 1;
+	    while(arg > 0) {
+	      int r = arg % scale;
+	      *(str+a) = int_to_char(r);
+	      arg /= 10;
+	      a--;
+	    }
+	    str += c;
         }else if(*fmt == 's') {
             char *arg = va_arg(args, char*);
             strcpy(str, arg);
