@@ -2,6 +2,8 @@
 
 CSR csr_reg = {.mstatus = 0x1800};
 
+//TODO: add etrace here.
+
 uint32_t* get_csr(uint32_t code) {
   switch(code) {
     case 0x300: return &csr_reg.mstatus;
