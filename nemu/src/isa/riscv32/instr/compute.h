@@ -95,28 +95,28 @@ def_EHelper(muls_hi) {
 
 def_EHelper(divu_q) {
   if(*dsrc2 == 0){
-    printf("wow\n");
+    assert(0);
     return;
   }
   rtl_divu_q(s, ddest, dsrc1, dsrc2);
 }
 def_EHelper(divu_r) {
   if(*dsrc2 == 0){
-    printf("wow\n");
+    assert(0);
     return;
   }
   rtl_divu_r(s, ddest, dsrc1, dsrc2);
 }
 def_EHelper(divs_q) {
   if(*dsrc2 == 0){
-    printf("wow\n");
+    assert(0);
     return;
   }
   rtl_divs_q(s, ddest, dsrc1, dsrc2);
 }
 def_EHelper(divs_r) {
   if(*dsrc2 == 0){
-    printf("wow\n");
+    assert(0);
     return;
   }
   rtl_divs_r(s, ddest, dsrc1, dsrc2);

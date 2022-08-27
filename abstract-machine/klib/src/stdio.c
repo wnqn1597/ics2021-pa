@@ -31,14 +31,14 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	    long arg = va_arg(args, long);
 	    int b = 1, c = 0;
 	    while(arg / b != 0) {
-	      b *= 10;
+	      b *= 16;
 	      c++;
 	    }
 	    int a = c - 1;
 	    while(arg > 0) {
-	      int r = arg % 10;
+	      int r = arg % 16;
 	      *(str+a) = int_to_char(r);
-	      arg /= 10;
+	      arg /= 16;
 	      a--;
 	    }
 	    str += c;
