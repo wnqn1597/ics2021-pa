@@ -25,7 +25,8 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	  switch(*fmt){
 	    case 'x': 
 	    case 'p': scale = 16;break;
-	    case 'd': scale = 10;
+	    case 'd': scale = 10;break;
+	    default: scale = 10;
 	  }
 	    long arg = va_arg(args, long);
 	    int b = 1, c = 0;
@@ -37,7 +38,7 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	    while(arg > 0) {
 	      int r = arg % scale;
 	      *(str+a) = int_to_char(r);
-	      arg /= 10;
+	      arg /= scale;
 	      a--;
 	    }
 	    str += c;
