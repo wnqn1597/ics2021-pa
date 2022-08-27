@@ -21,24 +21,24 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
         }
         fmt++;
         if(*fmt == 'd' || *fmt == 'x' || *fmt == 'p') {
-	  //int scale;
-	  //switch(*fmt){
-	  //  case 'x': 
-	  //  case 'p': scale = 16;break;
-	  //  case 'd': scale = 10;break;
-	  //  default: scale = 10;
-	  //}
+	  int scale;
+	  switch(*fmt){
+	    case 'x': 
+	    case 'p': scale = 16;break;
+	    case 'd': scale = 10;break;
+	    default: scale = 10;
+	  }
 	    unsigned long arg = va_arg(args, unsigned long);
 	    int b = 1, c = 0;
 	    while(arg / b != 0) {
-	      b *= 16;
+	      b *= scale;
 	      c++;
 	    }
 	    int a = c - 1;
 	    while(arg > 0) {
-	      int r = arg % 16;
+	      int r = arg % scale;
 	      *(str+a) = int_to_char(r);
-	      arg /= 10;
+	      arg /= scale;
 	      a--;
 	    }
 	    str += c;
