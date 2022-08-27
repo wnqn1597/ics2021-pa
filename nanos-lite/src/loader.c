@@ -15,7 +15,7 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
   Elf_Ehdr ehdr;
-  assert(((*(uint32_t*)(ehdr.e_ident)) >> 24) == 0x7f454c46);
+  //assert(((*(uint32_t*)(ehdr.e_ident)) >> 24) == 0x7f454c46);
   size_t bias = ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   Elf_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
