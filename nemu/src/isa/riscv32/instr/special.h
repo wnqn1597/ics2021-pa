@@ -1,3 +1,5 @@
+#include <isa.h>
+
 def_EHelper(inv) {
   rtl_hostcall(s, HOSTCALL_INV, NULL, NULL, NULL, 0);
 }
@@ -7,7 +9,7 @@ def_EHelper(nemu_trap) {
 }
 
 def_EHelper(ecall) {
-  s->dnpc = isa_raise_intr(-1, s->pc); //TODO -1 -> gpr[17]
+  s->dnpc = isa_raise_intr(cpu.gpr[17]._32, s->pc); //TODO -1 -> gpr[17]
 }
 
 def_EHelper(mret) {
