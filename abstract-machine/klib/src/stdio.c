@@ -28,7 +28,7 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	    case 'd': scale = 10;break;
 	    default: scale = 10;
 	  }
-	    unsigned long arg = va_arg(args, unsigned long);
+	    unsigned long long arg = va_arg(args, unsigned long long);
 	    int b = 1, c = 0;
 	    while(arg / b != 0) {
 	      b *= scale;
