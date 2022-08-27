@@ -24,7 +24,7 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	  int scale;
 	  switch(*fmt){
 	    case 'x': 
-	    case 'p': scale = 16;break;
+	    case 'p': scale = 10;break;
 	    case 'd': scale = 10;break;
 	    default: scale = 10;
 	  }
