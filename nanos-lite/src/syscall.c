@@ -12,8 +12,14 @@ void sys_yield(Context *c) {
   c->GPRx = 0;
 }
 
-void sys_write(Context *c) {
+void sys_write(Context *c, int fd, void *buf, size_t count) {
   printf("CALL WRITE\n");
+  if(fd == 1 || fd == 2) {
+    for(int i = 0; i < count; i++) putch(*((char*)buf + i));
+    c->GPRx = count;
+    return;
+  }
+  c->GPRx = -1;
 }
 
 void do_syscall(Context *c) {
@@ -26,7 +32,7 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case 0: sys_exit(c);break;
     case 1: sys_yield(c);break;
-    case 4: sys_write(c);break;
+    case 4: sys_write(c, a[1], (void*)a[2], a[3]);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
