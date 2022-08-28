@@ -22,6 +22,10 @@ void sys_write(Context *c, int fd, void *buf, size_t count) {
   c->GPRx = -1;
 }
 
+void sys_brk(Context *c, intptr_t addr) {
+  c->GPRx = 0;
+}
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
