@@ -8,7 +8,7 @@
 char int_to_char(int n) {
   if(n >= 0 && n < 10) return (char)('0' + n);
   else if(n >= 10 && n < 16) return (char)('0' + n + 39);
-  else return ' ';
+  else return '#';
 }
 
 int vsprintf(char *buf, const char *fmt, va_list args) {
@@ -21,7 +21,7 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
         }
         fmt++;
         if(*fmt == 'd' || *fmt == 'x' || *fmt == 'p') {
-	  int scale;
+	  unsigned scale;
 	  switch(*fmt){
 	    case 'x': 
 	    case 'p': scale = 10;break;
