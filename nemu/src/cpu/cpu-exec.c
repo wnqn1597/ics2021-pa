@@ -65,7 +65,6 @@ static const void* g_exec_table[TOTAL_INSTR] = {
 static void fetch_decode_exec_updatepc(Decode *s) {
   fetch_decode(s, cpu.pc);
   s->EHelper(s);
-  if(s->dnpc == s->pc) assert(0);
   cpu.pc = s->dnpc;
 }
 
@@ -93,7 +92,6 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
   uint32_t instr_value;
   int idx = isa_fetch_decode(s, &instr_value);
-  printf("pc: %08x\n", s->pc);
   insert(instr_value, pc);
 
   s->dnpc = s->snpc;
