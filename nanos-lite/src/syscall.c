@@ -3,7 +3,7 @@
 
 void sys_exit(Context *c) {
   printf("EXIT\n");
-  halt(0);
+  halt(c->GPRx);
 }
 
 void sys_yield(Context *c) {
