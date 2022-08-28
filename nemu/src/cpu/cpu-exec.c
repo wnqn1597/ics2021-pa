@@ -65,6 +65,7 @@ static const void* g_exec_table[TOTAL_INSTR] = {
 static void fetch_decode_exec_updatepc(Decode *s) {
   fetch_decode(s, cpu.pc);
   s->EHelper(s);
+  if(s->dnpc == s->pc) assert(0);
   cpu.pc = s->dnpc;
 }
 
