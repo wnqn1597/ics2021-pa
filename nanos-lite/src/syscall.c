@@ -37,6 +37,7 @@ void do_syscall(Context *c) {
     case 0: sys_exit(c);break;
     case 1: sys_yield(c);break;
     case 4: sys_write(c, a[1], (void*)a[2], a[3]);break;
+    case 9: sys_brk(c, a[1]);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
