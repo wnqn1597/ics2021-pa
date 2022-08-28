@@ -66,7 +66,6 @@ static void fetch_decode_exec_updatepc(Decode *s) {
   fetch_decode(s, cpu.pc);
   s->EHelper(s);
   cpu.pc = s->dnpc;
-  if(s->pc == s->dnpc) assert(0);
 }
 
 static void statistic() {
@@ -91,7 +90,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   
-  printf("%08x\n", s->pc);
+  //printf("%08x\n", s->pc);
 
   uint32_t instr_value;
   int idx = isa_fetch_decode(s, &instr_value);
