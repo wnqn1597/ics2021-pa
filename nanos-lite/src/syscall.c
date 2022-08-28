@@ -1,5 +1,17 @@
 #include <common.h>
 #include "syscall.h"
+
+void sys_exit(Context *c) {
+  printf("EXIT\n");
+  halt(0);
+}
+
+void sys_yield(Context *c) {
+  printf("CALL YIELD\n");
+  yield();
+  c->GPRx = 0;
+}
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -8,8 +20,8 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
   
   switch (a[0]) {
-    case 0: printf("EXIT\n");halt(0);break;
-    case 1: printf("CALL YIELD\n");yield();c->GPRx = 0;break;
+    case 0: sys_exit(c);break;
+    case 1: sys_yield(c);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
