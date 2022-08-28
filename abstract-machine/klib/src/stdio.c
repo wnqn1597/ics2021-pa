@@ -5,7 +5,7 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-char int_to_char(int n) {
+char int_to_char(unsigned n) {
   if(n >= 0 && n < 10) return (char)('0' + n);
   else if(n >= 10 && n < 16) return (char)('0' + n + 39);
   else return '#';
@@ -24,12 +24,12 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	  unsigned scale;
 	  switch(*fmt){
 	    case 'x': 
-	    case 'p': scale = 16;break;
+	    case 'p': scale = 10;break;
 	    case 'd': scale = 10;break;
 	    default: scale = 10;
 	  }
 	    unsigned long arg = va_arg(args, unsigned long);
-	    unsigned long b = 1;
+	    unsigned long long b = 1;
 	    unsigned c = 0;
 	    while(arg / b != 0) {
 	      b *= scale;
@@ -37,7 +37,7 @@ int vsprintf(char *buf, const char *fmt, va_list args) {
 	    }
 	    unsigned a = c - 1;
 	    while(arg > 0) {
-	      int r = arg % scale;
+	      unsigned r = arg % scale;
 	      *(str+a) = int_to_char(r);
 	      arg /= scale;
 	      a--;
