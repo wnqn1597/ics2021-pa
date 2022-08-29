@@ -76,10 +76,10 @@ int fs_close(int fd) {
 int fs_lseek(int fd, size_t offset, int whence) {
   size_t old_offset = file_table[fd].open_offset;
   switch(whence) {
-    case SEEK_SET: file_table[fd].open_offset = offset; 
-    case SEEK_CUR: file_table[fd].open_offset += offset;
-    case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;
-    default: printf("whence = %d\n", whence);assert(0);
+    case SEEK_SET: file_table[fd].open_offset = offset;break; 
+    case SEEK_CUR: file_table[fd].open_offset += offset;break;
+    case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;break;
+    default: panic("Unhandled whence = %d\n", whence);
   }
   if(file_table[fd].open_offset >= 0 && file_table[fd].open_offset <= file_table[fd].size) {
     return file_table[fd].open_offset;
