@@ -31,6 +31,39 @@ static Finfo file_table[] __attribute__((used)) = {
 #include "files.h"
 };
 
+int get_finfo(int index, int property) {
+  unsigned length = sizeof(file_table) / sizeof(Finfo);
+  if(index >= 0 && index < length) {
+    switch(property){
+      case 1: return file_table[index].size;
+      case 2: return file_table[index].disk_offset;
+      default: assert(0);
+    }
+  }else assert(0);
+}
+
+int fs_open(const char *pathname, int flags, int mode) {
+  unsigned length = sizeof(file_table) / sizeof(Finfo);
+  int i;
+  for(i = 0; i < length; i++) {
+    if(strcmp(pathname, file_table[i].name) == 0) break;
+  }
+  if(i == length) return -1;
+  else return i;
+}
+
+int fs_write(int fd, const void *buf, size_t len) {
+  return 0;
+}
+
+int fs_read(int fd, void *buf, size_t len) {
+  return 0;
+}
+
+int fs_close(int fd) {
+  return 0;
+}
+
 void init_fs() {
   // TODO: initialize the size of /dev/fb
 }
