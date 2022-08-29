@@ -58,7 +58,7 @@ void sys_lseek(Context *c, int fd, size_t offset, int whence) {
 
 void sys_gettimeofday(Context *c) {
   uint64_t usec = _gettimeofday();
-  c->GPRx = (usec >> 3);
+  c->GPRx = (usec / 1000);
   //c->GPR1 = sec >> 32;
 }
 
