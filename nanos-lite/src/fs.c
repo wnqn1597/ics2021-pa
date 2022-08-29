@@ -1,8 +1,5 @@
 #include <fs.h>
 
-typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
-typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
-
 typedef struct {
   char *name;
   size_t size;
@@ -29,11 +26,13 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
   return 0;
 }
 
+size_t serial_write(const void *buf, size_t offset, size_t len);
+
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write, 0},
-  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write, 0},
-  [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write, 0},
+  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write, 0},
+  [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write, 0},
 #include "files.h"
 };
 
@@ -43,6 +42,8 @@ void* get_finfo(int index, int property) {
     switch(property){
       case 1: return (void*)&file_table[index].size;
       case 2: return (void*)&file_table[index].disk_offset;
+      case 3: return file_table[index].read;
+      case 4: return file_table[index].write;
       case 5: return (void*)&file_table[index].open_offset;
       default: assert(0);
     }
@@ -103,4 +104,5 @@ int fs_lseek(int fd, size_t offset, int whence) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+
 }

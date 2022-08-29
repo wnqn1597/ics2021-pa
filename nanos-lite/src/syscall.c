@@ -1,7 +1,8 @@
 #include <common.h>
 #include "syscall.h"
+#include <fs.h>
 
-
+void* get_finfo(int index, int property);
 
 int fs_open(const char *pathname, int flags, int mode);
 int fs_write(int fd, const void *buf, size_t len);
@@ -33,30 +34,16 @@ void sys_open(Context *c, const char *pathname, int flags, int mode) {
 
 void sys_write(Context *c, int fd, void *buf, size_t count) {
   //printf("CALL WRITE\n");
-  if(fd == 1 || fd == 2) {
-    for(int i = 0; i < count; i++) putch(*((char*)buf + i));
-    c->GPRx = count;
-    return;
-  }else if(fd > 2) {
-    fs_write(fd, buf, count);
-    c->GPRx = count;
-    return; 
-  }
-  c->GPRx = -1;
+  WriteFn wfunc = get_finfo(fd, 4);
+  if(wfunc != NULL) c->GPRx = wfunc(buf, 0, count);
+  else c->GPRx = fs_write(fd, buf, count);
 }
 
 void sys_read(Context *c, int fd, void *buf, size_t count) {
   //printf("CALL READ\n");
-  if(fd == 0) {
-    //for(int i = 0; i < count; i++) *((char*)buf + i) = ;
-    c->GPRx = count;
-    return;
-  }else if(fd > 2) {
-    fs_read(fd, buf, count);
-    c->GPRx = count;
-    return;
-  }
-  c->GPRx = -1;
+  ReadFn rfunc = get_finfo(fd, 3);
+  if(rfunc != NULL) c->GPRx = rfunc(buf, 0, count);
+  else c->GPRx = fs_read(fd, buf, count);
 }
 
 void sys_close(Context *c, int fd) {
