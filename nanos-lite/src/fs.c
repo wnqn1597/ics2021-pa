@@ -27,6 +27,7 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t serial_write(const void *buf, size_t offset, size_t len);
+size_t events_read(void *buf, size_t offset, size_t len);
 
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
@@ -104,5 +105,9 @@ int fs_lseek(int fd, size_t offset, int whence) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-
+  printf("INIT FS\n");
+  int length = sizeof(file_table) / sizeof(Finfo);
+  for(int i = 0; i < length; i++) {
+    if(strcmp(file_table[i].name, "dev/events") == 0) file_table[i].read = events_read;
+  }
 }

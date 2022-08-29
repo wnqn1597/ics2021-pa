@@ -21,7 +21,13 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  uint32_t val = get_keyboard_val();
+  if(val < 256) {
+    const char *name = keyname[val];
+    strncpy(buf, name, len);
+  }
+  printf("%d\n", val);
+  return len;
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {

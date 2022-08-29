@@ -51,6 +51,7 @@ enum {
   AM_KEY_NONE = 0,
   AM_KEYS(AM_KEY_NAMES)
 };
+uint32_t get_keyboard_val();
 
 // GPU
 

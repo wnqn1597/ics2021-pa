@@ -9,11 +9,13 @@ static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
 uint32_t NDL_GetTicks() {
-  return (gettimeofday(NULL, NULL) / 1000);
+  return (_syscall_(19, 0, 0, 0) / 1000);
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  return 0;
+  const char *name = "dev/events";
+  int fd = _syscall_(2, (intptr_t)name, 0, 0);
+  return _syscall_(3, fd, (intptr_t)buf, len);
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
