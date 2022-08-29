@@ -5,7 +5,7 @@ int main(){
   uint32_t pre = gettimeofday(NULL, NULL);
   while(1) {
     uint32_t now = gettimeofday(NULL, NULL);
-    if(now - pre >= 1000000) {
+    if(now - pre >= 500) {
       printf("skr~\n");
       pre = now;
     }
