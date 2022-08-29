@@ -2,9 +2,10 @@
 #include <stdio.h>
 
 int main(){
-  uint32_t pre = gettimeofday(NULL, NULL);
+  NDL_Init(0);
+  uint32_t pre = NDL_GetTicks();
   while(1) {
-    uint32_t now = gettimeofday(NULL, NULL);
+    uint32_t now = NDL_GetTicks();
     if(now - pre >= 500) {
       printf("skr~\n");
       pre = now;
