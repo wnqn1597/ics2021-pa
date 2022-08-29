@@ -86,6 +86,7 @@ int fs_lseek(int fd, size_t offset, int whence) {
   if(file_table[fd].open_offset >= 0 && file_table[fd].open_offset <= file_table[fd].size) {
     return file_table[fd].open_offset;
   }else{
+    printf("offset: %d\n", file_table[fd].open_offset);
     file_table[fd].open_offset = old_offset;
     panic("Offset out of bound.");
   }
