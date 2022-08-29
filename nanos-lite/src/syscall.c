@@ -32,7 +32,7 @@ void sys_open(Context *c, const char *pathname, int flags, int mode) {
 }
 
 void sys_write(Context *c, int fd, void *buf, size_t count) {
-  printf("CALL WRITE\n");
+  //printf("CALL WRITE\n");
   if(fd == 1 || fd == 2) {
     for(int i = 0; i < count; i++) putch(*((char*)buf + i));
     c->GPRx = count;
