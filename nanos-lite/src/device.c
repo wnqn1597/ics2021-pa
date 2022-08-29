@@ -22,11 +22,17 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 
 size_t events_read(void *buf, size_t offset, size_t len) {
   uint32_t val = get_keyboard_val();
+  if(val == 0) return 0;
   if(val < 256) {
     const char *name = keyname[val];
-    strncpy(buf, name, len);
+    strcpy(buf, "UP  :");
+    strncpy(buf+5, name, len);
+  }else {
+    uint32_t masked = val & 0x7fff;
+    const char *name = keyname[masked];
+    strcpy(buf, "DOWN:");
+    strncpy(buf+5, name, len);
   }
-  if(val == 0) return 0;
   return len;
 }
 
