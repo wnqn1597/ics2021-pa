@@ -26,7 +26,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     const char *name = keyname[val];
     strncpy(buf, name, len);
   }
-  printf("%d\n", val);
+  if(val == 0) return 0;
   return len;
 }
 
