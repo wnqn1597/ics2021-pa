@@ -38,7 +38,9 @@ void sys_write(Context *c, int fd, void *buf, size_t count) {
     c->GPRx = count;
     return;
   }else if(fd > 2) {
-  
+    fs_write(fd, buf, count);
+    c->GPRx = count;
+    return; 
   }
   c->GPRx = -1;
 }
@@ -50,7 +52,9 @@ void sys_read(Context *c, int fd, void *buf, size_t count) {
     c->GPRx = count;
     return;
   }else if(fd > 2) {
-  
+    fs_read(fd, buf, count);
+    c->GPRx = count;
+    return;
   }
   c->GPRx = -1;
 }
