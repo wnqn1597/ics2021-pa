@@ -74,19 +74,19 @@ int fs_close(int fd) {
 }
 
 int fs_lseek(int fd, size_t offset, int whence) {
+  size_t old_offset = file_table[fd].open_offset;
   switch(whence) {
-    case SEEK_SET: 
-      if(offset <= file_table[fd].size) file_table[fd].open_offset = offset;
-      else assert(0);
-    case SEEK_CUR:
-      if(file_table[fd].open_offset + offset <= file_table[fd].size) file_table[fd].open_offset += offset;
-      else assert(0);
-    case SEEK_END:
-      if(file_table[fd].size + offset <= file_table[fd].size) file_table[fd].open_offset = file_table[fd].size + offset;
-      else assert(0);
+    case SEEK_SET: file_table[fd].open_offset = offset; 
+    case SEEK_CUR: file_table[fd].open_offset += offset;
+    case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;
     default: assert(0);
   }
-  return file_table[fd].open_offset;
+  if(file_table[fd].open_offset >= 0 && file_table[fd].open_offset <= file_table[fd].size) {
+    return file_table[fd].open_offset;
+  }else{
+    file_table[fd].open_offset = old_offset;
+    assert(0);
+  }
 }
 
 void init_fs() {
