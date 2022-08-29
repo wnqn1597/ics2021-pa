@@ -68,6 +68,7 @@ int fs_write(int fd, const void *buf, size_t len) {
 int fs_read(int fd, void *buf, size_t len) {
   size_t offset = file_table[fd].disk_offset + file_table[fd].open_offset;
   file_table[fd].open_offset += len;
+  printf("after read: offset: %d, len: %d\n", file_table[fd].open_offset, len);
   return ramdisk_read(buf, offset, len);
 }
 
