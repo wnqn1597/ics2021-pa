@@ -76,6 +76,7 @@ int fs_close(int fd) {
 }
 
 int fs_lseek(int fd, size_t offset, int whence) {
+  printf("CALL lseek: current: %d, offset: %d, whence: %d\n", file_table[fd].open_offset, offset, whence);
   size_t old_offset = file_table[fd].open_offset;
   switch(whence) {
     case SEEK_SET: file_table[fd].open_offset = offset;break; 
