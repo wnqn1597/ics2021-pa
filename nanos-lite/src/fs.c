@@ -84,6 +84,7 @@ int fs_lseek(int fd, size_t offset, int whence) {
     default: panic("Unhandled whence = %d", whence);
   }
   if(file_table[fd].open_offset >= 0 && file_table[fd].open_offset <= file_table[fd].size) {
+    printf("offset: %d\n", file_table[fd].open_offset);
     return file_table[fd].open_offset;
   }else{
     printf("offset: %d\n", file_table[fd].open_offset);
