@@ -32,6 +32,9 @@ AM_DEVREG(22, NET_STATUS,   RD, int rx_len, tx_len);
 AM_DEVREG(23, NET_TX,       WR, Area buf);
 AM_DEVREG(24, NET_RX,       WR, Area buf);
 
+// Timer
+uint64_t _gettimeofday();
+
 // Input
 
 #define AM_KEYS(_) \
