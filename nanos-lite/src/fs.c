@@ -81,13 +81,13 @@ int fs_lseek(int fd, size_t offset, int whence) {
     case SEEK_SET: file_table[fd].open_offset = offset;break; 
     case SEEK_CUR: file_table[fd].open_offset += offset;break;
     case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;break;
-    default: panic("Unhandled whence = %d\n", whence);
+    default: panic("Unhandled whence = %d", whence);
   }
   if(file_table[fd].open_offset >= 0 && file_table[fd].open_offset <= file_table[fd].size) {
     return file_table[fd].open_offset;
   }else{
     file_table[fd].open_offset = old_offset;
-    assert(0);
+    panic("Offset out of bound.");
   }
 }
 
