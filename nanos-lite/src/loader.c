@@ -13,7 +13,7 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 int fs_open(const char *pathname, int flags, int mode);
-int get_finfo(int index, int property);
+void* get_finfo(int index, int property);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
@@ -23,7 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     assert(0);
   }
   
-  size_t offset = get_finfo(fd, 2);
+  size_t offset = *((size_t*)get_finfo(fd, 2));
 
   Elf_Ehdr ehdr;
   //assert(((*(uint32_t*)(ehdr.e_ident)) >> 24) == 0x7f454c46);
