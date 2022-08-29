@@ -62,6 +62,11 @@ int fs_open(const char *pathname, int flags, int mode) {
 int fs_write(int fd, const void *buf, size_t len) {
   size_t offset = file_table[fd].disk_offset + file_table[fd].open_offset;
   file_table[fd].open_offset += len;
+  if(file_table[fd].open_offset > file_table[fd].size){
+    //printf("Write out of the file.\n");
+    len -= (file_table[fd].open_offset - file_table[fd].size);
+    file_table[fd].open_offset = file_table[fd].size;
+  }
   return ramdisk_write(buf, offset, len);
 }
 
@@ -69,10 +74,10 @@ int fs_read(int fd, void *buf, size_t len) {
   size_t offset = file_table[fd].disk_offset + file_table[fd].open_offset;
   file_table[fd].open_offset += len;
   if(file_table[fd].open_offset > file_table[fd].size){
+    //printf("Read out of the file.\n");
     len -= (file_table[fd].open_offset - file_table[fd].size);
     file_table[fd].open_offset = file_table[fd].size;
   }
-  printf("after read: offset: %d, len: %d\n", file_table[fd].open_offset, len);
   return ramdisk_read(buf, offset, len);
 }
 
@@ -90,10 +95,8 @@ int fs_lseek(int fd, size_t offset, int whence) {
     default: panic("Unhandled whence = %d", whence);
   }
   if(file_table[fd].open_offset >= 0 && file_table[fd].open_offset <= file_table[fd].size) {
-    printf("offset: %d\n", file_table[fd].open_offset);
     return file_table[fd].open_offset;
   }else{
-    printf("offset: %d\n", file_table[fd].open_offset);
     file_table[fd].open_offset = old_offset;
     panic("Offset out of bound.");
   }

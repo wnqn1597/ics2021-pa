@@ -27,7 +27,7 @@ void sys_brk(Context *c, intptr_t addr) {
 }
 
 void sys_open(Context *c, const char *pathname, int flags, int mode) {
-  printf("CALL OPEN\n");
+  //printf("CALL OPEN\n");
   c->GPRx = fs_open(pathname, flags, mode);
 }
 
@@ -46,7 +46,7 @@ void sys_write(Context *c, int fd, void *buf, size_t count) {
 }
 
 void sys_read(Context *c, int fd, void *buf, size_t count) {
-  printf("CALL READ\n");
+  //printf("CALL READ\n");
   if(fd == 0) {
     //for(int i = 0; i < count; i++) *((char*)buf + i) = ;
     c->GPRx = count;
@@ -60,12 +60,12 @@ void sys_read(Context *c, int fd, void *buf, size_t count) {
 }
 
 void sys_close(Context *c, int fd) {
-  printf("CALL CLOSE\n");
+  //printf("CALL CLOSE\n");
   c->GPRx = fs_close(fd);
 }
 
 void sys_lseek(Context *c, int fd, size_t offset, int whence) {
-  printf("CALL LSEEK\n");
+  //printf("CALL LSEEK\n");
   c->GPRx = fs_lseek(fd, offset, whence);
 }
 
