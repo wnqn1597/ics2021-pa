@@ -11,7 +11,7 @@ typedef struct {
 
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FB};
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
@@ -34,6 +34,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write, 0},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write, 0},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write, 0},
+  [FD_EVENT]  = {"dev/events", 0, 0, events_read, invalid_write, 0},
 #include "files.h"
 };
 
@@ -105,9 +106,4 @@ int fs_lseek(int fd, size_t offset, int whence) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  printf("INIT FS\n");
-  int length = sizeof(file_table) / sizeof(Finfo);
-  for(int i = 0; i < length; i++) {
-    if(strcmp(file_table[i].name, "dev/events") == 0) file_table[i].read = events_read;
-  }
 }
