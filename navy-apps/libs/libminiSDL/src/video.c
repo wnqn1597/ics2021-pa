@@ -20,14 +20,22 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  int offset = dstrect->y * dst->w + dstrect->x;
-  int i, j;
-  for(i = 0; i < dstrect->h; i++) {
-    for(j = 0; j < dstrect->w; j++) {
-      *((uint32_t*)dst->pixels + offset + i*dst->w + j) = color;
+  if(dstrect == NULL){
+    int i, j;
+    for(i = 0; i < dst->h; i++) {
+      for(j = 0; j < dst->w; j++) {
+        *((uint32_t*)dst->pixels + i*dst->w + j) = color;
+      }
+    }
+  }else{
+    int offset = dstrect->y * dst->w + dstrect->x;
+    int i, j;
+    for(i = 0; i < dstrect->h; i++) {
+      for(j = 0; j < dstrect->w; j++) {
+        *((uint32_t*)dst->pixels + offset + i*dst->w + j) = color;
+      }
     }
   }
-
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
