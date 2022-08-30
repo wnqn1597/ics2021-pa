@@ -68,10 +68,13 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   uint32_t *fb = get_fb();
   uint32_t size = *((uint32_t*)get_finfo(5, 1));
-  //uint32_t *open_offset = (uint32_t*)get_finfo(5, 5);
-  if(offset + len > size) len -= offset + len - size;
-  memcpy(fb+offset, buf, len);
-  //open_offset += offset + len;
+  uint32_t *open_offset = (uint32_t*)get_finfo(5, 5);
+  if(*open_offset + offset + len > size) len -= *open_offset + offset + len - size;
+  memcpy(fb+*open_offset+offset, buf, len);
+  open_offset += offset + len;
+
+  do_sync();
+
   return len;
 }
 

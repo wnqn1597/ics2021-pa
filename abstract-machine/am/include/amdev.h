@@ -78,5 +78,5 @@ struct gpu_canvas {
 uint32_t get_height();
 uint32_t get_width();
 uint32_t* get_fb();
-
+void do_sync();
 #endif

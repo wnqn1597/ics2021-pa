@@ -35,6 +35,10 @@ uint32_t* get_fb() {
   return (uint32_t*)(uintptr_t)FB_ADDR;
 }
 
+void do_sync() {
+  outl(SYNC_ADDR, 1);
+}
+
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   if (ctl->sync) {
     uint32_t *fb = (uint32_t*)(uintptr_t)FB_ADDR;
