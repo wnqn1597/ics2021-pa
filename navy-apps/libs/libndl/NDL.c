@@ -60,7 +60,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   _syscall_(8, fd, y * screen_w + x, SEEK_SET);
   for(int i = 0; i < h; i++) {
     _syscall_(4, fd, pixels+i*w, w);
-    _syscall_(8, fd, screen_w - w, SEEK_CUR);
+    _syscall_(8, fd, 400 - w, SEEK_CUR);
   }
   _syscall_(8, fd, 0, SEEK_SET);
 }
