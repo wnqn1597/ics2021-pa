@@ -81,11 +81,12 @@ int NDL_Init(uint32_t flags) {
     int fd = _syscall_(2, (intptr_t)name, 0, 0);
     _syscall_(3, fd, (intptr_t)buf, 20);
     
-    int i;
-    for(i = 0; buf[i] != '\n'; i++);
-    
     char width[10], height[10];
-    strncpy(width, buf, i); strncpy(height, (char*)buf+i+1, 10);
+    int i;
+    for(i = 0; buf[i] != ':'; i++); i++;
+    strncpy(width, (char*)buf+i, 10);
+    for(; buf[i] != ':'; i++); i++;
+    strncpy(height, (char*)buf+i, 10);
     screen_w = atoi(width); screen_h = atoi(height);
     printf("NDL INITIAL: SCREEN_W:%d, SCREEN_H:%d\n", screen_w, screen_h);
  // }
