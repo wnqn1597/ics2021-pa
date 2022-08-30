@@ -61,7 +61,6 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     _syscall_(4, fd, pixels+i*w, w);
     _syscall_(8, fd, screen_w - w, SEEK_CUR);
   }
-  _syscall_(8, fd, 0, SEEK_SET);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
