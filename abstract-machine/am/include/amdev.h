@@ -75,4 +75,8 @@ struct gpu_canvas {
   };
 } __attribute__((packed));
 
+uint32_t get_height();
+uint32_t get_width();
+
+
 #endif

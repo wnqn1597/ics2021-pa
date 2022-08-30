@@ -12,10 +12,18 @@ void __am_gpu_init() {
 //  outl(SYNC_ADDR, 1);
 }
 
+uint32_t get_height() {
+  return inl(VGACTL_ADDR) & 0xffff;
+}
+
+uint32_t get_width() {
+  return (inl(VGACTL_ADDR) & 0xffff0000) >> 16;
+}
+
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
   uint32_t wh = inl(VGACTL_ADDR);
-  uint32_t height = wh & 65535; // 300
-  uint32_t width = (wh & (65535 << 16)) >> 16; // 400
+  uint32_t height = wh & 0xffff; // 300
+  uint32_t width = (wh & 0xffff0000) >> 16; // 400
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
     .width = width, .height = height,
