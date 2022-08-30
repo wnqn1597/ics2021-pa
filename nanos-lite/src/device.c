@@ -25,13 +25,13 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   if(val == 0) return 0;
   if(val < 256) {
     const char *name = keyname[val];
-    strcpy(buf, "UP  :");
-    strncpy(buf+5, name, len);
+    strcpy(buf, "ku ");
+    strncpy(buf+3, name, len);
   }else {
     uint32_t masked = val & 0x7fff;
     const char *name = keyname[masked];
-    strcpy(buf, "DOWN:");
-    strncpy(buf+5, name, len);
+    strcpy(buf, "kd ");
+    strncpy(buf+3, name, len);
   }
   return len;
 }
