@@ -19,7 +19,6 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  printf("CALL IT\n");
   if (getenv("NWM_APP")) {
     int fbctl = 4;
     fbdev = 5;
@@ -36,12 +35,15 @@ void NDL_OpenCanvas(int *w, int *h) {
       screen_w = atoi(width); screen_h = atoi(height);
       *w = screen_w; *h = screen_h;
     }else{
+  printf("CALL IT\n");
       screen_w = *w; screen_h = *h;
     }
+  printf("%d---%d\n", screen_w, screen_h);
     int len = sprintf(buf, "%d %d", screen_w, screen_h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
     while (1) {
+  printf("WAITING\n");
       // 3 = evtdev
       int nread = read(3, buf, sizeof(buf) - 1);
       if (nread <= 0) continue;
