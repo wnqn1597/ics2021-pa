@@ -37,7 +37,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     strcpy(buf, "kd ");
     strncpy(buf+3, name, len);
   }
-  return len;
+  return val;
 }
 
 size_t fbevt_read(void *buf, size_t offset, size_t len) {

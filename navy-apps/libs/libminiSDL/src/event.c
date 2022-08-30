@@ -17,6 +17,12 @@ int SDL_PollEvent(SDL_Event *ev) {
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
+  char buf[10];
+  int key_val = NDL_PollEvent(buf, 10);
+  if(key_val > 0x7fff){printf("DOWN\n");event->type = 0;}
+  else{event->type = 2;}
+  printf("SIZE OF SDLEVENT: %d\n", sizeof(SDL_Event));
+  event->key.keysym.sym = key_val & 0x7fff;
   return 1;
 }
 
