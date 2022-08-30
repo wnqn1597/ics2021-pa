@@ -120,7 +120,7 @@ void init_fs() {
   for(i = 0; buf[i] != '\n'; i++);
   char width[10], height[10];
   strncpy(width, buf, i); strncpy(height, (char*)buf+i+1, 10);
-  file_table[FD_FB].size = atoi(width) * atoi(height) * 4;
-  printf("SIZE OF FB: %d\n", file_table[FD_FB].size);
+  uint32_t res = atoi(width) * atoi(height) * 4;
+  printf("SIZE OF FB: %d-%d\n", file_table[FD_FB].size, res);
 
 }
