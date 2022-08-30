@@ -4,10 +4,12 @@
 #include <string.h>
 #include <unistd.h>
 
+#define CENTER 1
+
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
-static int fb_w = 0, fb_h = 0;
+static int fb_w = 0, fb_h = 0, fb_x = 0, fb_y = 0;
 
 uint32_t NDL_GetTicks() {
   return (_syscall_(19, 0, 0, 0) / 1000);
@@ -30,6 +32,11 @@ void NDL_OpenCanvas(int *w, int *h) {
       *w = screen_w; *h = screen_h;
     }
     fb_w = *w; fb_h = *h;
+    if(CENTER){
+      fb_x = (screen_w - fb_w) / 2;
+      fb_y = (screen_h - fb_h) / 2;
+    }
+
     int len = sprintf(buf, "%d %d", *w, *h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
@@ -46,10 +53,10 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  uint32_t offset = y * screen_w + x;
+  uint32_t offset = (fb_y + y) * screen_w + (fb_x + x);
   const char *name = "/dev/fb";
   int fd = _syscall_(2, (intptr_t)name, 0, 0);
-  _syscall_(8, fd, y * screen_w + x, SEEK_SET);
+  _syscall_(8, fd, offset, SEEK_SET);
   for(int i = 0; i < h; i++) {
     _syscall_(4, fd, pixels+i*w, w);
     _syscall_(8, fd, screen_w - w, SEEK_CUR);
