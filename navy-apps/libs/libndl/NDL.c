@@ -7,6 +7,7 @@
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
+static int fb_w = 0, fb_h = 0;
 
 uint32_t NDL_GetTicks() {
   return (_syscall_(19, 0, 0, 0) / 1000);
@@ -26,19 +27,10 @@ void NDL_OpenCanvas(int *w, int *h) {
 
     char buf[64];
     if(*w == 0 && *h == 0) {
-      const char *name = "/proc/dispinfo";
-      int fd = _syscall_(2, (intptr_t)name, 0, 0);
-      _syscall_(3, fd, (intptr_t)buf, 20);
-      int i;
-      for(i = 0; buf[i] != '\n'; i++);
-      char width[10], height[10];
-      strncpy(width, buf, i); strncpy(height, (char*)buf+i+1, 10);
-      screen_w = atoi(width); screen_h = atoi(height);
       *w = screen_w; *h = screen_h;
-    }else{
-      screen_w = *w; screen_h = *h;
     }
-    int len = sprintf(buf, "%d %d", screen_w, screen_h);
+    fb_w = *w; fb_h = *h;
+    int len = sprintf(buf, "%d %d", *w, *h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
     while (1) {
@@ -49,7 +41,7 @@ void NDL_OpenCanvas(int *w, int *h) {
       if (strcmp(buf, "mmap ok") == 0) break;
     }
     close(fbctl);
-    printf("OPEN FINISHED\n");
+    printf("OPEN FB width=%d, height=%d\n", *w, *h);
  // }
 }
 
@@ -60,7 +52,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   _syscall_(8, fd, y * screen_w + x, SEEK_SET);
   for(int i = 0; i < h; i++) {
     _syscall_(4, fd, pixels+i*w, w);
-    _syscall_(8, fd, 400 - w, SEEK_CUR);
+    _syscall_(8, fd, screen_w - w, SEEK_CUR);
   }
   _syscall_(8, fd, 0, SEEK_SET);
 }
@@ -82,6 +74,20 @@ int NDL_QueryAudio() {
 int NDL_Init(uint32_t flags) {
  // if (getenv("NWM_APP")) {
     evtdev = 3;
+
+    char buf[20];
+    const char *name = "/proc/dispinfo";
+
+    int fd = _syscall_(2, (intptr_t)name, 0, 0);
+    _syscall_(3, fd, (intptr_t)buf, 20);
+    
+    int i;
+    for(i = 0; buf[i] != '\n'; i++);
+    
+    char width[10], height[10];
+    strncpy(width, buf, i); strncpy(height, (char*)buf+i+1, 10);
+    screen_w = atoi(width); screen_h = atoi(height);
+    printf("NDL INITIAL: SCREEN_W:%d, SCREEN_H:%d\n", screen_w, screen_h);
  // }
   return 0;
 }
