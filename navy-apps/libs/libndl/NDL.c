@@ -54,15 +54,16 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  uint32_t offset = y * screen_w + x;
+  //uint32_t offset = y * screen_w + x;
   const char *name = "/dev/fb";
   int fd = _syscall_(2, (intptr_t)name, 0, 0);
-  _syscall_(8, fd, y * screen_w + x, SEEK_SET);
-  for(int i = 0; i < h; i++) {
-    _syscall_(4, fd, pixels+i*w, w);
-    _syscall_(8, fd, screen_w - w, SEEK_CUR);
-  }
-  _syscall_(8, fd, 0, SEEK_SET);
+  //_syscall_(8, fd, y * screen_w + x, SEEK_SET);
+  //for(int i = 0; i < h; i++) {
+  //  _syscall_(4, fd, pixels+i*w, w);
+  //  _syscall_(8, fd, screen_w - w, SEEK_CUR);
+  //}
+  //_syscall_(8, fd, 0, SEEK_SET);
+  _syscall_(4, fd, pixels, w);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
