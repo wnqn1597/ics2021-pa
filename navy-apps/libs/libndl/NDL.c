@@ -58,7 +58,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   printf("w=%d, h=%d\n", w, h);
   const char *name = "/dev/fb";
   int fd = _syscall_(2, (intptr_t)name, 0, 0);
-  _syscall_(8, fd, 100*4, SEEK_SET);
+  _syscall_(8, fd, 200, SEEK_SET);
   //_syscall_(8, fd, y * screen_w + x, SEEK_SET);
   //for(int i = 0; i < h; i++) {
   //  _syscall_(4, fd, pixels+i*w, w);
