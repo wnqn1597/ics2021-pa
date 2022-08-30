@@ -22,8 +22,21 @@ void NDL_OpenCanvas(int *w, int *h) {
   if (getenv("NWM_APP")) {
     int fbctl = 4;
     fbdev = 5;
-    screen_w = *w; screen_h = *h;
+
     char buf[64];
+    if(*w == 0 && *h == 0) {
+      const char *name = "proc/dispinfo";
+      int fd = _syscall_(2, (intptr_t)name, 0, 0);
+      _syscall_(3, fd, (intptr_t)buf, 20);
+      int i;
+      for(i = 0; buf[i] != '\n'; i++);
+      char width[10], height[10];
+      strncpy(width, buf, i); strncpy(height, (char*)buf + i, 10);
+      screen_w = atoi(width); screen_h = atoi(height);
+      *w = screen_w; *h = screen_h;
+    }else{
+      screen_w = *w; screen_h = *h;
+    }
     int len = sprintf(buf, "%d %d", screen_w, screen_h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
@@ -32,6 +45,7 @@ void NDL_OpenCanvas(int *w, int *h) {
       int nread = read(3, buf, sizeof(buf) - 1);
       if (nread <= 0) continue;
       buf[nread] = '\0';
+      printf("%s", buf);
       if (strcmp(buf, "mmap ok") == 0) break;
     }
     close(fbctl);
