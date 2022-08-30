@@ -94,7 +94,6 @@ int NDL_Init(uint32_t flags) {
     for(; buf[i] != ':'; i++); i++;
     strncpy(height, (char*)buf+i, 10);
     screen_w = atoi(width); screen_h = atoi(height);
-    printf("NDL INITIAL: SCREEN_W:%d, SCREEN_H:%d\n", screen_w, screen_h);
  // }
   return 0;
 }
