@@ -14,6 +14,9 @@ static const char *keyname[256] __attribute__((used)) = {
   AM_KEYS(NAME)
 };
 
+static uint32_t fb_w;
+static uint32_t fb_h;
+
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   int i;
   for(i = 0; i < len; i++) putch(*((char*)buf + i));
@@ -33,6 +36,19 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     strcpy(buf, "kd ");
     strncpy(buf+3, name, len);
   }
+  return len;
+}
+
+size_t fbctl_read(void *buf, size_t offset, size_t len) {
+  return 0;
+}
+
+size_t fbctl_write(const void *buf, size_t offset, size_t len) {
+  int i;
+  for(i = 0; *((char*)buf+i) != '\0'; i++);
+  char width[10], height[10];
+  strncpy(width, buf, i); strncpy(height, buf+i+1, 10);
+  fb_w = atoi(width); fb_h = atoi(height);
   return len;
 }
 

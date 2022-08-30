@@ -29,6 +29,7 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t events_read(void *buf, size_t offset, size_t len);
 size_t dispinfo_read(void *buf, size_t offset, size_t len);
+size_t fbctl_write(const void *buf, size_t offset, size_t len);
 
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
@@ -36,7 +37,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write, 0},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write, 0},
   [FD_FBEVT]  = {"dev/fbevt", 0, 0, invalid_read, invalid_write, 0},
-  [FD_FBCTL]  = {"dev/fbctl", 0, 0, invalid_read, invalid_write, 0},
+  [FD_FBCTL]  = {"dev/fbctl", 0, 0, invalid_read, fbctl_write, 0},
   [FD_FB]     = {"dev/fb", 0, 0, invalid_read, invalid_write, 0},
   [FD_DISP]   = {"proc/dispinfo", 0, 0, dispinfo_read, invalid_write, 0},
   [FD_EVENT]  = {"dev/events", 0, 0, events_read, invalid_write, 0},
