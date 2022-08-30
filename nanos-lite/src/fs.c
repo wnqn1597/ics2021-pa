@@ -115,7 +115,8 @@ int fs_lseek(int fd, size_t offset, int whence) {
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   char buf[20];
-  file_table[FD_DISP].read(buf, 0, 20);
+  (file_table[6].read)(buf, 0, 0);
+  printf("%s\n", buf);
   int i;
   for(i = 0; buf[i] != '\n'; i++);
   char width[10], height[10];
