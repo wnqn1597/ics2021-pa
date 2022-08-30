@@ -55,6 +55,7 @@ void NDL_OpenCanvas(int *w, int *h) {
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   //uint32_t offset = y * screen_w + x;
+  printf("w=%d, h=%d\n", w, h);
   const char *name = "/dev/fb";
   int fd = _syscall_(2, (intptr_t)name, 0, 0);
   //_syscall_(8, fd, y * screen_w + x, SEEK_SET);
