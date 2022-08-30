@@ -11,7 +11,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int dstoffset = dstrect->y * dst->w + dstrect->x;
   for(int i = 0; i < srcrect->h; i++) {
     for(int j = 0; j < srcrect->w; j++) {
-      *((uint32_t*)dst->pixels + dstoffset + i*dst->w + j) = *((uint32_t*)src->pixels + srcoffset + i*src->w + j);
+      *(((uint32_t*)(dst->pixels)) + dstoffset + i*dst->w + j) = *(((uint32_t*)(src->pixels)) + srcoffset + i*src->w + j);
     }
   }
 
