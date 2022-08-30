@@ -39,6 +39,12 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   return len;
 }
 
+size_t fbevt_read(void *buf, size_t offset, size_t len) {
+  const char *msg = "mmap ok";
+  strcpy(buf, msg);
+  return 7;
+}
+
 size_t fbctl_read(void *buf, size_t offset, size_t len) {
   return 0;
 }
