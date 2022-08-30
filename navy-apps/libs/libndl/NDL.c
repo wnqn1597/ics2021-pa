@@ -13,7 +13,7 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  const char *name = "dev/events";
+  const char *name = "/dev/events";
   int fd = _syscall_(2, (intptr_t)name, 0, 0);
   return _syscall_(3, fd, (intptr_t)buf, len);
 }
@@ -26,13 +26,13 @@ void NDL_OpenCanvas(int *w, int *h) {
 
     char buf[64];
     if(*w == 0 && *h == 0) {
-      const char *name = "proc/dispinfo";
+      const char *name = "/proc/dispinfo";
       int fd = _syscall_(2, (intptr_t)name, 0, 0);
       _syscall_(3, fd, (intptr_t)buf, 20);
       int i;
       for(i = 0; buf[i] != '\n'; i++);
       char width[10], height[10];
-      strncpy(width, buf, i); strncpy(height, (char*)buf + i, 10);
+      strncpy(width, buf, i); strncpy(height, (char*)buf+i+1, 10);
       screen_w = atoi(width); screen_h = atoi(height);
       *w = screen_w; *h = screen_h;
     }else{
@@ -53,6 +53,15 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  uint32_t offset = y * screen_w + x;
+  const char *name = "/dev/fb";
+  int fd = _syscall_(2, (intptr_t)name, 0, 0);
+  _syscall_(8, fd, y * screen_w + x, SEEK_SET);
+  for(int i = 0; i < h; i++) {
+    _syscall_(3, fd, pixels+i*w, w);
+    _syscall_(8, fd, screen_w - w, SEEK_CUR);
+  }
+  _syscall_(8, fd, 0, SEEK_SET);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
