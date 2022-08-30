@@ -69,12 +69,11 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   uint32_t *fb = get_fb();
   uint32_t size = *((uint32_t*)get_finfo(5, 1));
   uint32_t *open_offset = (uint32_t*)get_finfo(5, 5);
-  printf("1 OPEN_OFFSET=%d\n", *open_offset);
-  if(*open_offset + offset + len > size) len -= *open_offset + offset + len - size;
-  memcpy(fb+*open_offset+offset, buf, len);
-  *open_offset += offset + len;
+  
+  if(*open_offset + len > size) len -= *open_offset + len - size;
+  memcpy(fb+*open_offset, buf, len*4);
+  *open_offset += len;
 
-  printf("2 OPEN_OFFSET=%d\n", *open_offset);
   do_sync();
 
   return len;
