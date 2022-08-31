@@ -81,6 +81,7 @@ int main(int argc, char *argv[], char *envp[]) {
 
     SDL_Event e;
     do {
+      printf("!");
       SDL_WaitEvent(&e);
     } while (e.type != SDL_KEYDOWN);
     printf("DOWN, val=%d\n", e.key.keysym.sym);
