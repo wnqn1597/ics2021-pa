@@ -20,6 +20,7 @@ SDL_Surface* IMG_Load(const char *filename) {
   fread(buf, sizeof(char), size, f);
   fclose(f);
   SDL_Surface *s = STBIMG_LoadFromMemory(buf, size);
+  assert(s != NULL);
   SDL_free(buf);
   return s;
 }
