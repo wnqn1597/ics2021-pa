@@ -30,6 +30,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    */
   csr_reg.mcause = NO;
   csr_reg.mepc = epc;
+  printf("ECALL PC=%x\n", epc);
   //printf("ecall jump to %08x\n", csr_reg.mtvec);
   return csr_reg.mtvec;
 }
@@ -37,6 +38,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 word_t isa_out_intr(word_t NO) {
   csr_reg.mcause = NO;
   // not + 4
+  printf("MRET  PC=%x\n", csr_reg.mepc + 4);
   return csr_reg.mepc + 4;
 }
 
