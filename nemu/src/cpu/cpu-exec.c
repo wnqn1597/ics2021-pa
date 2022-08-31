@@ -10,6 +10,9 @@
  * You can modify this value as you want.
  */
 #define MAX_INSTR_TO_PRINT 10
+//#define INSTR_TRACE 1
+//#define WATCHPOINT 1
+//#define DISPLAY_REG 1
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_instr = 0;
@@ -20,9 +23,12 @@ rtlreg_t tmp_reg[4];
 
 // add
 word_t expr(char *e, bool *success);
+
+#ifdef INSTR_TRACE
 void init_pool();
 void insert(uint32_t instr, uint32_t pc);
 void display_pool();
+#endif
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
@@ -34,7 +40,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
-  //TODO: watchingpoint
+#ifdef WATCHPOINT
+  //TODO: watchpoint
   WP *now = get_head();
   while(now != NULL){
     bool success;
@@ -52,7 +59,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     }
     now = now->next;
   }
-
+#endif
 }
 
 #include <isa-exec.h>
@@ -81,8 +88,12 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
+#ifdef DISPLAY_REG
   isa_reg_display();
+#endif
+#ifdef INSTR_TRACE  
   display_pool();
+#endif
   statistic();
 }
 
@@ -94,8 +105,9 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
   uint32_t instr_value;
   int idx = isa_fetch_decode(s, &instr_value);
+#ifdef INSTR_TRACE
   insert(instr_value, pc);
-
+#endif
   s->dnpc = s->snpc;
   s->EHelper = g_exec_table[idx];
 #ifdef CONFIG_ITRACE
@@ -122,9 +134,9 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
-
+#ifdef INSTR_TRACE
   init_pool();
-
+#endif
   g_print_step = (n < MAX_INSTR_TO_PRINT);
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
@@ -157,7 +169,9 @@ void cpu_exec(uint64_t n) {
             ASNI_FMT("HIT BAD TRAP", ASNI_FG_RED))),
           nemu_state.halt_pc);
       // fall through
+#ifdef INSTR_TRACE
       if(nemu_state.state == NEMU_ABORT || nemu_state.halt_ret != 0) display_pool();
+#endif
     case NEMU_QUIT: statistic();
   }
 }

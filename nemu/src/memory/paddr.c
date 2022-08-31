@@ -4,6 +4,8 @@
 #include <isa.h>
 #include "../cpu/ringbuf.h"
 
+//#define MEM_TRACE 1
+
 #if   defined(CONFIG_TARGET_AM)
 static uint8_t *pmem = NULL;
 #else
@@ -23,9 +25,9 @@ static void pmem_write(paddr_t addr, int len, word_t data) {
 }
 
 void init_mem() {
-  
+#ifdef MEM_TRACE  
   init_mpool();
-
+#endif
 #if   defined(CONFIG_TARGET_AM)
   pmem = malloc(CONFIG_MSIZE);
   assert(pmem);
@@ -44,23 +46,26 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr))){
     word_t ret = pmem_read(addr, len);
+#ifdef MEM_TRACE
     minsert(1, addr, ret);
+#endif
     return ret;
   }
 
   MUXDEF(CONFIG_DEVICE, word_t ret = mmio_read(addr, len);minsert(1, addr, ret);return ret,
-    minsert(1, addr, 0);display_mpool();panic("address = " FMT_PADDR " is out of bound of pmem [" FMT_PADDR ", " FMT_PADDR ") at pc = " FMT_WORD,
+    minsert(1, addr, 0);panic("address = " FMT_PADDR " is out of bound of pmem [" FMT_PADDR ", " FMT_PADDR ") at pc = " FMT_WORD,
       addr, CONFIG_MBASE, CONFIG_MBASE + CONFIG_MSIZE, cpu.pc));
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
+#ifdef MEM_TRACE
   minsert(2, addr, data);
+#endif
   if (likely(in_pmem(addr))) {
     pmem_write(addr, len, data); 
     return; 
   }
 
-  MUXDEF(CONFIG_DEVICE, mmio_write(addr, len, data),
-    display_mpool();panic("address = " FMT_PADDR " is out of bound of pmem [" FMT_PADDR ", " FMT_PADDR ") at pc = " FMT_WORD,
+  MUXDEF(CONFIG_DEVICE, mmio_write(addr, len, data), panic("address = " FMT_PADDR " is out of bound of pmem [" FMT_PADDR ", " FMT_PADDR ") at pc = " FMT_WORD,
       addr, CONFIG_MBASE, CONFIG_MBASE + CONFIG_MSIZE, cpu.pc));
 }

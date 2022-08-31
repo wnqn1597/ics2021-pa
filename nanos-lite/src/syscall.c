@@ -1,6 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 #include <fs.h>
+#include <proc.h>
 
 void* get_finfo(int index, int property);
 
@@ -10,10 +11,12 @@ int fs_read(int fd, void *buf, size_t len);
 int fs_close(int fd);
 int fs_lseek(int fd, size_t offset, int whence);
 
+void naive_uload(PCB *pcb, const char *filename);
 
 void sys_exit(Context *c) {
   printf("EXIT\n");
-  halt(c->GPRx);
+  //halt(c->GPRx);
+  naive_uload(NULL, "/bin/menu");
 }
 
 void sys_yield(Context *c) {
@@ -62,6 +65,11 @@ void sys_gettimeofday(Context *c) {
   //c->GPR1 = sec >> 32;
 }
 
+void sys_execve(Context *c, char *filename, char **exec_argv, char **envp) {
+  naive_uload(NULL, filename);
+  c->GPRx = 0;
+}
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -78,6 +86,7 @@ void do_syscall(Context *c) {
     case 7: sys_close(c, a[1]);break;
     case 8: sys_lseek(c, a[1], a[2], a[3]);break;
     case 9: sys_brk(c, a[1]);break;
+    case 13: sys_execve(c, (char*)a[1], (char **)a[2], (char **)a[3]);break;
     case 19: sys_gettimeofday(c);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
