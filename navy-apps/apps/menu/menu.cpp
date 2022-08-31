@@ -77,6 +77,7 @@ int main(int argc, char *argv[], char *envp[]) {
   set_i_max();
 
   while (1) {
+    printf("Hello!\n");
     display_menu(i_max);
 
     SDL_Event e;
@@ -183,5 +184,5 @@ static void display_menu(int n) {
 
   printf("========================================\n");
   printf("Please Choose.\n");
-  //fflush(stdout);
+  fflush(stdout);
 }
