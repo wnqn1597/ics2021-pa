@@ -18,7 +18,6 @@ uint32_t NDL_GetTicks() {
 int NDL_PollEvent(char *buf, int len) {
   const char *name = "/dev/events";
   int fd = _syscall_(2, (intptr_t)name, 0, 0);
-  printf("MID\n");
   return _syscall_(3, fd, (intptr_t)buf, len);
 }
 

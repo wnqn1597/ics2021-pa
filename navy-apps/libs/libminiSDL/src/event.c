@@ -24,7 +24,6 @@ int SDL_PollEvent(SDL_Event *ev) {
 int SDL_WaitEvent(SDL_Event *event) {
   char buf[10];
   int key_val = NDL_PollEvent(buf, 10);
-  printf("key_val = %d\n", key_val);
   event->type = (key_val > 0x7fff) ? 0 : 1;
   event->key.keysym.sym = key_val & 0x7fff;
   return 1;
