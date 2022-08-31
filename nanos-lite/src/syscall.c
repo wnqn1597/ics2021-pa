@@ -16,7 +16,7 @@ void naive_uload(PCB *pcb, const char *filename);
 void sys_exit(Context *c) {
   printf("EXIT\n");
   //halt(c->GPRx);
-  naive_uload(NULL, "/bin/menu");
+  c->GPRx = 1;
 }
 
 void sys_yield(Context *c) {
