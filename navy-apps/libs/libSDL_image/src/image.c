@@ -12,7 +12,7 @@ SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc) {
 }
 
 SDL_Surface* IMG_Load(const char *filename) {
-  FILE *f = fopen(filename, "r");
+  FILE *f = fopen(filename, "rb");
   int size = f->_bf._size;
   printf("%s SIZE: %d %d\n", filename, f->_bf._size, f->_lbfsize);
   void *buf = SDL_malloc(size);
