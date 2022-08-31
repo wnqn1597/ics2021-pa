@@ -21,9 +21,9 @@ rtlreg_t tmp_reg[4];
 // add
 word_t expr(char *e, bool *success);
 
-void init_pool();
-void insert(uint32_t instr, uint32_t pc);
-void display_pool();
+//void init_pool();
+//void insert(uint32_t instr, uint32_t pc);
+//void display_pool();
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
@@ -36,23 +36,23 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
   //TODO: watchpoint
-  WP *now = get_head();
-  while(now != NULL){
-    bool success;
-    int now_val = expr(now->expression, &success);
-    if(!success){
-      printf("Failed to handle the expression in NO %d", now->NO);
-      now = now->next;
-      continue;
-    }
-    if(now_val != now->pre_val){
-      printf("Stop at %s %d.\n", now->type == 0 ? "watchpoint":"breakpoint", now->NO);
-      printf("Old value: %d\nNew Value: %d\n", now->pre_val, now_val);
-      now->pre_val = now_val;
-      nemu_state.state = NEMU_STOP;
-    }
-    now = now->next;
-  }
+  //WP *now = get_head();
+  //while(now != NULL){
+  //  bool success;
+  //  int now_val = expr(now->expression, &success);
+  //  if(!success){
+  //    printf("Failed to handle the expression in NO %d", now->NO);
+  //    now = now->next;
+  //    continue;
+  //  }
+  //  if(now_val != now->pre_val){
+  //    printf("Stop at %s %d.\n", now->type == 0 ? "watchpoint":"breakpoint", now->NO);
+  //    printf("Old value: %d\nNew Value: %d\n", now->pre_val, now_val);
+  //    now->pre_val = now_val;
+  //    nemu_state.state = NEMU_STOP;
+  //  }
+  //  now = now->next;
+  //}
 }
 
 #include <isa-exec.h>
@@ -78,8 +78,8 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
-  isa_reg_display();
-  display_pool();
+  //isa_reg_display();
+  //display_pool();
   statistic();
 }
 
@@ -92,7 +92,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   uint32_t instr_value;
   int idx = isa_fetch_decode(s, &instr_value);
   
-  insert(instr_value, pc);
+  //insert(instr_value, pc);
   
   s->dnpc = s->snpc;
   s->EHelper = g_exec_table[idx];
@@ -121,7 +121,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
   
-  init_pool();
+  //init_pool();
   
   g_print_step = (n < MAX_INSTR_TO_PRINT);
   switch (nemu_state.state) {
@@ -155,7 +155,7 @@ void cpu_exec(uint64_t n) {
             ASNI_FMT("HIT BAD TRAP", ASNI_FG_RED))),
           nemu_state.halt_pc);
       // fall through
-      if(nemu_state.state == NEMU_ABORT || nemu_state.halt_ret != 0) display_pool();
+      //if(nemu_state.state == NEMU_ABORT || nemu_state.halt_ret != 0) display_pool();
     case NEMU_QUIT: statistic();
   }
 }
