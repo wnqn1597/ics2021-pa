@@ -78,11 +78,10 @@ int main(int argc, char *argv[], char *envp[]) {
 
   while (1) {
     printf("Hello!\n");
-    //display_menu(i_max);
+    display_menu(i_max);
 
     SDL_Event e;
     do {
-      printf("!");
       SDL_WaitEvent(&e);
     } while (e.type != SDL_KEYDOWN);
     printf("DOWN, val=%d\n", e.key.keysym.sym);
