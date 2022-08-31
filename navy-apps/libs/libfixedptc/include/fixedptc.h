@@ -155,7 +155,7 @@ static inline fixedpt fixedpt_floor(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-	fixedpt floor = fixedpt(A);
+	fixedpt floor = fixedpt_floor(A);
 	if(floor == A) return floor;
 	else return floor + (1 << 8);
 }
