@@ -4,8 +4,6 @@
 #include <isa.h>
 #include "../cpu/ringbuf.h"
 
-//#define MEM_TRACE 1
-
 #if   defined(CONFIG_TARGET_AM)
 static uint8_t *pmem = NULL;
 #else
@@ -25,9 +23,7 @@ static void pmem_write(paddr_t addr, int len, word_t data) {
 }
 
 void init_mem() {
-#ifdef MEM_TRACE  
   init_mpool();
-#endif
 #if   defined(CONFIG_TARGET_AM)
   pmem = malloc(CONFIG_MSIZE);
   assert(pmem);
@@ -46,9 +42,7 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr))){
     word_t ret = pmem_read(addr, len);
-#ifdef MEM_TRACE
     minsert(1, addr, ret);
-#endif
     return ret;
   }
 
@@ -58,9 +52,7 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
-#ifdef MEM_TRACE
   minsert(2, addr, data);
-#endif
   if (likely(in_pmem(addr))) {
     pmem_write(addr, len, data); 
     return; 
