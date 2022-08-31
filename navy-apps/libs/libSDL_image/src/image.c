@@ -16,7 +16,6 @@ SDL_Surface* IMG_Load(const char *filename) {
   if(f == NULL) return NULL;
   fseek(f, 0, SEEK_END);
   int size = ftell(f);
-  printf("%s SIZE: %d\n", filename, size);
   char *buf = (char*)SDL_malloc(size);
   fread(buf, sizeof(char), size, f);
   fclose(f);
@@ -26,7 +25,7 @@ SDL_Surface* IMG_Load(const char *filename) {
 }
 
 int IMG_isPNG(SDL_RWops *src) {
-  return 0;
+  return 1;
 }
 
 SDL_Surface* IMG_LoadJPG_RW(SDL_RWops *src) {
