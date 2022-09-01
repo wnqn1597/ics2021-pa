@@ -28,7 +28,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
    */
-  csr_reg.mcause = 11;
+  csr_reg.mcause = NO;
   csr_reg.mepc = epc;
   //printf("ECALL PC=%x\n", epc);
   //printf("ecall jump to %08x\n", csr_reg.mtvec);
@@ -39,7 +39,7 @@ word_t isa_out_intr(word_t NO) {
   csr_reg.mcause = NO;
   // not + 4
   //printf("MRET  PC=%x\n", csr_reg.mepc + 4);
-  return csr_reg.mepc;
+  return csr_reg.mepc + 4;
 }
 
 word_t isa_query_intr() {
