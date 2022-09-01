@@ -94,9 +94,15 @@ int NDL_Init(uint32_t flags) {
     for(; buf[i] != ':'; i++); i++;
     strncpy(height, (char*)buf+i, 10);
     screen_w = atoi(width); screen_h = atoi(height);
+    printf("NDL Initializing finished.\n");
 //  }
   return 0;
 }
 
 void NDL_Quit() {
+  evtdev = -1;
+  fbdev = -1;
+  screen_w = 0, screen_h = 0;
+  fb_w = 0, fb_h = 0, fb_x = 0, fb_y = 0;
+  printf("NDL Quit.\n");
 }
