@@ -98,9 +98,7 @@ int main(int argc, char *argv[], char *envp[]) {
       case SDLK_9: i = 9; break;
       case SDLK_LEFT: prev(); break;
       case SDLK_RIGHT: next(); break;
-      case SDLK_UP: i = 100;break;
     }
-    if(i == 100)break;
     if (i != -1 && i <= i_max) {
       i += page * 10;
       auto *item = &items[i];
@@ -116,7 +114,6 @@ int main(int argc, char *argv[], char *envp[]) {
       fprintf(stderr, "Choose a number between %d and %d\n\n", 0, i_max);
     }
   }
-  printf("RETURN\n");
   return -1;
 }
 

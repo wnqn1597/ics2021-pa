@@ -22,7 +22,7 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  //if (getenv("NWM_APP")) {
+  if (getenv("NWM_APP")) {
 	  
     int fbctl = 4;
     fbdev = 5;
@@ -49,7 +49,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
     printf("OPEN FB width=%d, height=%d\n", *w, *h);
- // }
+  }
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
@@ -78,7 +78,7 @@ int NDL_QueryAudio() {
 }
 
 int NDL_Init(uint32_t flags) {
- // if (getenv("NWM_APP")) {
+  if (getenv("NWM_APP")) {
     evtdev = 3;
 
     char buf[20];
@@ -94,7 +94,7 @@ int NDL_Init(uint32_t flags) {
     for(; buf[i] != ':'; i++); i++;
     strncpy(height, (char*)buf+i, 10);
     screen_w = atoi(width); screen_h = atoi(height);
- // }
+  }
   return 0;
 }
 
