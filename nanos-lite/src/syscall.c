@@ -80,6 +80,7 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
   
   switch (a[0]) {
+    case -1: sys_yield(c);break;
     case 0: sys_exit(c);break;
     case 1: sys_yield(c);break;
     case 2: sys_open(c, (char*)a[1], a[2], a[3]);break;

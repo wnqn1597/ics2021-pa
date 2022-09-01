@@ -8,8 +8,6 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-	    case 11: ev.event = EVENT_YIELD; break;
-      case -1: ev.event = EVENT_YIELD; break;
       case 0: 
       case 1: 
       case 2: 
@@ -21,7 +19,7 @@ Context* __am_irq_handle(Context *c) {
       case 8: 
       case 9: 
       case 10: 
-      //case 11: 
+      case 11: 
       case 12: 
       case 13: 
       case 14: 
