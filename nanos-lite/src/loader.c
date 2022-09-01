@@ -16,13 +16,14 @@ int fs_open(const char *pathname, int flags, int mode);
 void* get_finfo(int index, int property);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  //TODO();
+  printf("OPEN FILE: %s ", filename);  
+
   int fd = fs_open(filename, 0, 0);
   if(fd == -1 && filename != NULL){
     printf("%s doesn't exist!!!\n", filename); 
     assert(0);
   }
-  
+  printf("fd = %d\n", fd);
   size_t offset = *((size_t*)get_finfo(fd, 2));
 
   Elf_Ehdr ehdr;
