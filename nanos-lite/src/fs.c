@@ -66,7 +66,7 @@ int fs_open(const char *pathname, int flags, int mode) {
   for(i = 0; i < length; i++) {
     if(strcmp(pathname, file_table[i].name) == 0) break;
   }
-  if(i == length) return -1;
+  if(i == length){printf("FILE %s not found!!!\n");return -1;}
   else return i;
 }
 
@@ -93,6 +93,7 @@ int fs_read(int fd, void *buf, size_t len) {
 }
 
 int fs_close(int fd) {
+  file_table[fd].open_offset = file_table[fd].disk_offset;
   return 0;
 }
 
