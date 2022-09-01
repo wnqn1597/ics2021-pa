@@ -11,6 +11,10 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
     printf("ID\tREF\t\tDUT\n");
     for(int i = 0; i < 32; i++) printf("%d\t%08x\t%08x\n", i, ref_r->gpr[i]._32, cpu.gpr[i]._32);
   }
+  if(pc == 0x800013e8 || pc == 0x80001520 || pc == 0x80001524){
+    printf("PC\t\tREF\t\tDUT\n");
+    printf("%08x\t%08x\t%08x\n", 2, ref_r->gpr[2]._32, cpu.gpr[2]._32);
+  }
 
 
 
