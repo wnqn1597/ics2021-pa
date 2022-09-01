@@ -71,7 +71,7 @@ static void fetch_decode_exec_updatepc(Decode *s) {
 
 static void statistic() {
 
-  display_mpool();
+  //display_mpool();
 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%ld", "%'ld")
