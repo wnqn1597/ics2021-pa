@@ -48,6 +48,7 @@ void NDL_OpenCanvas(int *w, int *h) {
       if (strcmp(buf, "mmap ok") == 0) break;
     }
     close(fbctl);
+    assert(*w <= 800 && *h <= 800);
     printf("OPEN FB width=%d, height=%d\n", *w, *h);
  // }
 }
