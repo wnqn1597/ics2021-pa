@@ -24,6 +24,7 @@ word_t expr(char *e, bool *success);
 //void init_pool();
 //void insert(uint32_t instr, uint32_t pc);
 //void display_pool();
+void display_mpool();
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
@@ -69,6 +70,9 @@ static void fetch_decode_exec_updatepc(Decode *s) {
 }
 
 static void statistic() {
+
+  display_mpool();
+
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%ld", "%'ld")
   Log("host time spent = " NUMBERIC_FMT " us", g_timer);

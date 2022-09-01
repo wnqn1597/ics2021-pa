@@ -2,7 +2,7 @@
 #include <memory/paddr.h>
 #include <device/mmio.h>
 #include <isa.h>
-//#include "../cpu/ringbuf.h"
+#include "../cpu/ringbuf.h"
 
 #if   defined(CONFIG_TARGET_AM)
 static uint8_t *pmem = NULL;
@@ -23,7 +23,7 @@ static void pmem_write(paddr_t addr, int len, word_t data) {
 }
 
 void init_mem() {
-  //init_mpool();
+  init_mpool();
 #if   defined(CONFIG_TARGET_AM)
   pmem = malloc(CONFIG_MSIZE);
   assert(pmem);
@@ -42,7 +42,7 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr))){
     word_t ret = pmem_read(addr, len);
-    //minsert(1, addr, ret);
+    minsert(1, addr, ret);
     return ret;
   }
 
@@ -52,7 +52,7 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
-  //minsert(2, addr, data);
+  minsert(2, addr, data);
   if (likely(in_pmem(addr))) {
     pmem_write(addr, len, data); 
     return; 
