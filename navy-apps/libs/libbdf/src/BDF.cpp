@@ -21,6 +21,7 @@ void BDF_Font::create(uint32_t ch, int *bbx, uint32_t *bitmap, int count) {
 }
 
 BDF_Font::BDF_Font(const char *fname) {
+  printf("BDF_Font: %s\n", fname);
   memset(font, 0, sizeof(font));
   FILE *fp = fopen(fname, "r");
   if (!fp) return;
@@ -32,7 +33,6 @@ BDF_Font::BDF_Font(const char *fname) {
   
   while (fgets(buf, 256, fp)) {
     sscanf(buf, "%s ", cmd);
-    printf("%s\n", buf);
     if (strcmp(cmd, "STARTFONT") == 0) {
       valid_file = true;
     }
