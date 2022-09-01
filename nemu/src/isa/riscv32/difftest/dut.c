@@ -9,6 +9,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   }
   if(ref_r->pc != cpu.pc){
     printf("!!!!!!!!!!!!!!!!!!!!!!!%08x, %08x\n", ref_r->pc, cpu.pc);
+    ret = false;
   }
   if(!ret){
     printf("ID\tREF\t\tDUT\n");
