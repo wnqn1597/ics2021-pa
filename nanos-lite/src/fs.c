@@ -17,12 +17,12 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
-  panic("should not reach here");
+  panic("should not reach here reading");
   return 0;
 }
 
 size_t invalid_write(const void *buf, size_t offset, size_t len) {
-  panic("should not reach here");
+  panic("should not reach here writing");
   return 0;
 }
 
