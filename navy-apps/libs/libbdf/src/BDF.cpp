@@ -1,7 +1,7 @@
 #include <BDF.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <assert.h>
 void BDF_Font::create(uint32_t ch, int *bbx, uint32_t *bitmap, int count) {
   font[ch] = new uint32_t[h];
   for (int y = 0; y < h; y ++) {
@@ -29,9 +29,10 @@ BDF_Font::BDF_Font(const char *fname) {
   bool valid_file = false, in_bitmap = false;
   uint32_t bm[32], ch = '\0';
   int bm_idx, bm_bbx[4];
-  printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+  
   while (fgets(buf, 256, fp)) {
     sscanf(buf, "%s ", cmd);
+    printf("%s\n", buf);
     if (strcmp(cmd, "STARTFONT") == 0) {
       valid_file = true;
     }
@@ -74,7 +75,7 @@ BDF_Font::BDF_Font(const char *fname) {
       break;
     }
   }
-
+  assert (w <= 800 && h <= 800);
   fclose(fp);
 }
 
