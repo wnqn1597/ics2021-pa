@@ -16,26 +16,26 @@ int fs_open(const char *pathname, int flags, int mode);
 void* get_finfo(int index, int property);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  //printf("OPEN FILE: %s ", filename);  
+  printf("OPEN FILE: %s ", filename);  
 
-  //int fd = fs_open(filename, 0, 0);
-  //if(fd == -1 && filename != NULL){
-  //  printf("%s doesn't exist!!!\n", filename); 
-  //  assert(0);
-  //}
-  //printf("fd = %d\n", fd);
-  //size_t offset = *((size_t*)get_finfo(fd, 2));
+  int fd = fs_open(filename, 0, 0);
+  if(fd == -1 && filename != NULL){
+    printf("%s doesn't exist!!!\n", filename); 
+    assert(0);
+  }
+  printf("fd = %d\n", fd);
+  size_t offset = *((size_t*)get_finfo(fd, 2));
 
   Elf_Ehdr ehdr;
   //assert(((*(uint32_t*)(ehdr.e_ident)) >> 24) == 0x7f454c46);
-  //size_t bias = ramdisk_read(&ehdr, offset, sizeof(Elf_Ehdr));
-  size_t bias = ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+  size_t bias = ramdisk_read(&ehdr, offset, sizeof(Elf_Ehdr));
+  //size_t bias = ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   Elf_Phdr phdr[ehdr.e_phnum];
-  //ramdisk_read(phdr, offset + bias, ehdr.e_phnum * sizeof(Elf_Phdr));
-  ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
+  ramdisk_read(phdr, offset + bias, ehdr.e_phnum * sizeof(Elf_Phdr));
+  //ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
   for(int i = 0; i < ehdr.e_phnum; i++) {
     if(phdr[i].p_type == PT_LOAD) {
-      ramdisk_read((void*)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_memsz);
+      ramdisk_read((void*)phdr[i].p_vaddr, offset + phdr[i].p_offset, phdr[i].p_memsz);
       memset((void*)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
     }
   }
