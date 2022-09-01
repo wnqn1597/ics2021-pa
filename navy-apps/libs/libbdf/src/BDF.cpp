@@ -29,7 +29,7 @@ BDF_Font::BDF_Font(const char *fname) {
   bool valid_file = false, in_bitmap = false;
   uint32_t bm[32], ch = '\0';
   int bm_idx, bm_bbx[4];
-  
+  printf("fp pointer:%p\n", fp->_p);
   while (fgets(buf, 256, fp)) {
     sscanf(buf, "%s ", cmd);
     if (strcmp(cmd, "STARTFONT") == 0) {
@@ -79,6 +79,7 @@ BDF_Font::BDF_Font(const char *fname) {
 }
 
 BDF_Font::~BDF_Font() {
+  printf("DEL BDF\n");
   for (uint32_t *pixels: font) {
     if (pixels) delete [] pixels;
   }
