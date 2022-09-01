@@ -13,7 +13,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   }
   if(pc == 0x800013e8 || pc == 0x80001520 || pc == 0x80001524){
     printf("PC\t\tREF\t\tDUT\n");
-    printf("%08x\t%08x\t%08x\n", 2, ref_r->gpr[2]._32, cpu.gpr[2]._32);
+    printf("%08x\t%08x\t%08x\n", pc, ref_r->gpr[2]._32, cpu.gpr[2]._32);
   }
 
 
