@@ -7,7 +7,7 @@ CSR csr_reg = {.mstatus = 0x1800};
 uint32_t* get_csr(uint32_t code) {
   switch(code) {
     case 0x300: return &csr_reg.mstatus;
-    case 0x301: return &csr_reg.mtvec;
+    case 0x305: return &csr_reg.mtvec;
     case 0x341: return &csr_reg.mepc;
     case 0x342: return &csr_reg.mcause;
     default: printf("Unknown csr code %x\n", code);assert(0);
@@ -17,7 +17,7 @@ uint32_t* get_csr(uint32_t code) {
 void write_csr(uint32_t code, word_t value) {
   switch(code) {
     case 0x300: csr_reg.mstatus = value;break;
-    case 0x301: csr_reg.mtvec = value;break;
+    case 0x305: csr_reg.mtvec = value;break;
     case 0x341: csr_reg.mepc = value;break;
     case 0x342: csr_reg.mcause = value;break;
     default: printf("Unknown csr code %x\n", code);assert(0);
