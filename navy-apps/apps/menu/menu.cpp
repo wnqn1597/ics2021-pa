@@ -116,6 +116,7 @@ int main(int argc, char *argv[], char *envp[]) {
       fprintf(stderr, "Choose a number between %d and %d\n\n", 0, i_max);
     }
   }
+  printf("RETURN\n");
   return -1;
 }
 
