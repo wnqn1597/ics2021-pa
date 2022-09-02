@@ -22,12 +22,12 @@ struct BitmapHeader {
 void* BMP_Load(const char *filename, int *width, int *height) {
   FILE *fp = fopen(filename, "r");
   printf("fopen success??\n");
-  if (!fp){printf("FUCK IT\n"); return NULL;}
+  if (!fp) return NULL;
 
   struct BitmapHeader hdr;
   assert(sizeof(hdr) == 54);
   assert(1 == fread(&hdr, sizeof(struct BitmapHeader), 1, fp));
-
+  printf("fread success??\n");
   if (hdr.bitcount != 24){printf("FUCKIN\n"); return NULL;}
   if (hdr.compression != 0){printf("FUCKYOU\n"); return NULL;}
   int w = hdr.width;
