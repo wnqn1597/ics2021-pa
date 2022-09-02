@@ -91,7 +91,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   
-  printf("pc=%08x\n", s->pc);
+  //printf("pc=%08x\n", s->pc);
 
   uint32_t instr_value;
   int idx = isa_fetch_decode(s, &instr_value);
