@@ -14,9 +14,9 @@ int fs_lseek(int fd, size_t offset, int whence);
 void naive_uload(PCB *pcb, const char *filename);
 
 void sys_exit(Context *c) {
-  printf("EXIT\n");
+  printf("sys_exit\n");
   //halt(c->GPRx);
-  c->GPRx = 1;
+  c->GPRx = 0;
 }
 
 void sys_yield(Context *c) {
