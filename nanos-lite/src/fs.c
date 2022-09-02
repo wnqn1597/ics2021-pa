@@ -64,6 +64,7 @@ int fs_open(const char *pathname, int flags, int mode) {
   unsigned length = sizeof(file_table) / sizeof(Finfo);
   int i;
   for(i = 0; i < length; i++) {
+    printf("%s\n", file_table[i].name);  
     if(strcmp(pathname, file_table[i].name) == 0) break;
   }
   if(i == length){printf("FILE %s not found!!!\n");return -1;}
