@@ -22,9 +22,12 @@ static void sh_prompt() {
   sh_printf("sh> ");
 }
 
-static int sh_handle_cmd(const char *cmd) {
+static int sh_handle_cmd(const char *cmdn) {
+
+  char cmd[20];
+  strncpy(cmd, cmdn, strlen(cmdn)-1);
+
   int len = sizeof(nitems) / sizeof(struct NtermItem);
-  printf("%s\n", cmd);
   int i = 0;
   for(i = 0; i < len; i++) {
     if(strcmp(cmd, nitems[i].bin) == 0) return i;
