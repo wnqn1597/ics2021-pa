@@ -21,9 +21,15 @@ int main(int argc, char *argv[]) {
 
   term = new Terminal(W, H);
 
-  if (argc < 2) { builtin_sh_run(); }
+  char *proc;
+  if (argc < 2) {proc = builtin_sh_run(); }
   else { extern_app_run(argv[1]); }
 
+  free(font);
+  free(term);
+  SDL_FillRect(screen, NULL, 0xffffff);
+  SDL_UpdateRect(screen, 0, 0, 400, 300);
+  execve(proc, NULL, NULL);
   // should not reach here
   assert(0);
 }

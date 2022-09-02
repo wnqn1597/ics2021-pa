@@ -22,10 +22,16 @@ static void sh_prompt() {
   sh_printf("sh> ");
 }
 
-static void sh_handle_cmd(const char *cmd) {
+static int sh_handle_cmd(const char *cmd) {
+  int len = sizeof(items) / sizeof(struct MenuItem);
+  for(i = 0; i < len; i++) {
+    if(strcmp(cmd, items[i].bin) == 0) return i;
+  }
+  sh_printf("Unknown command\n");
+  return -1;
 }
 
-void builtin_sh_run() {
+char* builtin_sh_run() {
   sh_banner();
   sh_prompt();
 
@@ -35,7 +41,11 @@ void builtin_sh_run() {
       if (ev.type == SDL_KEYUP || ev.type == SDL_KEYDOWN) {
         const char *res = term->keypress(handle_key(&ev));
         if (res) {
-          sh_handle_cmd(res);
+          int index = sh_handle_cmd(res);
+          if(index >= 0){
+	    printf("Running program %s\n", items[i].name);
+	    return res;
+	  }
           sh_prompt();
         }
       }
