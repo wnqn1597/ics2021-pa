@@ -15,11 +15,11 @@ int main() {
   //while(1);
 
   void *bmp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
+  //void *bmpp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
   assert(bmp);
   NDL_OpenCanvas(&w, &h);
   NDL_DrawRect(bmp, 0, 0, w, h);
   free(bmp);
-  void *bmpp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
   NDL_Quit();
   printf("Test ends! Spinning...\n");
   while(1);
