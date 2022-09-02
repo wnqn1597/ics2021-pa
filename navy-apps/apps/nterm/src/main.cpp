@@ -7,6 +7,20 @@ static BDF_Font *font = NULL;
 static SDL_Surface *screen = NULL;
 Terminal *term = NULL;
 
+NtermItem nitems[11] = {
+  {"NJU Terminal", "/bin/nterm", NULL},
+  {"NSlider", "/bin/nslider", NULL},
+  {"FCEUX (Super Mario Bros)", "/bin/fceux", "/share/games/nes/mario.nes"},
+  {"FCEUX (100 in 1)", "/bin/fceux", "/share/games/nes/100in1.nes"},
+  {"Flappy Bird", "/bin/bird", NULL},
+  {"PAL - Xian Jian Qi Xia Zhuan", "/bin/pal", NULL},
+  {"NPlayer", "/bin/nplayer", NULL},
+  {"coremark", "/bin/coremark", NULL},
+  {"dhrystone", "/bin/dhrystone", NULL},
+  {"typing-game", "/bin/typing-game", NULL},
+  {"ONScripter", "/bin/onscripter", NULL},
+};
+
 const char* builtin_sh_run();
 void extern_app_run(const char *app_path);
 
