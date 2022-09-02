@@ -39,7 +39,6 @@ BDF_Font::BDF_Font(const char *fname) {
     }
     if (strcmp(cmd, "FONTBOUNDINGBOX") == 0) {
       sscanf(buf, "%*s %d %d %d %d", &w, &h, &w1, &h1);
-      printf("THIS: %d - %d\n", w, h);
     }
     if (strcmp(cmd, "STARTCHAR") == 0) {
       sscanf(buf, "%*s %x", &ch);

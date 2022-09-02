@@ -48,7 +48,6 @@ void NDL_OpenCanvas(int *w, int *h) {
       if (strcmp(buf, "mmap ok") == 0) break;
     }
     close(fbctl);
-    printf("OPEN FB width=%d, height=%d\n", *w, *h);
 //  }
 }
 
@@ -94,7 +93,6 @@ int NDL_Init(uint32_t flags) {
     for(; buf[i] != ':'; i++); i++;
     strncpy(height, (char*)buf+i, 10);
     screen_w = atoi(width); screen_h = atoi(height);
-    printf("NDL Initializing finished.\n");
 //  }
   return 0;
 }

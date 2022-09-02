@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
   free(term);
   SDL_FillRect(screen, NULL, 0xffffff);
   SDL_UpdateRect(screen, 0, 0, 400, 300);
+  printf("---\n");
   execve(proc, NULL, NULL);
   // should not reach here
   assert(0);
