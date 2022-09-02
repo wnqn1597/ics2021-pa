@@ -10,7 +10,7 @@ int main() {
 
   FILE *fp = fopen("/share/pictures/projectn.bmp", "r");
   printf("1\n");
-  fp = fopen("/share/pictures/projectn.bmp", "r");
+  FILE *ffp = fopen("/share/pictures/projectn.bmp", "r");
   printf("1\n");
   while(1);
 
