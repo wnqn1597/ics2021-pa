@@ -25,6 +25,9 @@ BDF_Font::BDF_Font(const char *fname) {
   FILE *fp = fopen(fname, "r");
   if (!fp) return;
 
+  fseek(fp, 0, SEEK_SET);
+  printf("seek set!\n");
+
   char buf[256], cmd[32];
   bool valid_file = false, in_bitmap = false;
   uint32_t bm[32], ch = '\0';
@@ -75,6 +78,7 @@ BDF_Font::BDF_Font(const char *fname) {
   }
   assert (w <= 800 && h <= 800);
   fclose(fp);
+  printf("font success!\n");
 }
 
 BDF_Font::~BDF_Font() {
