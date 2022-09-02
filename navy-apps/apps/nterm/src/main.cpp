@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
   char *proc;
   if (argc < 2) {proc = builtin_sh_run(); }
   else {proc = "/bin"; extern_app_run(argv[1]); }
-  printf("%s", proc);
+  printf("---%s", proc);
   free(font);
   free(term);
   SDL_FillRect(screen, NULL, 0xffffff);
