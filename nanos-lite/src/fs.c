@@ -61,14 +61,12 @@ void* get_finfo(int index, int property) {
 }
 
 int fs_open(const char *pathname, int flags, int mode) {
-  int length = 50;
+  int length = sizeof(file_table) / sizeof(Finfo);
   int i;
   for(i = 0; i < length; i++) {
-    printf("-%s-\n", file_table[i].name);  
-    printf("-%s-\n", pathname);  
     if(strcmp(pathname, file_table[i].name) == 0) break;
   }
-  if(i == length){printf("FILE %s not found!!!\n");return -1;}
+  if(i == length){printf("FILE %s not found!!!\n", pathname);return -1;}
   else return i;
 }
 
