@@ -25,8 +25,8 @@ BDF_Font::BDF_Font(const char *fname) {
   FILE *fp = fopen(fname, "r");
   if (!fp) return;
 
+  //THIS!!!
   fseek(fp, 0, SEEK_SET);
-  printf("seek set!\n");
 
   char buf[256], cmd[32];
   bool valid_file = false, in_bitmap = false;
