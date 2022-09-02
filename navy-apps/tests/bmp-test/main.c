@@ -8,11 +8,11 @@ int main() {
   NDL_Init(0);
   int w, h;
 
-  FILE *fp = fopen("/share/pictures/projectn.bmp", "r");
-  printf("1\n");
-  FILE *ffp = fopen("/share/pictures/projectn.bmp", "r");
-  printf("1\n");
-  while(1);
+  //FILE *fp = fopen("/share/pictures/projectn.bmp", "r");
+  //printf("1\n");
+  //FILE *ffp = fopen("/share/pictures/projectn.bmp", "r");
+  //printf("1\n");
+  //while(1);
 
   void *bmp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
   assert(bmp);
