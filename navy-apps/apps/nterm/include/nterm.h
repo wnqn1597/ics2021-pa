@@ -6,13 +6,14 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define W 48
 #define H 16
 
-struct MenuItem {
+struct NtermItem {
   const char *name, *bin, *arg1;
-} items[] = {
+} nitems[] = {
   {"NJU Terminal", "/bin/nterm", NULL},
   {"NSlider", "/bin/nslider", NULL},
   {"FCEUX (Super Mario Bros)", "/bin/fceux", "/share/games/nes/mario.nes"},

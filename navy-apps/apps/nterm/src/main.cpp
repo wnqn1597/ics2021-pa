@@ -7,7 +7,7 @@ static BDF_Font *font = NULL;
 static SDL_Surface *screen = NULL;
 Terminal *term = NULL;
 
-void builtin_sh_run();
+const char* builtin_sh_run();
 void extern_app_run(const char *app_path);
 
 int main(int argc, char *argv[]) {
@@ -21,9 +21,9 @@ int main(int argc, char *argv[]) {
 
   term = new Terminal(W, H);
 
-  char *proc;
+  const char* proc;
   if (argc < 2) {proc = builtin_sh_run(); }
-  else { extern_app_run(argv[1]); }
+  else {proc = NULL; extern_app_run(argv[1]); }
 
   free(font);
   free(term);

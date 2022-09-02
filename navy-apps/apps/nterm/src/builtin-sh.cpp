@@ -23,15 +23,16 @@ static void sh_prompt() {
 }
 
 static int sh_handle_cmd(const char *cmd) {
-  int len = sizeof(items) / sizeof(struct MenuItem);
+  int len = sizeof(nitems) / sizeof(struct NtermItem);
+  int i = 0;
   for(i = 0; i < len; i++) {
-    if(strcmp(cmd, items[i].bin) == 0) return i;
+    if(strcmp(cmd, nitems[i].bin) == 0) return i;
   }
   sh_printf("Unknown command\n");
   return -1;
 }
 
-char* builtin_sh_run() {
+const char* builtin_sh_run() {
   sh_banner();
   sh_prompt();
 
@@ -43,7 +44,7 @@ char* builtin_sh_run() {
         if (res) {
           int index = sh_handle_cmd(res);
           if(index >= 0){
-	    printf("Running program %s\n", items[i].name);
+	    printf("Running program %s\n", nitems[index].name);
 	    return res;
 	  }
           sh_prompt();
