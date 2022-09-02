@@ -17,7 +17,6 @@ int fs_close(int fd);
 void* get_finfo(int index, int property);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  printf("OPEN FILE: %s ", filename);  
 
   int fd = fs_open(filename, 0, 0);
   if(fd == -1 && filename != NULL){
