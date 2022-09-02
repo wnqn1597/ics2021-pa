@@ -7,10 +7,14 @@
 int main() {
   NDL_Init(0);
   int w, h;
-  void *bmp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
+
+  FILE *fp = fopen("/share/pictures/projectn.bmp", "r");
   printf("1\n");
-  void *bmp1 = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
-  printf("2\n");
+  fp = fopen("/share/pictures/projectn.bmp", "r");
+  printf("1\n");
+  while(1);
+
+  void *bmp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
   assert(bmp);
   NDL_OpenCanvas(&w, &h);
   NDL_DrawRect(bmp, 0, 0, w, h);
