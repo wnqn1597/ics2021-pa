@@ -21,7 +21,7 @@ NtermItem nitems[11] = {
   {"ONScripter", "/bin/onscripter", NULL},
 };
 
-const char* builtin_sh_run();
+char* builtin_sh_run();
 void extern_app_run(const char *app_path);
 
 int main(int argc, char *argv[]) {
@@ -35,15 +35,13 @@ int main(int argc, char *argv[]) {
 
   term = new Terminal(W, H);
 
-  const char* proc;
+  char* proc;
   if (argc < 2) {proc = builtin_sh_run(); }
   else {proc = NULL; extern_app_run(argv[1]); }
-  printf("---\n");
   free(font);
   free(term);
   SDL_FillRect(screen, NULL, 0xffffff);
   SDL_UpdateRect(screen, 0, 0, win_w, win_h);
-  printf("---\n");
   execve(proc, NULL, NULL);
   // should not reach here
   assert(0);
