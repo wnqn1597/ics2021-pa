@@ -3,7 +3,9 @@
 
 int main() {
   FILE *fp = fopen("/share/files/num", "r+");
+  FILE *ffp = fopen("/share/files/num", "r+");
   assert(fp);
+  assert(ffp);
 
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
