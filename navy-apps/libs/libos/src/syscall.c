@@ -58,7 +58,7 @@ void _exit(int status) {
   int ret = 1;//_syscall_(SYS_exit, status, 0, 0);
   if(ret == 1){
     printf("CHANGE PROC.\n");
-    char *name = "/bin/test2";
+    char *name = "/bin/cpp-test";
     _syscall_(SYS_execve, name, (intptr_t)NULL, (intptr_t)NULL);
   }
   return;
