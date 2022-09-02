@@ -30,7 +30,6 @@ BDF_Font::BDF_Font(const char *fname) {
   uint32_t bm[32], ch = '\0';
   int bm_idx, bm_bbx[4];
   while (fgets(buf, 256, fp)) {
-    printf("fp pointer:%p\n", fp->_p);
     sscanf(buf, "%s ", cmd);
     if (strcmp(cmd, "STARTFONT") == 0) {
       valid_file = true;
