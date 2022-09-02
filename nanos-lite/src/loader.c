@@ -13,6 +13,7 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 int fs_open(const char *pathname, int flags, int mode);
+int fs_close(int fd);
 void* get_finfo(int index, int property);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
@@ -39,10 +40,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset((void*)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
     }
   }
+  fs_close(fd);
   return ehdr.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
+	printf("!!!\n");
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %p", entry);
   ((void(*)())entry) ();
