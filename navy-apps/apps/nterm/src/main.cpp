@@ -38,11 +38,11 @@ int main(int argc, char *argv[]) {
   const char* proc;
   if (argc < 2) {proc = builtin_sh_run(); }
   else {proc = NULL; extern_app_run(argv[1]); }
-
+  printf("---\n");
   free(font);
   free(term);
   SDL_FillRect(screen, NULL, 0xffffff);
-  SDL_UpdateRect(screen, 0, 0, 400, 300);
+  SDL_UpdateRect(screen, 0, 0, win_w, win_h);
   printf("---\n");
   execve(proc, NULL, NULL);
   // should not reach here
