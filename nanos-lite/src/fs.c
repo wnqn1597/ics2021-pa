@@ -61,7 +61,7 @@ void* get_finfo(int index, int property) {
 }
 
 int fs_open(const char *pathname, int flags, int mode) {
-  unsigned length = sizeof(file_table) / sizeof(Finfo);
+  int length = 50;
   int i;
   for(i = 0; i < length; i++) {
     printf("%s\n", file_table[i].name);  
