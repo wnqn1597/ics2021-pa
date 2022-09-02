@@ -29,8 +29,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ehdr;
   size_t bias = ramdisk_read(&ehdr, offset, sizeof(Elf_Ehdr));
   //size_t bias = ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
-  printf("%d\n", *(uint32_t*)ehdr.e_ident);
-  assert(*(uint32_t*)ehdr.e_ident == 0x7f454c46);
+  assert(*(uint32_t*)ehdr.e_ident == 0x464c457f);
   Elf_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, offset + bias, ehdr.e_phnum * sizeof(Elf_Phdr));
   //ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
