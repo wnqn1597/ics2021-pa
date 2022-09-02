@@ -54,7 +54,12 @@ intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
 }
 
 void _exit(int status) {
-
+  int ret = _syscall_(SYS_exit, status, 0, 0);
+  if(ret == 1) {
+    const char *base_filename = "/bin/menu";
+    _syscall_(SYS_execve, base_filename, NULL, NULL);
+  }
+  while(1);
 }
 
 int _open(const char *path, int flags, mode_t mode) {

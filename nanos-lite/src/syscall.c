@@ -16,7 +16,7 @@ void naive_uload(PCB *pcb, const char *filename);
 void sys_exit(Context *c) {
   printf("sys_exit\n");
   //halt(c->GPRx);
-  c->GPRx = 0;
+  c->GPRx = 1;
 }
 
 void sys_yield(Context *c) {
@@ -67,8 +67,8 @@ void sys_gettimeofday(Context *c) {
 
 void sys_execve(Context *c, char *filename, char **exec_argv, char **envp) {
   printf("sys_execve\n");
+  //TODO: restore context
   naive_uload(NULL, filename);
-  printf("after load\n");
   c->GPRx = 0;
 }
 
