@@ -21,7 +21,7 @@ NtermItem nitems[11] = {
   {"ONScripter", "/bin/onscripter", NULL},
 };
 
-char* builtin_sh_run();
+void builtin_sh_run(char *buf);
 void extern_app_run(const char *app_path);
 
 int main(int argc, char *argv[]) {
@@ -35,9 +35,9 @@ int main(int argc, char *argv[]) {
 
   term = new Terminal(W, H);
 
-  char *proc;
-  if (argc < 2) {proc = builtin_sh_run(); }
-  else {proc = "/bin"; extern_app_run(argv[1]); }
+  char proc[20];
+  if (argc < 2) {builtin_sh_run(proc); }
+  else {extern_app_run(argv[1]); }
   printf("---%s", proc);
   free(font);
   free(term);

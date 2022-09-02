@@ -32,7 +32,7 @@ static int sh_handle_cmd(char *cmd) {
   return -1;
 }
 
-char* builtin_sh_run() {
+void builtin_sh_run(char *buf) {
   sh_banner();
   sh_prompt();
 
@@ -42,12 +42,11 @@ char* builtin_sh_run() {
       if (ev.type == SDL_KEYUP || ev.type == SDL_KEYDOWN) {
         const char *res = term->keypress(handle_key(&ev));
         if (res) {
-	  char cmd[20];
-	  strncpy(cmd, res, strlen(res)-1);
-          int index = sh_handle_cmd(cmd);
+	  strncpy(buf, res, strlen(res)-1);
+          int index = sh_handle_cmd(buf);
           if(index >= 0){
 	    printf("Running program %s\n", nitems[index].name);
-	    return cmd;
+	    return;
 	  }
           sh_prompt();
         }
