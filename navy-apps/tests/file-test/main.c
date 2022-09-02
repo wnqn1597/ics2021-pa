@@ -43,7 +43,7 @@ int main() {
 
   fp = fopen("/share/files/num", "r+");
   assert(fp);
-
+  fseek(fp, 0, SEEK_SET);
   while(fgets(buf, 10, fp)) {
     printf("%s", buf);
   }
