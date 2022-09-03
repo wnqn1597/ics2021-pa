@@ -5,7 +5,6 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
-  printf("sp: %x == ctx: %x ?\n", c->gpr[2], (uint32_t)c);  
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
@@ -35,10 +34,6 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  //printf("sp: %x == ctx: %x ?\n", c->gpr[2], (uint32_t)c);  
-  //for(int i = 0; i < 36; i++){
-  //  printf("irq:%d\t%x\n", i, *((uint32_t*)c+i));
-  //}
   return c;
 }
 
@@ -57,7 +52,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 Context *kcontext(Area kstack, void (*entry)(uint32_t), uint32_t arg) {
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);
-  uint32_t *arg_ptr = (uint32_t*)(kstack.end - 26 * 4);
+  uint32_t *arg_ptr = (uint32_t*)(kstack.end - 26 * 4); // a0
   *mstatus_ptr = 0x1800;
   *mepc_ptr = (uintptr_t)entry;
   *arg_ptr = arg;

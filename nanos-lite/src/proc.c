@@ -36,36 +36,22 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 }
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, 0xabc);
-  context_kload(&pcb[1], hello_fun, 0xdef);
+  context_kload(&pcb[0], hello_fun, 2);
+  context_kload(&pcb[1], hello_fun, 3);
   
   switch_boot_pcb();
 
   Log("Initializing processes...");
 
-  hello_fun(0xace);
+  hello_fun(1);
   // load program here
   //naive_uload(NULL, "/bin/nterm");
 }
 
 Context* schedule(Context *prev) {
-  //printf("==?%d-%d-%d\n", current==&pcb[0], current==&pcb[1], current==&pcb_boot);
-  //printf("prev: %x == prev->sp: %x ?\n", (uint32_t)prev, prev->gpr[2]);
   current->cp = prev;
-  display_context(prev);
-  //if(current == &pcb[0]){
-  //  current = &pcb[1];
-  //  printf("from 0: %x to 1: %x\n", (uint32_t)&pcb[0], (uint32_t)&pcb[1]);
-  //}else {
-  //  current = &pcb[0];
-  //  printf("from 1: %x to 0: %x\n", (uint32_t)&pcb[1], (uint32_t)&pcb[0]);
-  //}
-
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  current->cp->gpr[2] = (uint32_t)current->cp;
-  printf("change to context %x\n", (uint32_t)current->cp);
-  display_context(current->cp);
+  //current->cp->gpr[2] = (uint32_t)current->cp;
   return current->cp;
-	
   //return NULL;
 }
