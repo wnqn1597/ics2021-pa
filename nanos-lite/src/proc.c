@@ -12,17 +12,17 @@ void switch_boot_pcb() {
   current = &pcb_boot;
 }
 
-void hello_fun(void *arg) {
+void hello_fun(uint32_t arg) {
   int j = 1;
   while (1) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
-    printf("Hello arg '%d' %dth\n", (uint32_t)arg, j);
+    printf("Hello arg '%d' %dth\n", arg, j);
     j ++;
     yield();
   }
 }
 
-void context_kload(PCB *this_pcb, void (*entry)(void*), uint32_t arg){
+void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
   this_pcb->as.area.start = (void*)this_pcb;
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   this_pcb->cp = kcontext(this_pcb->as.area, entry, arg);
@@ -36,7 +36,7 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  hello_fun((void*)0);
+  hello_fun(3);
   // load program here
   //naive_uload(NULL, "/bin/nterm");
 }
