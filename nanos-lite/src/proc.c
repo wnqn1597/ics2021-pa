@@ -27,7 +27,6 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
   this_pcb->as.area.start = (void*)this_pcb;
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   this_pcb->cp = kcontext(this_pcb->as.area, entry, arg);
-  printf("cp=%x\n", (uint32_t)this_pcb->cp);
 }
 
 void init_proc() {
@@ -45,7 +44,7 @@ void init_proc() {
 
 void display_context(Context *c) {
   for(int i = 0; i < 36; i++){
-    printf("%d\t%x\t%x\t%x\n", i, *(((uint32_t*)pcb[0].cp)+i), *(((uint32_t*)pcb[1].cp)+i), *(((uint32_t*)pcb_boot.cp)+i));
+    printf("%d\t%x\t%x\n", i, *(((uint32_t*)pcb[0].cp)+i), *(((uint32_t*)pcb[1].cp)+i));
   }
   for(int i = 0; i < 36; i++){
     printf("%d\t%x\n", i, *((uint32_t*)c+i));
