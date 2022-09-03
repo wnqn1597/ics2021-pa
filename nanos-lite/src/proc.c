@@ -57,6 +57,7 @@ Context* schedule(Context *prev) {
   //display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  current->cp->gpr[2] = (uint32_t)current->cp;
   printf("%p\n", (uint32_t)current->cp);
   return current->cp;
 	
