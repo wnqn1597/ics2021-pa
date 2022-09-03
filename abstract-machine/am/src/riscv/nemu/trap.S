@@ -27,6 +27,8 @@ f(30) f(31)
 #define OFFSET_STATUS (33 * XLEN)
 #define OFFSET_EPC    (34 * XLEN)
 
+#define OFFSET_TEST   (35 * XLEN)
+
 .align 3
 .globl __am_asm_trap
 __am_asm_trap:
@@ -52,9 +54,10 @@ __am_asm_trap:
   mv a0, sp
   jal __am_irq_handle
 
+  STORE ra, OFFSET_TEST(sp)
+
   jal schedule
 
-  mv sp, ra
 
   LOAD sp, OFFSET_SP(sp)
 
