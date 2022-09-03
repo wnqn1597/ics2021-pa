@@ -55,7 +55,6 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);
   *mstatus_ptr = 0x1800;
-  printf("here\n");
   *mepc_ptr = (uintptr_t)entry;
   return (Context*)(kstack.end - 36 * 4);
   //return NULL;
