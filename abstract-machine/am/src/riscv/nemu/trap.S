@@ -54,6 +54,8 @@ __am_asm_trap:
 
   jal schedule
 
+  mv sp, ra
+
   LOAD sp, OFFSET_SP(sp)
 
   LOAD t1, OFFSET_STATUS(sp)
