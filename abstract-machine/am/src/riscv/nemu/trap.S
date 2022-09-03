@@ -54,10 +54,8 @@ __am_asm_trap:
   mv a0, sp
   jal __am_irq_handle
 
-  STORE ra, OFFSET_TEST(sp)
-
   jal schedule
-
+  mv sp, a0
 
   LOAD sp, OFFSET_SP(sp)
 
