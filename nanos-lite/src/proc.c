@@ -16,7 +16,7 @@ void hello_fun(void *arg) {
   int j = 1;
   while (1) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
-    printf("Hello arg '%d' %dth\n", (int)arg, j);
+    printf("Hello arg '%d' %dth\n", (uint32_t)arg, j);
     j ++;
     yield();
   }
@@ -36,7 +36,7 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  hello_fun(NULL);
+  hello_fun((void*)0);
   // load program here
   //naive_uload(NULL, "/bin/nterm");
 }
