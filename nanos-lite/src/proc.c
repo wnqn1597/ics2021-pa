@@ -16,20 +16,22 @@ void hello_fun(void *arg) {
   int j = 1;
   while (1) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
-    printf("Hello arg '%p' %dth\n", (uintptr_t)arg, j);
+    printf("Hello arg '%d' %dth\n", (int)arg, j);
     j ++;
     yield();
   }
 }
 
-void context_kload(PCB *this_pcb, void (*entry)(void*), void *arg){
+void context_kload(PCB *this_pcb, void (*entry)(void*), uint32_t arg){
   this_pcb->as.area.start = (void*)this_pcb;
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   this_pcb->cp = kcontext(this_pcb->as.area, entry, arg);
 }
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, NULL);
+  context_kload(&pcb[0], hello_fun, 1);
+  context_kload(&pcb[0], hello_fun, 2);
+  
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -41,7 +43,7 @@ void init_proc() {
 
 Context* schedule(Context *prev) {
   current->cp = prev;
-  current = &pcb[0];
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   return current->cp;
 	
   //return NULL;
