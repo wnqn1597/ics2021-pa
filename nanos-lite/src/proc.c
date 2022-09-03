@@ -9,6 +9,7 @@ PCB *current = NULL;
 void naive_uload(PCB *pcb, const char *filename);
 
 void switch_boot_pcb() {
+  pcb_boot = pcb[0];
   current = &pcb_boot;
 }
 
