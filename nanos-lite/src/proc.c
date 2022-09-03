@@ -14,7 +14,7 @@ void switch_boot_pcb() {
 
 void hello_fun(uint32_t arg) {
   int j = 1;
-  while (j < 20) {
+  while (j < 10) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     printf("Hello arg '%d' %dth\n", arg, j);
     j ++;
@@ -42,15 +42,18 @@ void init_proc() {
   //naive_uload(NULL, "/bin/nterm");
 }
 
-void display_context() {
+void display_context(Context *c) {
   for(int i = 0; i < 36; i++){
     printf("%d\t%x\t%x\t%x\n", i, *((uint32_t*)(&pcb[0])+i), *((uint32_t*)(&pcb[1])+i), *((uint32_t*)(&pcb_boot)+i));
+  }
+  for(int i = 0; i < 36; i++){
+    printf("%d\t%x\n", i, *((uint32_t*)c+i));
   }
 }
 
 Context* schedule(Context *prev) {
   printf("==?%d-%d-%d\n", current==&pcb[0], current==&pcb[1], current==&pcb_boot);
-  display_context();
+  display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   return current->cp;
