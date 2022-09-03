@@ -36,7 +36,9 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
   printf("sp: %x == ctx: %x ?\n", c->gpr[2], (uint32_t)c);  
-
+  for(int i = 0; i < 36; i++){
+    printf("irq:%d\t%x\n", i, *((uint32_t*)c+i));
+  }
   return c;
 }
 

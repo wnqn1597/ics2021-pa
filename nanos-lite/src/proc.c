@@ -43,9 +43,9 @@ void init_proc() {
 }
 
 void display_context(Context *c) {
-  for(int i = 0; i < 36; i++){
-    printf("%d\t%x\t%x\n", i, *(((uint32_t*)pcb[0].cp)+i), *(((uint32_t*)pcb[1].cp)+i));
-  }
+  //for(int i = 0; i < 36; i++){
+  //  printf("%d\t%x\t%x\n", i, *(((uint32_t*)pcb[0].cp)+i), *(((uint32_t*)pcb[1].cp)+i));
+  //}
   for(int i = 0; i < 36; i++){
     printf("%d\t%x\n", i, *((uint32_t*)c+i));
   }
@@ -54,8 +54,7 @@ void display_context(Context *c) {
 Context* schedule(Context *prev) {
   printf("==?%d-%d-%d\n", current==&pcb[0], current==&pcb[1], current==&pcb_boot);
   printf("prev: %x == prev->sp: %x ?\n", (uint32_t)prev, prev->gpr[2]);
-  printf("ra: %x\n", (uint32_t)prev->pdir);
-  //display_context(prev);
+  display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current->cp->gpr[2] = (uint32_t)current->cp;
