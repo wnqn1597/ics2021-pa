@@ -44,8 +44,6 @@ __am_asm_trap:
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
   
-  #STORE sp, OFFSET_SP(sp)
-
   # set mstatus.MPRV to pass difftest
   li a0, (1 << 17)
   or t1, t1, a0
@@ -56,8 +54,6 @@ __am_asm_trap:
 
   jal schedule
   mv sp, a0
-
-  #LOAD sp, OFFSET_SP(sp)
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
