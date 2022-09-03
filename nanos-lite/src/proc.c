@@ -30,14 +30,14 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 }
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, 1);
-  context_kload(&pcb[1], hello_fun, 2);
+  context_kload(&pcb[0], hello_fun, 0xabc);
+  context_kload(&pcb[1], hello_fun, 0xdef);
   
   switch_boot_pcb();
 
   Log("Initializing processes...");
 
-  hello_fun(3);
+  hello_fun(0xace);
   // load program here
   //naive_uload(NULL, "/bin/nterm");
 }
