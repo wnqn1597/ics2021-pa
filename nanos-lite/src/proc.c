@@ -44,7 +44,7 @@ void init_proc() {
 
 void display_context(Context *c) {
   for(int i = 0; i < 36; i++){
-    printf("%d\t%x\t%x\t%x\n", i, *((uint32_t*)(&pcb[0])+i), *((uint32_t*)(&pcb[1])+i), *((uint32_t*)(&pcb_boot)+i));
+    printf("%d\t%x\t%x\t%x\n", i, *((uint32_t*)pcb[0].cp+i), *((uint32_t*)pcb[1].cp+i), *((uint32_t*)pcb_boot.cp+i));
   }
   for(int i = 0; i < 36; i++){
     printf("%d\t%x\n", i, *((uint32_t*)c+i));
