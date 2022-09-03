@@ -8,11 +8,18 @@ PCB *current = NULL;
 
 void naive_uload(PCB *pcb, const char *filename);
 
+void display_context(Context *c) {
+  for(int i = 0; i < 36; i++){
+    printf("%d\t%x\n", i, *((uint32_t*)c+i));
+  }
+}
+
 void switch_boot_pcb() {
   current = &pcb_boot;
 }
 
 void hello_fun(uint32_t arg) {
+  display_context(current->cp);
   int j = 1;
   while (j < 5) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
@@ -40,15 +47,6 @@ void init_proc() {
   hello_fun(0xace);
   // load program here
   //naive_uload(NULL, "/bin/nterm");
-}
-
-void display_context(Context *c) {
-  //for(int i = 0; i < 36; i++){
-  //  printf("%d\t%x\t%x\n", i, *(((uint32_t*)pcb[0].cp)+i), *(((uint32_t*)pcb[1].cp)+i));
-  //}
-  for(int i = 0; i < 36; i++){
-    printf("%d\t%x\n", i, *((uint32_t*)c+i));
-  }
 }
 
 Context* schedule(Context *prev) {
