@@ -14,12 +14,13 @@ void switch_boot_pcb() {
 
 void hello_fun(uint32_t arg) {
   int j = 1;
-  while (1) {
+  while (j < 100) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     printf("Hello arg '%d' %dth\n", arg, j);
     j ++;
     yield();
   }
+  while(1);
 }
 
 void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
@@ -30,7 +31,7 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, 1);
-  context_kload(&pcb[0], hello_fun, 2);
+  context_kload(&pcb[1], hello_fun, 2);
   
   switch_boot_pcb();
 
@@ -42,6 +43,7 @@ void init_proc() {
 }
 
 Context* schedule(Context *prev) {
+  printf("==?%d\n", current == &pcb_boot);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   return current->cp;
