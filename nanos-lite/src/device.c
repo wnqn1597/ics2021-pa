@@ -19,12 +19,18 @@ static uint32_t fb_h;
 void* get_finfo(int index, int property);
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
+  
+  yield();	
+	
   int i;
   for(i = 0; i < len; i++) putch(*((char*)buf + i));
   return len;
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
+  
+  yield();
+
   uint32_t val = get_keyboard_val();
   if(val == 0) return 0;
   if(val < 256) {
@@ -67,6 +73,9 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  
+  yield();
+  
   uint32_t *fb = get_fb();
   uint32_t size = *((uint32_t*)get_finfo(5, 1));
   uint32_t *open_offset = (uint32_t*)get_finfo(5, 5);
