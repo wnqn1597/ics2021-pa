@@ -8,7 +8,7 @@ static Context* do_event(Event e, Context* c) {
 
   switch (e.event) {
     case EVENT_YIELD: 
-	    printf("YIELD EXECUTED\n");
+	    //printf("YIELD EXECUTED\n");
 	    return c;
     case EVENT_SYSCALL: 
 	    //printf("SYSCALL START\n");

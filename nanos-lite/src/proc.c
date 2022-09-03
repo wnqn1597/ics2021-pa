@@ -40,7 +40,6 @@ void init_proc() {
 }
 
 Context* schedule(Context *prev) {
-  printf("SCHEDULE\n");
   current->cp = prev;
   current = &pcb[0];
   return current->cp;
