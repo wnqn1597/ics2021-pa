@@ -53,7 +53,8 @@ void display_context(Context *c) {
 
 Context* schedule(Context *prev) {
   printf("==?%d-%d-%d\n", current==&pcb[0], current==&pcb[1], current==&pcb_boot);
-  display_context(prev);
+  printf("prev: %x == prev->sp: %x ?\n", (uint32_t)prev, prev->gpr[2]);
+  //display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   printf("%p\n", (uint32_t)current->cp);

@@ -52,6 +52,7 @@ __am_asm_trap:
   mv a0, sp
   jal __am_irq_handle
 
+  mv a0, ra
   jal schedule
 
   LOAD sp, OFFSET_SP(sp)
