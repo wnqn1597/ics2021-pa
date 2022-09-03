@@ -52,8 +52,6 @@ __am_asm_trap:
 
   jal schedule
 
-  mv sp, ra
-
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
   csrw mstatus, t1
