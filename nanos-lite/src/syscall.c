@@ -20,7 +20,7 @@ void sys_exit(Context *c) {
 }
 
 void sys_yield(Context *c) {
-  printf("CALL YIELD\n");
+  //printf("CALL YIELD\n");
   yield();
   c->GPRx = 0;
 }

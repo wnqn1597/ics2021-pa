@@ -7,6 +7,7 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
+    printf("irq mcause=%d\n", c->mcause);
     switch (c->mcause) {
       case -1: ev.event = EVENT_YIELD;break;
       case 0: 
@@ -51,10 +52,16 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
+  uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);
+  *mstatus_ptr = 0x1800;
+  *mepc_ptr = (uintptr_t)entry;
+  return (Context*)(kstack.end - 36 * 4);
+  //return NULL;
 }
 
 void yield() {
+  printf("volatile\n");
   asm volatile("li a7, -1; ecall");
 }
 
