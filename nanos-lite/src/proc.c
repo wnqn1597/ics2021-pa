@@ -56,7 +56,15 @@ Context* schedule(Context *prev) {
   printf("prev: %x == prev->sp: %x ?\n", (uint32_t)prev, prev->gpr[2]);
   display_context(prev);
   current->cp = prev;
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  if(current == &pcb[0]){
+    current = &pcb[1];
+    printf("from 0: %x to 1: %x\n", (uint32_t)&pcb[0], (uint32_t)&pcb[1]);
+  }else {
+    current = &pcb[0];
+    printf("from 1: %x to 0: %x\n", (uint32_t)&pcb[1], (uint32_t)&pcb[0]);
+  }
+
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current->cp->gpr[2] = (uint32_t)current->cp;
   printf("%p\n", (uint32_t)current->cp);
   return current->cp;
