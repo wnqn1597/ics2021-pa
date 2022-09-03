@@ -42,15 +42,15 @@ void init_proc() {
   //naive_uload(NULL, "/bin/nterm");
 }
 
-void display_context_reg(Context *c) {
-  for(int i = 0; i < 32; i++){
+void display_context(Context *c) {
+  for(int i = 0; i < 36; i++){
     printf("%d\t%x\n", i, *((uint32_t*)c + i));
   }
 }
 
 Context* schedule(Context *prev) {
   printf("==?%d-%d-%d\n", current==&pcb[0], current==&pcb[1], current==&pcb_boot);
-  display_context_reg(prev);
+  display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   return current->cp;
