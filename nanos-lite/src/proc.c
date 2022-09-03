@@ -55,6 +55,7 @@ Context* schedule(Context *prev) {
   //printf("==?%d-%d-%d\n", current==&pcb[0], current==&pcb[1], current==&pcb_boot);
   //printf("prev: %x == prev->sp: %x ?\n", (uint32_t)prev, prev->gpr[2]);
   current->cp = prev;
+  display_context(prev);
   //if(current == &pcb[0]){
   //  current = &pcb[1];
   //  printf("from 0: %x to 1: %x\n", (uint32_t)&pcb[0], (uint32_t)&pcb[1]);
