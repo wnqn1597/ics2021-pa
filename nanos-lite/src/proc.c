@@ -9,7 +9,6 @@ PCB *current = NULL;
 void naive_uload(PCB *pcb, const char *filename);
 
 void switch_boot_pcb() {
-  pcb_boot = pcb[0];
   current = &pcb_boot;
 }
 
@@ -43,15 +42,15 @@ void init_proc() {
   //naive_uload(NULL, "/bin/nterm");
 }
 
-void display_context(Context *c) {
+void display_context() {
   for(int i = 0; i < 36; i++){
-    printf("%d\t%x\n", i, *((uint32_t*)c + i));
+    printf("%d\t%x\t\t%x\t\t%x\n", i, *((uint32_t*)(&pcb[0])+i), *((uint32_t*)(&pcb[1])+i), *((uint32_t*)(&pcb_boot)+i));
   }
 }
 
 Context* schedule(Context *prev) {
   printf("==?%d-%d-%d\n", current==&pcb[0], current==&pcb[1], current==&pcb_boot);
-  display_context(prev);
+  display_context();
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   return current->cp;
