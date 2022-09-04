@@ -123,7 +123,7 @@ Context* schedule(Context *prev) {
   //display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   return current->cp;
   //return NULL;
 }
