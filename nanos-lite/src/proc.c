@@ -53,7 +53,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   }
   uint32_t *argc_ptr = (uint32_t*)argv - 1;
   *argc_ptr = argc;
-  printf("&argc = %x\n", (uintptr_t)argc_ptr);
+  //printf("&argc = %x\n", (uintptr_t)argc_ptr);
   this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
   //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
