@@ -127,5 +127,4 @@ Context* schedule(Context *prev) {
   }else {
     return prev;
   }
-  //return NULL;
 }
