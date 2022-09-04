@@ -29,7 +29,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    * Then return the address of the interrupt/exception vector.
    */
   csr_reg.mcause = NO;
-  csr_reg.mepc = epc;
+  csr_reg.mepc = epc + 4;
   printf("ECALL PC=%x\n", epc);
   return csr_reg.mtvec;
 }
