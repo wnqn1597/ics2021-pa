@@ -38,7 +38,7 @@ word_t isa_out_intr(word_t NO) {
   csr_reg.mcause = NO;
   // not + 4
   //printf("MRET  PC=%x\n", csr_reg.mepc);
-  return csr_reg.mepc;
+  return csr_reg.mepc+4;
 }
 
 word_t isa_query_intr() {
