@@ -46,16 +46,14 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
-  //printf("pcb[1].cp = %x\n", (uint32_t)pcb[1].cp);
-  uint32_t argc;
-  for(argc = 0; ; argc++) {
-    if(argv[argc] == NULL) break;
-  }
-  uint32_t *argc_ptr = (uint32_t*)argv - 1;
-  *argc_ptr = argc;
-  //printf("&argc = %x\n", (uintptr_t)argc_ptr);
-  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
-  //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
+  //uint32_t argc;
+  //for(argc = 0; ; argc++) {
+  //  if(argv[argc] == NULL) break;
+  //}
+  //uint32_t *argc_ptr = (uint32_t*)argv - 1;
+  //*argc_ptr = argc;
+  //this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
+  this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
 
 void init_proc() {
