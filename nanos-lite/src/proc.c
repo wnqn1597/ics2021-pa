@@ -88,7 +88,8 @@ void hello_fun(uint32_t arg) {
   int j = 1;
   while (1) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
-    printf("Hello World from Nanos-lite with arg '%p' for the %dth time!\n", arg, j);
+    //printf("Hello World from Nanos-lite with arg '%p' for the %dth time!\n", arg, j);
+    printf("'%p' %d\n", arg, j);
     j ++;
     yield();
   }
@@ -109,7 +110,6 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   
   void *argc_ptr = set_mem(argv, envp);
   //display(argc_ptr);
-  printf("argc_ptr=%x\n", (uintptr_t)argc_ptr);
   this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
   //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
