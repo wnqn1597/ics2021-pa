@@ -30,7 +30,7 @@ void sys_yield(Context *c) {
 
 void sys_brk(Context *c, intptr_t addr) {
   //printf("CALL BRK\n");
-  c->GPRx = mm_brk(addr);
+  c->GPRx = 0;
 }
 
 void sys_open(Context *c, const char *pathname, int flags, int mode) {
