@@ -71,7 +71,6 @@ void sys_gettimeofday(Context *c) {
 void sys_execve(Context *c, char *filename, char **exec_argv, char **envp) {
   //printf("sys_execve\n");
   //naive_uload(NULL, filename);
-  printf("execve: %s\n", filename);
   PCB *new_pcb = (current == get_pcb(0) ? get_pcb(1) : get_pcb(0));
   context_uload(new_pcb, filename, exec_argv, envp);
 	

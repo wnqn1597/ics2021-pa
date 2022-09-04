@@ -120,8 +120,6 @@ void init_proc() {
 
 Context* schedule(Context *prev) {
   if(prev->mcause == 13 || prev->mcause == -1){
-    //printf("%x, %x\n", (uint32_t)pcb[0].cp, (uint32_t)pcb[1].cp);
-    //display_context(prev);
     current->cp = prev;
     current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
     //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);

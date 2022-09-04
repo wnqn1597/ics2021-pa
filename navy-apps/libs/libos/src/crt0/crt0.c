@@ -28,8 +28,8 @@ void call_main(uintptr_t *args) {
   char *env_buf[10] = {};
   load_argv_envp(arg_buf, env_buf, (void*)args);
 
-  //printf("args:\n");
-  //for(int i = 0; arg_buf[i] != NULL; i++) printf("%s\n", arg_buf[i]);
+  printf("args:\n");
+  for(int i = 0; arg_buf[i] != NULL; i++) printf("%s\n", arg_buf[i]);
   //printf("envs:\n");
   //for(int i = 0; env_buf[i] != NULL; i++) printf("%s\n", env_buf[i]);
 
