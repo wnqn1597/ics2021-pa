@@ -33,6 +33,6 @@ void call_main(uintptr_t *args) {
   //printf("envs:\n");
   //for(int i = 0; env_buf[i] != NULL; i++) printf("%s\n", env_buf[i]);
 
-  exit(main(0, arg_buf, env_buf));
+  exit(main(*args, arg_buf, env_buf));
   assert(0);
 }
