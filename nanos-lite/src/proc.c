@@ -20,6 +20,11 @@ void display_context(Context *c, int index) {
   }
 }
 
+PCB* get_pcb(int index){
+  if(index < 0 || index >= MAX_NR_PROC) return NULL;
+  return &pcb[index];
+}
+
 uint32_t len(char *const arr[]) {
     if(arr == NULL) return 0;
     uint32_t ret;
@@ -29,11 +34,11 @@ uint32_t len(char *const arr[]) {
     return ret;
 }
 
-void* set_mainargs(char *const argv[], char *const envp[]){
+void* set_mainargs(AddrSpace *as, char *const argv[], char *const envp[]){
     uint32_t argc = len(argv); uint32_t n = len(envp);
     uint32_t pe[n+1]; uint32_t pa[argc+1];
 
-    void *end = heap.end;
+    void *end = as->area.end;
     uint32_t l, i;
     for(i = 0; i < n; i++) {
         l = strlen(envp[i]) + 1;
@@ -88,26 +93,26 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   //this_pcb->as.area.start = (void*)this_pcb;
   //this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
-  this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
+  Area kstack = {.end = (void*)this_pcb + 8*4096};
+  this_pcb->cp = ucontext(&this_pcb->as, kstack, entry);
   
-  void *argc_ptr = set_mainargs(argv, envp);
+  void *argc_ptr = set_mainargs(&this_pcb->as, argv, envp);
   this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
   //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
 
 void init_proc() {
-  printf("PCB address: %x, %x\n", &pcb[0], &pcb[1]);
-  context_kload(&pcb[0], hello_fun, 2);
+  //context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
+  //context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
   
   switch_boot_pcb();
 
   Log("Initializing processes...");
 
-  hello_fun(1);
+  //hello_fun(1);
   // load program here
-  //naive_uload(NULL, "/bin/nterm");
+  naive_uload(NULL, "/bin/exec-test");
 }
 
 Context* schedule(Context *prev) {

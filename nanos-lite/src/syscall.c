@@ -13,6 +13,8 @@ int fs_lseek(int fd, size_t offset, int whence);
 int mm_brk(uintptr_t brk);
 
 void naive_uload(PCB *pcb, const char *filename);
+void context_uload(PCB *this_pcb, const char* filename, char *const argv[], char *const envp[]);
+PCB* get_pcb(int index);
 
 void sys_exit(Context *c) {
   printf("sys_exit\n");
@@ -69,8 +71,11 @@ void sys_gettimeofday(Context *c) {
 void sys_execve(Context *c, char *filename, char **exec_argv, char **envp) {
   //printf("sys_execve\n");
   //TODO: restore context
-  naive_uload(NULL, filename);
-  c->GPRx = 0;
+  //naive_uload(NULL, filename);
+  PCB *new_pcb = (current == get_pcb(0) ? get_pcb(1) : get_pcb(0));
+  context_uload(new_pcb, filename, exec_argv, envp);
+	
+  c->GPRx = (uintptr_t)c;
 }
 
 void do_syscall(Context *c) {
