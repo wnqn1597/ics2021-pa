@@ -117,10 +117,11 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 void init_proc() {
 
   char *const arr[4] = {"1!5!", "L!T!C!", "JNTM!", NULL};
+  char *const arr_[3] = {"1!", "L!", NULL};
 
   context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[1], "/bin/nterm", arr, NULL);
+  context_uload(&pcb[1], "/bin/nterm", arr, arr_);
   
   switch_boot_pcb();
 
