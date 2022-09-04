@@ -48,8 +48,8 @@ void context_uload(PCB *this_pcb, const char *filename) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, 2);
-  context_kload(&pcb[1], hello_fun, 3);
-  //context_uload(&pcb[1], "/bin/nterm");
+  //context_kload(&pcb[1], hello_fun, 3);
+  context_uload(&pcb[1], "/bin/nterm");
   
   switch_boot_pcb();
 
