@@ -96,7 +96,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 }
 
 void init_proc() {
-
+  printf("PCB address: %x, %x\n", &pcb[0], &pcb[1]);
   context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
   context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
@@ -115,7 +115,7 @@ Context* schedule(Context *prev) {
   //display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   return current->cp;
   //return NULL;
 }
