@@ -42,7 +42,7 @@ void context_uload(PCB *this_pcb, const char *filename) {
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
-  printf("pcb[1].cp = %x\n", (uint32_t)pcb[1].cp);
+  //printf("pcb[1].cp = %x\n", (uint32_t)pcb[1].cp);
   this_pcb->cp->GPRx = (uintptr_t)heap.end;
 }
 
@@ -65,7 +65,7 @@ Context* schedule(Context *prev) {
   //display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   //display_context(current->cp);
   return current->cp;
   //return NULL;
