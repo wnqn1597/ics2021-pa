@@ -68,7 +68,7 @@ void hello_fun(uint32_t arg) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     //printf("Hello World from Nanos-lite with arg '%p' for the %dth time!\n", arg, j);
     
-    if(j % 10 == 0) printf("'%p' %d\n", arg, j);
+    if(j % 100 == 0) printf("'%p' %d\n", arg, j);
     j ++;
     yield();
   }
