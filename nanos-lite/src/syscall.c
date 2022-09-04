@@ -10,6 +10,7 @@ int fs_write(int fd, const void *buf, size_t len);
 int fs_read(int fd, void *buf, size_t len);
 int fs_close(int fd);
 int fs_lseek(int fd, size_t offset, int whence);
+int mm_brk(uintptr_t brk);
 
 void naive_uload(PCB *pcb, const char *filename);
 
@@ -27,7 +28,7 @@ void sys_yield(Context *c) {
 
 void sys_brk(Context *c, intptr_t addr) {
   //printf("CALL BRK\n");
-  c->GPRx = 0;
+  c->GPRx = mm_brk(addr);
 }
 
 void sys_open(Context *c, const char *pathname, int flags, int mode) {

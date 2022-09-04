@@ -3,7 +3,14 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
-  return NULL;
+  void *ret = pf;
+  pf += nr_page * PGSIZE;
+  if((uintptr_t)pf > (uintptr_t)heap.end) {
+    printf("Insufficient memory.\n");
+    pf = ret;
+    return NULL;
+  }
+  return ret;
 }
 
 #ifdef HAS_VME

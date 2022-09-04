@@ -29,15 +29,11 @@ uint32_t len(char *const arr[]) {
     return ret;
 }
 
-void* set_mem(char *const argv[], char *const envp[]){
-    uint32_t argc = len(argv);
-    uint32_t n = len(envp);
-
-    uint32_t pe[n+1];
-    uint32_t pa[argc+1];
+void* set_mainargs(char *const argv[], char *const envp[]){
+    uint32_t argc = len(argv); uint32_t n = len(envp);
+    uint32_t pe[n+1]; uint32_t pa[argc+1];
 
     void *end = heap.end;
-
     uint32_t l, i;
     for(i = 0; i < n; i++) {
         l = strlen(envp[i]) + 1;
@@ -62,24 +58,6 @@ void* set_mem(char *const argv[], char *const envp[]){
     return end;
 }
 
-//void display(void *start){
-//    uint32_t* ustart = (uint32_t*)start;
-//    uint32_t argc = *ustart;
-//    printf("argc=%d\n", argc);
-//    ustart++;
-//    for(int i = 0; i < argc; i++){
-//        char *ptr = (char*)*ustart;
-//        printf("%s\n", ptr);
-//        ustart++;
-//    }
-//    ustart++;
-//    for(;*ustart;){
-//        char *ptr = (char*)*ustart;
-//        printf("%s\n", ptr);
-//        ustart++;
-//    }
-//}
-
 void switch_boot_pcb() {
   current = &pcb_boot;
 }
@@ -89,7 +67,8 @@ void hello_fun(uint32_t arg) {
   while (1) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     //printf("Hello World from Nanos-lite with arg '%p' for the %dth time!\n", arg, j);
-    printf("'%p' %d\n", arg, j);
+    
+    if(j % 10 == 0) printf("'%p' %d\n", arg, j);
     j ++;
     yield();
   }
@@ -103,25 +82,24 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 }
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
+  //void *upage_start = new_page(8);	
+  //this_pcb->as.area.start = upage_start;
+  //this_pcb->as.area.end = upage_start + 8*4096;
   this_pcb->as.area.start = (void*)this_pcb;
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
   
-  void *argc_ptr = set_mem(argv, envp);
-  //display(argc_ptr);
+  void *argc_ptr = set_mainargs(argv, envp);
   this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
   //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
 
 void init_proc() {
 
-  char *const arr[4] = {"1!5!", "L!T!C!", "JNTM!", NULL};
-  char *const arr_[3] = {"1!", "L!", NULL};
-
   context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[1], "/bin/nterm", arr, arr_);
+  context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
   
   switch_boot_pcb();
 
@@ -138,11 +116,6 @@ Context* schedule(Context *prev) {
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
-  //if(current == &pcb[1]){
-  //  display_context(current->cp, 2);
-  //  display_context(current->cp, 10);
-  //  display_context(current->cp, 34);
-  //}
   return current->cp;
   //return NULL;
 }

@@ -72,10 +72,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);
-  //uint32_t *arg_ptr = (uint32_t*)(kstack.end - 26 * 4); // a0
   *mstatus_ptr = 0x1800;
   *mepc_ptr = (uintptr_t)entry;
-  //*arg_ptr = arg;
   return (Context*)(kstack.end - 36 * 4);
   //return NULL;
 }
