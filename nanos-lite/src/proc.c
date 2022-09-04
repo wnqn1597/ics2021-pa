@@ -42,7 +42,6 @@ void context_uload(PCB *this_pcb, const char *filename) {
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
-  printf("heap.end = %x\n", (uintptr_t)heap.end);
   printf("context = %x", (uint32_t)this_pcb->cp);
   this_pcb->cp->GPRx = (uintptr_t)heap.end;
 }
