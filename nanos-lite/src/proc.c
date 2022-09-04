@@ -20,6 +20,66 @@ void display_context(Context *c, int index) {
   }
 }
 
+uint32_t len(char *const arr[]) {
+    if(arr == NULL) return 0;
+    uint32_t ret;
+    for(ret = 0;; ret++) {
+        if(arr[ret] == NULL) break;
+    }
+    return ret;
+}
+
+void* set_mem(char *const argv[], char *const envp[]){
+    uint32_t argc = len(argv);
+    uint32_t n = len(envp);
+
+    uint32_t pe[n+1];
+    uint32_t pa[argc+1];
+
+    void *end = heap.end;
+
+    uint32_t l, i;
+    for(i = 0; i < n; i++) {
+        l = strlen(envp[i]) + 1;
+        memcpy(end - l, (void*)envp[i], l);
+        end -= l;
+        pe[i] = (uintptr_t)(char*)end;
+    }
+    pe[i] = 0;
+    for(i = 0; i < argc; i++) {
+        l = strlen(argv[i]) + 1;
+        memcpy(end - l, (void*)argv[i], l);
+        end -= l;
+        pa[i] = (uintptr_t)(char*)end;
+    }
+    pa[i] = 0;
+    memcpy(end-4*(n+1), pe, 4*(n+1));
+    end -= 4*(n+1);
+    memcpy(end-4*(argc+1), pa, 4*(argc+1));
+    end -= 4*(argc+1);
+    end -= 4;
+    *(uint32_t*)end = argc;
+    return end;
+}
+
+void display(void *start){
+    uint32_t* ustart = (uint32_t*)start;
+    uint32_t argc = *ustart;
+    printf("argc=%d\n", argc);
+    ustart++;
+    for(int i = 0; i < argc; i++){
+        char *ptr = (char*)*ustart;
+        printf("%s\n", ptr);
+        ustart++;
+    }
+    ustart++;
+    for(;*ustart;){
+        char *ptr = (char*)*ustart;
+        printf("%s\n", ptr);
+        ustart++;
+    }
+}
+
 void switch_boot_pcb() {
   current = &pcb_boot;
 }
@@ -46,14 +106,11 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
-  //uint32_t argc;
-  //for(argc = 0; ; argc++) {
-  //  if(argv[argc] == NULL) break;
-  //}
-  //uint32_t *argc_ptr = (uint32_t*)argv - 1;
-  //*argc_ptr = argc;
-  //this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
-  this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
+  
+  void *argc_ptr = set_mem(argv, envp);
+  display(argc_ptr);
+  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
+  //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
 
 void init_proc() {
