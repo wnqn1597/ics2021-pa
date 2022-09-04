@@ -10,9 +10,13 @@ void naive_uload(PCB *pcb, const char *filename);
 
 uintptr_t loader(PCB *pcb, const char *filename);
 
-void display_context(Context *c) {
-  for(int i = 0; i < 36; i++){
-    printf("%d\t%x\n", i, *((uint32_t*)c+i));
+void display_context(Context *c, int index) {
+  if(index >= 0){
+    printf("%d\t%x\n", index, *((uint32_t*)c+index));
+  }else {
+    for(int i = 0; i < 36; i++){
+      printf("%d\t%x\n", i, *((uint32_t*)c+i));
+    }
   }
 }
 
@@ -43,7 +47,7 @@ void context_uload(PCB *this_pcb, const char *filename) {
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
   //printf("pcb[1].cp = %x\n", (uint32_t)pcb[1].cp);
-  this_pcb->cp->GPRx = (uintptr_t)heap.end;
+  this_pcb->cp->GPRx = (uintptr_t)heap.end - 4 * 36;
 }
 
 void init_proc() {
@@ -65,8 +69,12 @@ Context* schedule(Context *prev) {
   //display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
-  //display_context(current->cp);
+  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  if(current == &pcb[1]){
+    display_context(current->cp, 2);
+    display_context(current->cp, 10);
+    display_context(current->cp, 34);
+  }
   return current->cp;
   //return NULL;
 }
