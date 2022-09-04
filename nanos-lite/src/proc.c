@@ -47,13 +47,24 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
   //printf("pcb[1].cp = %x\n", (uint32_t)pcb[1].cp);
-  this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
+  uint32_t argc;
+  for(argc = 0; ; argc++) {
+    if(argv[argc] == NULL) break;
+  }
+  uint32_t *argc_ptr = (uint32_t*)argv - 1;
+  *argc_ptr = argc;
+  printf("&argc = %x\n", (uintptr_t)argc_ptr);
+  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
+  //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
 
 void init_proc() {
+
+  char *const arr[4] = {"1!5!", "L!T!C!", "JNTM!", NULL};
+
   context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
+  context_uload(&pcb[1], "/bin/nterm", arr, NULL);
   
   switch_boot_pcb();
 
