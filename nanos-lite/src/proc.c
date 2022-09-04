@@ -102,7 +102,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 }
 
 void init_proc() {
-  char *arr[] = {"test", "1", NULL};
+  char *arr[] = {"/bin/exec-test", "1", NULL};
 
   //context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
