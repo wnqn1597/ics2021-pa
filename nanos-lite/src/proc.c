@@ -22,7 +22,7 @@ void switch_boot_pcb() {
 
 void hello_fun(uint32_t arg) {
   int j = 1;
-  while (1) {
+  while (j < 10) {
     //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     printf("Hello World from Nanos-lite with arg '%p' for the %dth time!\n", arg, j);
     j ++;
