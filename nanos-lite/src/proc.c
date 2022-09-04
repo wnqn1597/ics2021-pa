@@ -62,23 +62,23 @@ void* set_mem(char *const argv[], char *const envp[]){
     return end;
 }
 
-void display(void *start){
-    uint32_t* ustart = (uint32_t*)start;
-    uint32_t argc = *ustart;
-    printf("argc=%d\n", argc);
-    ustart++;
-    for(int i = 0; i < argc; i++){
-        char *ptr = (char*)*ustart;
-        printf("%s\n", ptr);
-        ustart++;
-    }
-    ustart++;
-    for(;*ustart;){
-        char *ptr = (char*)*ustart;
-        printf("%s\n", ptr);
-        ustart++;
-    }
-}
+//void display(void *start){
+//    uint32_t* ustart = (uint32_t*)start;
+//    uint32_t argc = *ustart;
+//    printf("argc=%d\n", argc);
+//    ustart++;
+//    for(int i = 0; i < argc; i++){
+//        char *ptr = (char*)*ustart;
+//        printf("%s\n", ptr);
+//        ustart++;
+//    }
+//    ustart++;
+//    for(;*ustart;){
+//        char *ptr = (char*)*ustart;
+//        printf("%s\n", ptr);
+//        ustart++;
+//    }
+//}
 
 void switch_boot_pcb() {
   current = &pcb_boot;
