@@ -23,7 +23,7 @@ void load_argv_envp(char *arg_buf[], char *env_buf[], void *start){
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
 void call_main(uintptr_t *args) {
-
+  printf("call main: argc = %d\n", *args);
   char *arg_buf[10] = {};
   char *env_buf[10] = {};
   load_argv_envp(arg_buf, env_buf, (void*)args);
