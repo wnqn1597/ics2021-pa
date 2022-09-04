@@ -82,11 +82,11 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 }
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
-  //void *upage_start = new_page(8);	
-  //this_pcb->as.area.start = upage_start;
-  //this_pcb->as.area.end = upage_start + 8*4096;
-  this_pcb->as.area.start = (void*)this_pcb;
-  this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
+  void *upage_start = new_page(8);	
+  this_pcb->as.area.start = upage_start;
+  this_pcb->as.area.end = upage_start + 8*4096;
+  //this_pcb->as.area.start = (void*)this_pcb;
+  //this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
   
