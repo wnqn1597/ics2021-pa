@@ -62,11 +62,11 @@ void init_proc() {
 
 Context* schedule(Context *prev) {
   printf("%x, %x\n", (uint32_t)pcb[0].cp, (uint32_t)pcb[1].cp);
-  display_context(prev);
+  //display_context(prev);
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
-  display_context(current->cp);
+  //display_context(current->cp);
   return current->cp;
   //return NULL;
 }
