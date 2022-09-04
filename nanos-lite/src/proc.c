@@ -108,7 +108,8 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   this_pcb->cp = ucontext(NULL, this_pcb->as.area, entry);
   
   void *argc_ptr = set_mem(argv, envp);
-  display(argc_ptr);
+  //display(argc_ptr);
+  printf("argc_ptr=%x\n", (uintptr_t)argc_ptr);
   this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
   //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
