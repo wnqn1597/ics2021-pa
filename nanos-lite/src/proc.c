@@ -70,11 +70,11 @@ Context* schedule(Context *prev) {
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
-  if(current == &pcb[1]){
-    display_context(current->cp, 2);
-    display_context(current->cp, 10);
-    display_context(current->cp, 34);
-  }
+  //if(current == &pcb[1]){
+  //  display_context(current->cp, 2);
+  //  display_context(current->cp, 10);
+  //  display_context(current->cp, 34);
+  //}
   return current->cp;
   //return NULL;
 }
