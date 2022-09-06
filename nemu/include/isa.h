@@ -39,6 +39,7 @@ vaddr_t isa_raise_intr(word_t NO, vaddr_t epc);
 word_t isa_query_intr();
 
 typedef struct csr {
+  uint32_t satp;
   uint32_t mtvec;
   uint32_t mepc;
   uint32_t mstatus;
