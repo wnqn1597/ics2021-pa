@@ -70,10 +70,7 @@ void switch_boot_pcb() {
 void hello_fun(uint32_t arg) {
   int j = 1;
   while (1) {
-    //Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
-    //printf("Hello World from Nanos-lite with arg '%p' for the %dth time!\n", arg, j);
-    
-    printf("'%p'-%d\n", arg, j);
+    Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     j ++;
     yield();
   }
@@ -102,12 +99,12 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 }
 
 void init_proc() {
-  char *arr[] = {"/bin/exec-test", "1", NULL};
+  //char *arr[] = {"/bin/exec-test", "1", NULL};
 
   //context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[0], "/bin/exec-test", arr, NULL);
-  context_uload(&pcb[1], "/bin/exec-test", arr, NULL);
+  //context_uload(&pcb[0], "/bin/exec-test", arr, NULL);
+  //context_uload(&pcb[1], "/bin/exec-test", arr, NULL);
   
   switch_boot_pcb();
 
@@ -119,12 +116,8 @@ void init_proc() {
 }
 
 Context* schedule(Context *prev) {
-  if(prev->mcause == 13 || prev->mcause == -1){
-    current->cp = prev;
-    current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-    //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
-    return current->cp;
-  }else {
-    return prev;
-  }
+  current->cp = prev;
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  return current->cp;
 }
