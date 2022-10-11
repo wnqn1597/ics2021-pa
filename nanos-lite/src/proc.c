@@ -112,7 +112,7 @@ void init_proc() {
 
   //hello_fun(1);
   // load program here
-  naive_uload(NULL, "/bin/bmp-test");
+  naive_uload(NULL, "/bin/hello");
 }
 
 Context* schedule(Context *prev) {
