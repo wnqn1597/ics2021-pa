@@ -112,7 +112,7 @@ void init_proc() {
 
   //hello_fun(1);
   // load program here
-  naive_uload(NULL, "/bin/nemu");
+  naive_uload(NULL, "/bin/menu");
 }
 
 Context* schedule(Context *prev) {
