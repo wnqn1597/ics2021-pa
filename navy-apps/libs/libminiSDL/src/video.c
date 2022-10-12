@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <stdio.h>
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
@@ -70,6 +72,7 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
   assert(depth == 8 || depth == 32);
   SDL_Surface *s = malloc(sizeof(SDL_Surface));
   assert(s);
+	printf("flags=%d\n", flags);
   s->flags = flags;
   s->format = malloc(sizeof(SDL_PixelFormat));
   assert(s->format);
