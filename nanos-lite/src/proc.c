@@ -110,15 +110,14 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  //hello_fun(1);
+  hello_fun(1);
   // load program here
   naive_uload(NULL, "/bin/dummy");
 }
 
 Context* schedule(Context *prev) {
-  //current->cp = prev;
-  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
-  //return current->cp;
-	return NULL;
+  current->cp = prev;
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  return current->cp;
 }
