@@ -110,7 +110,7 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  hello_fun(1);
+  //hello_fun(1);
   // load program here
   naive_uload(NULL, "/bin/dummy");
 }
