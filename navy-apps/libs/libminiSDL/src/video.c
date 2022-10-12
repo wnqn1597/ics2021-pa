@@ -7,9 +7,9 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-				printf("blit\n");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+				printf("blit\n");
   int srcoffset, dstoffset, srcrecth, srcrectw, dstrecth, dstrectw;
   if(srcrect == NULL){
     srcoffset = 0; srcrecth = src->h; srcrectw = src->w;
@@ -21,6 +21,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   }else{
     dstoffset = dstrect->y * dst->w + dstrect->x; dstrecth = dstrect->h; dstrectw = dstrect->w;
   }
+	printf("%d--%d\n", src->flags, dst->flags);
   for(int i = 0; i < srcrecth; i++) {
     for(int j = 0; j < srcrectw; j++) {
       *(((uint32_t*)(dst->pixels)) + dstoffset + i*dst->w + j) = *(((uint32_t*)(src->pixels)) + srcoffset + i*src->w + j);
