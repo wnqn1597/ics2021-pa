@@ -9,7 +9,7 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 10000
+#define MAX_INSTR_TO_PRINT 100
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_instr = 0;
@@ -37,23 +37,24 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
   //TODO: watchpoint
-  //WP *now = get_head();
-  //while(now != NULL){
-  //  bool success;
-  //  int now_val = expr(now->expression, &success);
-  //  if(!success){
-  //    printf("Failed to handle the expression in NO %d", now->NO);
-  //    now = now->next;
-  //    continue;
-  //  }
-  //  if(now_val != now->pre_val){
-  //    printf("Stop at %s %d.\n", now->type == 0 ? "watchpoint":"breakpoint", now->NO);
-  //    printf("Old value: %d\nNew Value: %d\n", now->pre_val, now_val);
-  //    now->pre_val = now_val;
-  //    nemu_state.state = NEMU_STOP;
-  //  }
-  //  now = now->next;
-  //}
+
+  WP *now = get_head();
+  while(now != NULL){
+    bool success;
+    int now_val = expr(now->expression, &success);
+    if(!success){
+      printf("Failed to handle the expression in NO %d", now->NO);
+      now = now->next;
+      continue;
+    }
+    if(now_val != now->pre_val){
+      printf("Stop at %s %d.\n", now->type == 0 ? "watchpoint":"breakpoint", now->NO);
+      printf("Old value: %d\nNew Value: %d\n", now->pre_val, now_val);
+      now->pre_val = now_val;
+      nemu_state.state = NEMU_STOP;
+    }
+    now = now->next;
+  }
 }
 
 #include <isa-exec.h>
