@@ -42,6 +42,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+	printf("fillrect\n");
   if(dstrect == NULL){
     int i, j;
     for(i = 0; i < dst->h; i++) {
@@ -58,14 +59,17 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
       }
     }
   }
+	printf("fillrect finish\n");
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+	printf("update\n");
   int offset = y * s->w + x;
   int i;
   for(i = 0; i < h; i++) {
     NDL_DrawRect((uint32_t*)(s->pixels)+offset+i*s->w, x, y+i, w, 1);
   }
+	printf("update finish\n");
 }
 
 // APIs below are already implemented.
