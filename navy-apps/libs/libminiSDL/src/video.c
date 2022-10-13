@@ -83,13 +83,12 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 	//printf("update\n");
   int offset = y * s->w + x;
   int i;
-	uint32_t *pixels;
+	uint32_t pixels[400];
 	if(s->format->BitsPerPixel == 8){
 	for(i = 0; i < h; i++) {
-		pixels = malloc(400 * sizeof(uint32_t));
 		for(int j = 0; j < w; j++) {
 			uint8_t index = *((uint8_t*)(s->pixels)+offset+i*s->w+j);
-			*(pixels + j) = ((s->format->palette->colors)+index)->val;
+			pixels[j] = ((s->format->palette->colors)+index)->val;
 		}
     NDL_DrawRect(pixels, x, y+i, w, 1);
   }
@@ -101,7 +100,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 
 	}else assert(0);
   	//printf("update finish\n");
-	free(pixels);
 }
 
 // APIs below are already implemented.
