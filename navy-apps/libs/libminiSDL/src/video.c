@@ -20,12 +20,10 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   }else{
     dstoffset = dstrect->y * dst->w + dstrect->x; dstrecth = dstrect->h; dstrectw = dstrect->w;
   }
-	printf("%d--%d\n", src->format->BitsPerPixel, dst->format->BitsPerPixel);
-	if(src->flags == 64){
+	if(src->format->BitsPerPixel == 8){
   	for(int i = 0; i < srcrecth; i++) {
   	  for(int j = 0; j < srcrectw; j++) {
-				uint8_t index = *(((uint8_t*)(src->pixels)) + srcoffset + i*src->w + j);
-  	    *(((uint32_t*)(dst->pixels)) + dstoffset + i*dst->w + j) = ((src->format->palette->colors)+index)->val;
+  	    *(((uint8_t*)(dst->pixels)) + dstoffset + i*dst->w + j) = *(((uint8_t*)(src->pixels)) + srcoffset + i*src->w + j);
   	  }
   	}
 	
