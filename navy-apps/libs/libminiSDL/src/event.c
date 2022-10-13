@@ -1,5 +1,6 @@
 #include <NDL.h>
 #include <SDL.h>
+#include <string.h>
 
 #define keyname(k) #k,
 
@@ -33,6 +34,13 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
   return 0;
 }
 
+static uint8_t keyStates[256] = {};
+
 uint8_t* SDL_GetKeyState(int *numkeys) {
-  return NULL;
+	memset(keyStates, 0, 256 * sizeof(uint8_t));
+	SDL_Event ev;
+	SDL_PollEvent(&ev);
+	printf("get keyStates %d\n", ev.key.keysym.sym);
+	return keyStates;
+  //return NULL;
 }
