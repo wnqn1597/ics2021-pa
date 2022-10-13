@@ -40,9 +40,7 @@ static uint8_t keyStates[256] = {};
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
 	memset(keyStates, 0, 256 * sizeof(uint8_t));
-	SDL_Event ev;
-	SDL_PollEvent(&ev);
-	//printf("get keyStates %d\n", ev.key.keysym.sym);
+	printf("get keyStates\n");
 	return keyStates;
   //return NULL;
 }
