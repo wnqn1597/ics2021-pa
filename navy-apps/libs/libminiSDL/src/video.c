@@ -20,7 +20,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   }else{
     dstoffset = dstrect->y * dst->w + dstrect->x; dstrecth = dstrect->h; dstrectw = dstrect->w;
   }
-	//printf("%d--%d\n", src->flags, dst->flags);
+	printf("%d--%d\n", src->format->BitsPerPixel, dst->format->BitsPerPixel);
 	if(src->flags == 64){
   	for(int i = 0; i < srcrecth; i++) {
   	  for(int j = 0; j < srcrectw; j++) {
