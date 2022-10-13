@@ -19,7 +19,7 @@ int SDL_PollEvent(SDL_Event *ev) {
   if(key_val == 0) return 0;
   ev->type = (key_val > 0x7fff) ? 0 : 1;
   ev->key.keysym.sym = key_val & 0x7fff;
-	printf("poll %d %d\n", ev->key.keysym.sym, ev->type);
+	printf("poll %d-%d\n", ev->key.keysym.sym, ev->type);
   return 1;
 }
 
