@@ -27,46 +27,74 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   	  }
   	}
 	
-	}else{
+	}else if(src->format->BitsPerPixel == 32){
   	for(int i = 0; i < srcrecth; i++) {
   	  for(int j = 0; j < srcrectw; j++) {
   	    *(((uint32_t*)(dst->pixels)) + dstoffset + i*dst->w + j) = *(((uint32_t*)(src->pixels)) + srcoffset + i*src->w + j);
   	  }
   	}
 	
-	}
+	}else assert(0);
 	//printf("blit finish\n");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-	//printf("fillrect\n");
-  if(dstrect == NULL){
-    int i, j;
-    for(i = 0; i < dst->h; i++) {
-      for(j = 0; j < dst->w; j++) {
-        *((uint32_t*)dst->pixels + i*dst->w + j) = color;
-      }
-    }
-  }else{
-    int offset = dstrect->y * dst->w + dstrect->x;
-    int i, j;
-    for(i = 0; i < dstrect->h; i++) {
-      for(j = 0; j < dstrect->w; j++) {
-        *((uint32_t*)dst->pixels + offset + i*dst->w + j) = color;
-      }
-    }
-  }
-	//printf("fillrect finish\n");
+	if(dst->format->BitsPerPixel == 8){
+		if(dstrect == NULL){
+  	  int i, j;
+  	  for(i = 0; i < dst->h; i++) {
+  	    for(j = 0; j < dst->w; j++) {
+  	      *((uint8_t*)dst->pixels + i*dst->w + j) = (uint8_t)color;
+  	    }
+  	  }
+  	}else{
+  	  int offset = dstrect->y * dst->w + dstrect->x;
+  	  int i, j;
+  	  for(i = 0; i < dstrect->h; i++) {
+  	    for(j = 0; j < dstrect->w; j++) {
+  	      *((uint8_t*)dst->pixels + offset + i*dst->w + j) = (uint8_t)color;
+  	    }
+  	  }
+  	}
+
+	}else if(dst->format->BitsPerPixel == 32){
+		if(dstrect == NULL){
+  	  int i, j;
+  	  for(i = 0; i < dst->h; i++) {
+  	    for(j = 0; j < dst->w; j++) {
+  	      *((uint32_t*)dst->pixels + i*dst->w + j) = color;
+  	    }
+  	  }
+  	}else{
+  	  int offset = dstrect->y * dst->w + dstrect->x;
+  	  int i, j;
+  	  for(i = 0; i < dstrect->h; i++) {
+  	    for(j = 0; j < dstrect->w; j++) {
+  	      *((uint32_t*)dst->pixels + offset + i*dst->w + j) = color;
+  	    }
+  	  }
+  	}
+
+	}else assert(0);
+  	//printf("fillrect finish\n");
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 	//printf("update\n");
   int offset = y * s->w + x;
   int i;
-  for(i = 0; i < h; i++) {
+	if(s->format->BitsPerPixel == 8){
+	for(i = 0; i < h; i++) {
+    NDL_DrawRect((uint8_t*)(s->pixels)+offset+i*s->w, x, y+i, w, 1);
+  }
+
+	}else if(s->format->BitsPerPixel == 32){
+	for(i = 0; i < h; i++) {
     NDL_DrawRect((uint32_t*)(s->pixels)+offset+i*s->w, x, y+i, w, 1);
   }
-	//printf("update finish\n");
+
+	}else assert(0);
+  	//printf("update finish\n");
 }
 
 // APIs below are already implemented.
