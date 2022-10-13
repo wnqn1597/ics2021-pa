@@ -10,13 +10,13 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 static int fb_w = 0, fb_h = 0, fb_x = 0, fb_y = 0;
+static const char *name = "/dev/events";
 
 uint32_t NDL_GetTicks() {
   return (_syscall_(19, 0, 0, 0) / 1000);
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  const char *name = "/dev/events";
   int fd = _syscall_(2, (intptr_t)name, 0, 0);
   return _syscall_(3, fd, (intptr_t)buf, len);
 }
