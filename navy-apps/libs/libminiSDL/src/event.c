@@ -1,9 +1,6 @@
 #include <NDL.h>
 #include <SDL.h>
 
-#include <string.h>
-#include <assert.h>
-
 #define keyname(k) #k,
 
 static const char *keyname[] = {
@@ -23,18 +20,18 @@ int SDL_PollEvent(SDL_Event *ev) {
   if(key_val == 0) return 0;
   ev->type = (key_val > 0x7fff) ? 0 : 1;
   ev->key.keysym.sym = key_val & 0x7fff;
-	//printf("poll %d-%d\n", ev->key.keysym.sym, ev->type);
 	keyStates[ev->key.keysym.sym] = ev->type ? 0 : 1;
   return 1;
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
-	printf("SDL_WaitEvent Not Implement yet.\n");
-	assert(0);
   char buf[10];
-  int key_val = NDL_PollEvent(buf, 10);
-  event->type = (key_val > 0x7fff) ? 0 : 1;
-  event->key.keysym.sym = key_val & 0x7fff;
+	int key_val;
+	do{
+  	key_val = NDL_PollEvent(buf, 10);
+  	event->type = (key_val > 0x7fff) ? 0 : 1;
+  	event->key.keysym.sym = key_val & 0x7fff;
+	}while(key_val == 0);
   return 1;
 }
 
