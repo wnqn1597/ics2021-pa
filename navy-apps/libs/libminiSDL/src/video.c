@@ -35,7 +35,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   	}
 	
 	}else assert(0);
-	//printf("blit finish\n");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -76,11 +75,9 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   	}
 
 	}else assert(0);
-  	//printf("fillrect finish\n");
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-	//printf("update\n");
   int offset = y * s->w + x;
   int i;
 	uint32_t pixels[400];
@@ -99,7 +96,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
 
 	}else assert(0);
-  	//printf("update finish\n");
 }
 
 // APIs below are already implemented.
@@ -120,7 +116,6 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
   assert(depth == 8 || depth == 32);
   SDL_Surface *s = malloc(sizeof(SDL_Surface));
   assert(s);
-	printf("flags=%d\n", flags);
 
   s->flags = flags;
   s->format = malloc(sizeof(SDL_PixelFormat));
