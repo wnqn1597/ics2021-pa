@@ -21,7 +21,7 @@ int SDL_PollEvent(SDL_Event *ev) {
   if(key_val == 0) return 0;
   ev->type = (key_val > 0x7fff) ? 0 : 1;
   ev->key.keysym.sym = key_val & 0x7fff;
-	printf("poll %d-%d\n", ev->key.keysym.sym, ev->type);
+	//printf("poll %d-%d\n", ev->key.keysym.sym, ev->type);
   return 1;
 }
 
@@ -43,6 +43,10 @@ static uint8_t keyStates[256] = {};
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
 	memset(keyStates, 0, 256 * sizeof(uint8_t));
+	SDL_Event ev;
+	SDL_PollEvent(&ev);
+
+	printf("poll %d-%d\n", ev.key.keysym.sym, ev.type);
 	printf("get keyStates\n");
 	return keyStates;
   //return NULL;
