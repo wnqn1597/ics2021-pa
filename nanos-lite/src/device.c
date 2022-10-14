@@ -20,7 +20,7 @@ void* get_finfo(int index, int property);
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   
-  yield();	
+  //yield();	
 	
   int i;
   for(i = 0; i < len; i++) putch(*((char*)buf + i));
