@@ -104,12 +104,13 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 }
 
 void init_proc() {
-  char *arr[] = {"/bin/pal", "1", NULL};
+  char *argv[] = {"/bin/pal", "skip", NULL};
+	char *envs[] = {"hello", "sdlpal"};
 
   context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
   //context_uload(&pcb[0], "/bin/hello", NULL, NULL);
-  context_uload(&pcb[1], "/bin/pal", arr, NULL);
+  context_uload(&pcb[1], "/bin/pal", argv, envs);
   
   switch_boot_pcb();
 

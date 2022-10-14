@@ -29,13 +29,10 @@ void call_main(uintptr_t *args) {
       printf("env %d: %s\n", i, ptr);
       ustart++;
   }
-	char *empty[] = {NULL};
-	environ = empty;
-	//printf("args:\n");
-  //for(int i = 0; arg_buf[i] != NULL; i++) printf("%s\n", arg_buf[i]);
-  //printf("envs:\n");
-  //for(int i = 0; env_buf[i] != NULL; i++) printf("%s\n", env_buf[i]);
-  exit(main(0, empty, empty));
+	//char *empty[] = {NULL};
+	//environ = empty;
+
+  exit(main(*args, args+1, args+(*args)+2));
   assert(0);
 }
 
