@@ -84,27 +84,27 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 }
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
-  void *upage_start = new_page(8);	
-  this_pcb->as.area.start = upage_start;
-  this_pcb->as.area.end = upage_start + 8*4096;
-  //this_pcb->as.area.start = (void*)this_pcb;
-  //this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
+  //void *upage_start = new_page(8);	
+  //this_pcb->as.area.start = upage_start;
+  //this_pcb->as.area.end = upage_start + 8*4096;
+  this_pcb->as.area.start = (void*)this_pcb;
+  this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   void *entry = (void*)loader(this_pcb, filename);
   Area kstack = {.end = (void*)this_pcb + 8*4096};
-  this_pcb->cp = ucontext(&this_pcb->as, kstack, entry);
+  this_pcb->cp = ucontext(NULL, kstack, entry);
   
-  void *argc_ptr = set_mainargs(&this_pcb->as, argv, envp);
-  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
-  //this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
+  //void *argc_ptr = set_mainargs(&this_pcb->as, argv, envp);
+  //this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
+  this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
 }
 
 void init_proc() {
   //char *arr[] = {"/bin/exec-test", "1", NULL};
 
   context_kload(&pcb[0], hello_fun, 2);
-  context_kload(&pcb[1], hello_fun, 3);
+  //context_kload(&pcb[1], hello_fun, 3);
   //context_uload(&pcb[0], "/bin/exec-test", arr, NULL);
-  //context_uload(&pcb[1], "/bin/exec-test", arr, NULL);
+  context_uload(&pcb[1], "/bin/pal", NULL, NULL);
   
   switch_boot_pcb();
 
