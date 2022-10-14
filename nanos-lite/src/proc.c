@@ -79,6 +79,7 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
   this_pcb->as.area.start = (void*)this_pcb;
   this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
   this_pcb->cp = kcontext(this_pcb->as.area, entry, arg);
+	this_pcb->cp->GPRx = (uintptr_t)this_pcb->as.area.end;
 }
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
