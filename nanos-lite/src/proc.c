@@ -110,9 +110,16 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  //hello_fun(1);
+  hello_fun(1);
+	
+
+	// The Following codes work in PA3
+	/*
+	switch_boot_pcb();
+	Log("Initializing processes...");
   // load program here
   naive_uload(NULL, "/bin/menu");
+	*/
 }
 
 Context* schedule(Context *prev) {
