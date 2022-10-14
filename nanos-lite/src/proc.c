@@ -104,7 +104,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 }
 
 void init_proc() {
-  char *argv[] = {"/bin/pal", "skip", NULL};
+  char *argv[] = {"/bin/exec-test", "skip", NULL};
 	char *envs[] = {"hello", "sdlpal"};
 
   //context_kload(&pcb[0], hello_fun, 2);
