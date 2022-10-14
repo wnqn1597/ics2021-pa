@@ -14,9 +14,7 @@ void display_context(Context *c, int index) {
   if(index >= 0){
     printf("%d\t%x\n", index, *((uint32_t*)c+index));
   }else {
-    for(int i = 0; i < 36; i++){
-      printf("%d\t%x\n", i, *((uint32_t*)c+i));
-    }
+    for(int i = 0; i < 36; i++) printf("%d\t%x\n", i, *((uint32_t*)c+i));
   }
 }
 
@@ -25,7 +23,7 @@ PCB* get_pcb(int index){
   return &pcb[index];
 }
 
-uint32_t len(char *const arr[]) {
+static uint32_t len(char *const arr[]) {
     if(arr == NULL) return 0;
     uint32_t ret;
     for(ret = 0;; ret++) {
@@ -87,15 +85,21 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   //void *upage_start = new_page(8);	
   //this_pcb->as.area.start = upage_start;
   //this_pcb->as.area.end = upage_start + 8*4096;
-  //this_pcb->as.area.start = (void*)this_pcb;
-  //this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
-  void *entry = (void*)loader(this_pcb, filename);
+
+	void *entry = (void*)loader(this_pcb, filename);
   Area kstack = {.end = (void*)this_pcb + 8*4096};
   this_pcb->cp = ucontext(NULL, kstack, entry);
-  
-  //void *argc_ptr = set_mainargs(&this_pcb->as, argv, envp);
-  //this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
+  AddrSpace as = {.area.end = heap.end};
+  void *argc_ptr = set_mainargs(&as, argv, envp); // *(uint32_t*)argc_ptr = argc
+  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;	
+
+	// The Following codes work without arguments
+	/*
+	void *entry = (void*)loader(this_pcb, filename);
+  Area kstack = {.end = (void*)this_pcb + 8*4096};
+  this_pcb->cp = ucontext(NULL, kstack, entry);
   this_pcb->cp->GPRx = (uintptr_t)heap.end; // heap.end = 0x88000000
+	*/
 }
 
 void init_proc() {
