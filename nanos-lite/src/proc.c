@@ -102,7 +102,7 @@ void init_proc() {
   //char *arr[] = {"/bin/exec-test", "1", NULL};
 
   context_kload(&pcb[0], hello_fun, 2);
-  //context_kload(&pcb[1], hello_fun, 3);
+  context_kload(&pcb[1], hello_fun, 3);
   //context_uload(&pcb[0], "/bin/exec-test", arr, NULL);
   //context_uload(&pcb[1], "/bin/exec-test", arr, NULL);
   
@@ -124,8 +124,8 @@ void init_proc() {
 
 Context* schedule(Context *prev) {
   current->cp = prev;
-  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-	current = &pcb[0];
-  printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+
+  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   return current->cp;
 }
