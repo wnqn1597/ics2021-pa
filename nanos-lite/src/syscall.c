@@ -72,7 +72,8 @@ void sys_execve(Context *c, char *filename, char **exec_argv, char **envp) {
   printf("sys_execve\n");
   PCB *new_pcb = (current == get_pcb(0) ? get_pcb(1) : get_pcb(0));
   context_uload(new_pcb, filename, exec_argv, envp);
-	// TODO: yield 
+	// TODO: YIELD
+	printf("here\n"); 
   c->GPRx = (uintptr_t)c;
 }
 
