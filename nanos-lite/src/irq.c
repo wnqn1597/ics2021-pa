@@ -18,7 +18,6 @@ static Context* do_event(Event e, Context* c) {
     default: panic("Unhandled event ID = %d", e.event);
   }
   do_syscall(c);
-	if(c->GPR1 == 13) printf("haha\n");
   return c;
 }
 
