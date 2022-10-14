@@ -95,8 +95,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   
   //void *argc_ptr = set_mainargs(&this_pcb->as, argv, envp);
   //this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
-  this_pcb->cp->GPRx = (uintptr_t)((uint8_t*)heap.end - 4 * 36);
-	printf("heap.end = %p\n", heap.end);
+  this_pcb->cp->GPRx = (uintptr_t)heap.end; // heap.end = 0x88000000
 }
 
 void init_proc() {
