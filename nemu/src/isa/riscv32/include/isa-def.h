@@ -2,6 +2,7 @@
 #define __ISA_RISCV32_H__
 
 #include <common.h>
+#include <isa.h>
 
 typedef struct {
   struct {
@@ -72,8 +73,5 @@ typedef struct {
 
 //#define isa_mmu_check(vaddr, len, type) (MMU_DIRECT)
 
-//int isa_mmu_check(vaddr_t vaddr, int len, int type){
-//	return MMU_DIRECT;
-//}
 
 #endif
