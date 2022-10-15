@@ -34,7 +34,6 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   for (i = 0; i < LENGTH(segments); i ++) {
     void *va = segments[i].start;
     for (; va < segments[i].end; va += PGSIZE) {
-		  printf("%p\n", va);
 			map(&kas, va, va, 0);
     }
   }
@@ -116,7 +115,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 		pdirPTE.v = 1;
 		*(pdirBase + vaddr.vpn1) = pdirPTE.val;
 	}else{
-		printf("Overwrite pageDirectory\n");
+		//printf("Overwrite pageDirectory\n");
 	}
 	
 	uint32_t *ptabBase = (uint32_t*)(pdirPTE.ppn << 12);
