@@ -10,7 +10,6 @@ void* new_page(size_t nr_page) {
     pf = ret;
     return NULL;
   }
-	printf("ret = %p\n", ret);
   return ret;
 }
 
