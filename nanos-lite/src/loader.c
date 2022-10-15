@@ -37,9 +37,10 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 			size_t rptr = offset + phdr[i].p_offset;
 			int size = phdr[i].p_memsz + phdr[i].p_vaddr - (phdr[i].p_vaddr & ~0xfff);
 			char *vptr = (char*)(phdr[i].p_vaddr & ~0xfff);
+			// FIXME: more precise read ramdisk
 			while(size > 0){
 				void *pptr = new_page(1);
-				printf("vptr=%p, pptr=%p\n", vptr, pptr);
+				//printf("vptr=%p, pptr=%p\n", vptr, pptr);
 				map(&(pcb->as), (void*)vptr, pptr, 0);
 				ramdisk_read((void*)vptr, rptr, PGSIZE);
 				rptr += PGSIZE;
