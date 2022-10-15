@@ -127,5 +127,4 @@ void init_fs() {
   i++;
   strncpy(height, (char*)buf+i, 10);
   file_table[FD_FB].size = atoi(width) * atoi(height) * 4;
-	Log("HERE");
 }
