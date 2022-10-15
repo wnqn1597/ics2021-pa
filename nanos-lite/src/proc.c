@@ -76,7 +76,7 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
 	protect(&(this_pcb->as));
-	//set_satp(this_pcb->as.ptr);
+	set_satp(this_pcb->as.ptr);
 	void *entry = (void*)loader(this_pcb, filename);
 	Area kstack = {.end = (void*)this_pcb + 8*4096};
 	this_pcb->cp = ucontext(&(this_pcb->as), kstack, entry);
