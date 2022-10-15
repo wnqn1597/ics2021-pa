@@ -29,7 +29,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgfree_usr = pgfree_f;
 
   kas.ptr = pgalloc_f(PGSIZE);
-	printf("kasptr = %p\n", kas.ptr);
+	printf("Start mapping\n");
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
     void *va = segments[i].start;
@@ -38,7 +38,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
 			map(&kas, va, va, 0);
     }
   }
-	printf("B\n");
+	printf("Finish\n");
   set_satp(kas.ptr);
   vme_enable = 1;
 
