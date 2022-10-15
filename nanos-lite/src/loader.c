@@ -17,7 +17,6 @@ int fs_close(int fd);
 void* get_finfo(int index, int property);
 
 uintptr_t loader(PCB *pcb, const char *filename) {
-	printf("ff\n");
   int fd = fs_open(filename, 0, 0);
   if(fd == -1 && filename != NULL){
     printf("%s doesn't exist!!!\n", filename); 
@@ -25,6 +24,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   }
   size_t offset = *((size_t*)get_finfo(fd, 2));
 
+	printf("ff\n");
   Elf_Ehdr ehdr;
   size_t bias = ramdisk_read(&ehdr, offset, sizeof(Elf_Ehdr));
   //size_t bias = ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
@@ -40,7 +40,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
     }
   }
   fs_close(fd);
-	printf("ff\n");
   return ehdr.e_entry;
 }
 
