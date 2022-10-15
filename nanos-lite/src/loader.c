@@ -35,8 +35,8 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 	for(int i = 0; i < ehdr.e_phnum; i++){
 		if(phdr[i].p_type == PT_LOAD){
 			size_t rptr = offset + phdr[i].p_offset;
-			int size = phdr[i].p_memsz;
-			char *vptr = (char*)phdr[i].p_vaddr;
+			int size = phdr[i].p_memsz + phdr[i].p_vaddr - (phdr[i].p_vaddr & ~0xfff);
+			char *vptr = (char*)(phdr[i].p_vaddr & ~0xfff);
 			while(size > 0){
 				void *pptr = new_page(1);
 				printf("vptr=%p, pptr=%p\n", vptr, pptr);
@@ -46,7 +46,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 				vptr += PGSIZE;
 				size -= PGSIZE;
 			}
-			printf("next\n");
       memset((void*)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
 		}
 	}
