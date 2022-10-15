@@ -31,7 +31,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, offset + bias, ehdr.e_phnum * sizeof(Elf_Phdr));
   //ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
-	printf("Load start\n");	
+	printf("Load start\n");
 	for(int i = 0; i < ehdr.e_phnum; i++){
 		if(phdr[i].p_type == PT_LOAD){
 			size_t rptr = offset + phdr[i].p_offset;
