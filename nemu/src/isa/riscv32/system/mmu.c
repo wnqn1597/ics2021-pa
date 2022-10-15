@@ -34,7 +34,5 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 		Log("MMU_TRANSLATE_ERROR");
 		return 0;
 	}
-	paddr_t ret = ((ptabPTE >> 10) << 12) | v.offs;
-	if(ret != vaddr) return 0;
-	return ret;
+	return ((ptabPTE >> 10) << 12) | v.offs;
 }

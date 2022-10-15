@@ -2,6 +2,39 @@
 #include <nemu.h>
 #include <klib.h>
 
+typedef union{
+	struct{
+		uint32_t offs : 12;
+		uint32_t vpn0 : 10;
+		uint32_t vpn1 : 10;
+	};
+	uint32_t val;
+}Vaddr;
+
+typedef union{
+	struct{
+		uint32_t offs : 12;
+		uint32_t ppn  : 20;
+	};
+	uint32_t val;
+}Paddr;
+
+typedef union{
+	struct{
+		uint32_t v	 : 1;
+		uint32_t r	 : 1;
+		uint32_t w	 : 1;
+		uint32_t x	 : 1;
+		uint32_t u	 : 1;
+		uint32_t g	 : 1;
+		uint32_t a	 : 1;
+		uint32_t d	 : 1;
+		uint32_t rsw : 2;
+		uint32_t ppn : 22;
+	};
+	uint32_t val;
+}PageTableEntry;
+
 static AddrSpace kas = {};
 static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;
@@ -65,39 +98,6 @@ void __am_switch(Context *c) {
     set_satp(c->pdir);
   }
 }
-
-typedef union{
-	struct{
-		uint32_t offs : 12;
-		uint32_t vpn0 : 10;
-		uint32_t vpn1 : 10;
-	};
-	uint32_t val;
-}Vaddr;
-
-typedef union{
-	struct{
-		uint32_t offs : 12;
-		uint32_t ppn  : 20;
-	};
-	uint32_t val;
-}Paddr;
-
-typedef union{
-	struct{
-		uint32_t v	 : 1;
-		uint32_t r	 : 1;
-		uint32_t w	 : 1;
-		uint32_t x	 : 1;
-		uint32_t u	 : 1;
-		uint32_t g	 : 1;
-		uint32_t a	 : 1;
-		uint32_t d	 : 1;
-		uint32_t rsw : 2;
-		uint32_t ppn : 22;
-	};
-	uint32_t val;
-}PageTableEntry;
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
 	Vaddr vaddr = {.val = (uintptr_t)va};
