@@ -66,16 +66,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   return sprintf(buf, "WIDTH:%d\nHEIGHT:%d\n", width, height);
 }
 
-static int count = 0;
-
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  
-  if(count <= 500) count++;
-	else{
-		count = 0;
-		yield();
-	}
-  
   uint32_t *fb = get_fb();
   uint32_t size = *((uint32_t*)get_finfo(5, 1));
   uint32_t *open_offset = (uint32_t*)get_finfo(5, 5);
