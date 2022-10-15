@@ -107,9 +107,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 		printf("Unequivlent offset\n");
 		return;
 	}
-	printf("go to dir ");
+	
 	uint32_t *pdirBase = (uint32_t*)as->ptr;
-	printf("%p\n", pdirBase);
 	PageTableEntry pdirPTE = {.val = *(pdirBase + vaddr.vpn1)};
 	if(pdirPTE.v == 0){
 		uint32_t newPTabBase = (uint32_t)(uintptr_t)pgalloc_usr(PGSIZE);
@@ -119,7 +118,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 	}else{
 		printf("Overwrite pageDirectory\n");
 	}
-	printf("go to table\n");
+	
 	uint32_t *ptabBase = (uint32_t*)(pdirPTE.ppn << 12);
 	PageTableEntry ptabPTE = {.val = *(ptabBase + vaddr.vpn0)};
 	if(ptabPTE.v == 0){
