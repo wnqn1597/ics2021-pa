@@ -39,7 +39,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 			char *vptr = (char*)phdr[i].p_vaddr;
 			while(size > 0){
 				void *pptr = new_page(1);
-				printf("vptr=%p, pptr=%p\n", vptr, pptr);
+				//printf("vptr=%p, pptr=%p\n", vptr, pptr);
 				map(&(pcb->as), (void*)vptr, pptr, 0);
 				ramdisk_read((void*)vptr, rptr, PGSIZE);
 				rptr += PGSIZE;
