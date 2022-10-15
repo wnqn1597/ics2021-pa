@@ -26,6 +26,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 	printf("%p\n", pdirBase);
 	Vaddr v = {.val = vaddr};
 	uint32_t pdirPTE = *(pdirBase + v.vpn1);
+	printf("%08x\n", pdirPTE);
 	if((pdirPTE & 0x1) == 0){
 		Log("MMU_TRANSLATE_ERROR");
 		return 0;
