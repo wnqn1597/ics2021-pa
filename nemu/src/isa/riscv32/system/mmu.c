@@ -23,6 +23,7 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   uint32_t *pdirBase = (uint32_t*)(uintptr_t)((*get_csr(0x180)) << 12);
+	printf("%p\n", pdirBase);
 	Vaddr v = {.val = vaddr};
 	uint32_t pdirPTE = *(pdirBase + v.vpn1);
 	if((pdirPTE & 0x1) == 0){
