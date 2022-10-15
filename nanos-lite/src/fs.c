@@ -114,7 +114,8 @@ int fs_lseek(int fd, size_t offset, int whence) {
 }
 
 void init_fs() {
-  // TODO: initialize the size of /dev/fb
+  // TODO: initialize the size of /dev/fb 
+	Log("HERE");
   char buf[20];
   (file_table[6].read)(buf, 0, 0);
   
