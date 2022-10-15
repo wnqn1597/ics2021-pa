@@ -107,8 +107,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 		printf("Unequivlent offset\n");
 		return;
 	}
-	printf("go to dir\n");
+	printf("go to dir ");
 	uint32_t *pdirBase = (uint32_t*)as->ptr;
+	printf("%p\n", pdirBase);
 	PageTableEntry pdirPTE = {.val = *(pdirBase + vaddr.vpn1)};
 	if(pdirPTE.v == 0){
 		uint32_t newPTabBase = (uint32_t)(uintptr_t)pgalloc_usr(PGSIZE);
