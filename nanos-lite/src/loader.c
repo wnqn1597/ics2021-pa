@@ -40,6 +40,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
     }
   }
   fs_close(fd);
+	printf("ff\n");
   return ehdr.e_entry;
 }
 
