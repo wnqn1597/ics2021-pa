@@ -13,9 +13,12 @@ typedef union{
 
 int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   uint32_t satp_val = *(get_csr(0x180));
-	//printf("hello\n");
-  if((satp_val >> 31) == 1) return MMU_TRANSLATE;
-  else return MMU_DIRECT;
+  if((satp_val >> 31) == 1) {
+		printf("TR\n");
+		return MMU_TRANSLATE;
+	}else{
+		return MMU_DIRECT;
+	}
 }
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
