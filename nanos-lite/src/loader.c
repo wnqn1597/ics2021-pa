@@ -17,7 +17,7 @@ int fs_close(int fd);
 void* get_finfo(int index, int property);
 
 uintptr_t loader(PCB *pcb, const char *filename) {
-
+	printf("ff\n");
   int fd = fs_open(filename, 0, 0);
   if(fd == -1 && filename != NULL){
     printf("%s doesn't exist!!!\n", filename); 
