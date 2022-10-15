@@ -10,14 +10,6 @@ void naive_uload(PCB *pcb, const char *filename);
 
 uintptr_t loader(PCB *pcb, const char *filename);
 
-void display_context(Context *c, int index) {
-  if(index >= 0){
-    printf("%d\t%x\n", index, *((uint32_t*)c+index));
-  }else {
-    for(int i = 0; i < 36; i++) printf("%d\t%x\n", i, *((uint32_t*)c+i));
-  }
-}
-
 PCB* get_pcb(int index){
   if(index < 0 || index >= MAX_NR_PROC) return NULL;
   return &pcb[index];
@@ -32,7 +24,7 @@ static uint32_t len(char *const arr[]) {
     return ret;
 }
 
-void* set_mainargs(AddrSpace *as, char *const argv[], char *const envp[]){
+static void* set_mainargs(AddrSpace *as, char *const argv[], char *const envp[]){
     uint32_t argc = len(argv); uint32_t n = len(envp);
     uint32_t pe[n+1]; uint32_t pa[argc+1];
 
@@ -116,7 +108,8 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  hello_fun(1);
+	// boot thread
+  yield();
 	
 
 	// The Following codes work in PA3
