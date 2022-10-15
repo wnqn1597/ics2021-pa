@@ -108,10 +108,6 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-	// boot thread
-  yield();
-	
-
 	// The Following codes work in PA3
 	/*
 	switch_boot_pcb();
