@@ -108,12 +108,14 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 	}
 	
 	uint32_t *pdirBase = (uint32_t*)as->ptr;
+	printf("pdirBase = %p\n", pdirBase);
 	PageTableEntry pdirPTE = {.val = *(pdirBase + vaddr.vpn1)};
 	if(pdirPTE.v == 0){
 		uint32_t newPTabBase = (uint32_t)(uintptr_t)pgalloc_usr(PGSIZE);
 		pdirPTE.ppn = (newPTabBase >> 12);
 		pdirPTE.v = 1;
 		*(pdirBase + vaddr.vpn1) = pdirPTE.val;
+		printf("vpn1 = %08x ", vaddr.vpn1);
 		printf("map at %p, val = %08x\n", pdirBase+vaddr.vpn1, pdirPTE.val);
 	}else{
 		//printf("Overwrite pageDirectory\n");
