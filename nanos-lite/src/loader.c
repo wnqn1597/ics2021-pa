@@ -32,16 +32,35 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read(phdr, offset + bias, ehdr.e_phnum * sizeof(Elf_Phdr));
   //ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
 	
+	for(int i = 0; i < ehdr.e_phnum; i++){
+		if(phdr[i].p_type == PT_LOAD){
+			size_t rptr = offset + phdr[i].p_offset;
+			int size = phdr[i].p_memsz;
+			char *vptr = (char*)phdr[i].p_vaddr;
+			while(size > 0){
+				void *pptr = new_page(1);
+				map(&(pcb->as), (void*)vptr, pptr, 0);
+				ramdisk_read((void*)vptr, rptr, PGSIZE);
+				rptr += PGSIZE;
+				vptr += PGSIZE;
+				size -= PGSIZE;
+			}
 
+      memset((void*)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
+		}
+	}
 
+	// The Following Codes work without Page
+  /*
   for(int i = 0; i < ehdr.e_phnum; i++) {
     if(phdr[i].p_type == PT_LOAD) {
-			printf("proc %p\n", (void*)phdr[i].p_vaddr);
       ramdisk_read((void*)phdr[i].p_vaddr, offset + phdr[i].p_offset, phdr[i].p_memsz);
       memset((void*)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
     }
   }
+	*/
   fs_close(fd);
+	printf("Load success.\n");
   return ehdr.e_entry;
 }
 

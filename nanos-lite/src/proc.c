@@ -75,12 +75,16 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 }
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
-	//AddrSpace as;
-	//protect(&as);
-
+	protect(&(this_pcb->as));
+	void *entry = (void*)loader(this_pcb, filename);
+	Area kstack = {.end = (void*)this_pcb + 8*4096};
+	this_pcb->cp = ucontext(&(this_pcb->as), kstack, entry);
+  void *argc_ptr = set_mainargs(&(this_pcb->as), argv, envp); // *(uint32_t*)argc_ptr = argc
+  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;	
 
 	  
-	// The Following codes work with arguments
+	// The Following codes work with arguments without Page
+	/*
 	void *entry = (void*)loader(this_pcb, filename);
   Area kstack = {.end = (void*)this_pcb + 8*4096};
   this_pcb->cp = ucontext(NULL, kstack, entry);
@@ -88,6 +92,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
   AddrSpace as = {.area.start = upage_start, .area.end = upage_start + 8*4096}; //{.area.end = heap.end};
   void *argc_ptr = set_mainargs(&as, argv, envp); // *(uint32_t*)argc_ptr = argc
   this_pcb->cp->GPRx = (uintptr_t)argc_ptr;	
+	*/
 
 	// The Following codes work without arguments
 	/*
