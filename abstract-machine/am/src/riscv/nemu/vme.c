@@ -114,8 +114,6 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 		pdirPTE.ppn = (newPTabBase >> 12);
 		pdirPTE.v = 1;
 		*(pdirBase + vaddr.vpn1) = pdirPTE.val;
-		printf("vpn1 = %08x ", vaddr.vpn1);
-		printf("map at %p, val = %08x\n", pdirBase+vaddr.vpn1, pdirPTE.val);
 	}else{
 		//printf("Overwrite pageDirectory\n");
 	}

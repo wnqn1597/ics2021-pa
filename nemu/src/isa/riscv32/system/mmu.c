@@ -22,19 +22,15 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
 }
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-	printf("vaddr = %08x\n", vaddr);
   uint32_t *pdirBase = (uint32_t*)(uintptr_t)((*get_csr(0x180)) << 12);
-	printf("pdirBase = %p, ", pdirBase);
 	Vaddr v = {.val = vaddr};
-	printf("vpn1 = %08x, &pdirPTE = %p\n", v.vpn1, pdirBase + v.vpn1);
-	uint32_t pdirPTE = *(pdirBase + v.vpn1);
-	printf("%08x\n", pdirPTE);
+	uint32_t pdirPTE = paddr_read((uintptr_t)(pdirBase + v.vpn1), 4);
 	if((pdirPTE & 0x1) == 0){
 		Log("MMU_TRANSLATE_ERROR");
 		return 0;
 	}
 	uint32_t *ptabBase = (uint32_t*)(uintptr_t)((pdirPTE >> 10) << 12);
-	uint32_t ptabPTE = *(ptabBase + v.vpn0);
+	uint32_t ptabPTE = paddr_read((uintptr_t)(ptabBase + v.vpn0), 4);
 	if((ptabPTE & 0x1) == 0){
 		Log("MMU_TRANSLATE_ERROR");
 		return 0;
