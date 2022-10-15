@@ -74,12 +74,21 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 	this_pcb->cp->GPRx = (uintptr_t)this_pcb->as.area.end;
 }
 
+//static void map_ustack(AddrSpace *as){
+//	for(int i = 1; i <= 8; i++){
+//		void *pptr = new_page(1);
+//		map(as, as->area.end - i*PGSIZE, pptr, 0);
+//	}
+//}
+
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
 	protect(&(this_pcb->as));
 	set_satp(this_pcb->as.ptr);
 	void *entry = (void*)loader(this_pcb, filename);
-	Area kstack = {.end = (void*)this_pcb + 8*4096};
+	Area kstack = {.start = (void*)this_pcb, .end = (void*)this_pcb + 8*PGSIZE};
+	//map_ustack(&(this_pcb->as));
 	this_pcb->cp = ucontext(&(this_pcb->as), kstack, entry);
+	printf("here\n");
   void *argc_ptr = set_mainargs(&(this_pcb->as), argv, envp); // *(uint32_t*)argc_ptr = argc
   this_pcb->cp->GPRx = (uintptr_t)argc_ptr;	
 
@@ -87,7 +96,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 	// The Following codes work with arguments without Page
 	/*
 	void *entry = (void*)loader(this_pcb, filename);
-  Area kstack = {.end = (void*)this_pcb + 8*4096};
+  Area kstack = {.end = (void*)this_pcb + 8*PGSIZE};
   this_pcb->cp = ucontext(NULL, kstack, entry);
   void *upage_start = new_page(8);	
   AddrSpace as = {.area.start = upage_start, .area.end = upage_start + 8*4096}; //{.area.end = heap.end};
@@ -98,7 +107,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 	// The Following codes work without arguments
 	/*
 	void *entry = (void*)loader(this_pcb, filename);
-  Area kstack = {.end = (void*)this_pcb + 8*4096};
+  Area kstack = {.end = (void*)this_pcb + 8*PGSIZE};
   this_pcb->cp = ucontext(NULL, kstack, entry);
   this_pcb->cp->GPRx = (uintptr_t)heap.end; // heap.end = 0x88000000
 	*/

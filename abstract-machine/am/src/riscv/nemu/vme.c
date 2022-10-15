@@ -131,6 +131,10 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
+	// Page
+	uint32_t *pdir = (uint32_t*)(kstack.end - 1 * 4);
+	*pdir = (uintptr_t)as->ptr;
+	
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);
   *mstatus_ptr = 0x1800;
