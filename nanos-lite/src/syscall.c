@@ -30,13 +30,12 @@ void sys_yield(Context *c) {
 
 void sys_brk(Context *c, intptr_t addr) {
   //printf("CALL BRK\n");
-  //c->GPRx = mm_brk(addr);
 	
 	char buf[20];
-	sprintf(buf, "%08x", (uint32_t)addr);
+	sprintf(buf, "%08x\n", (uint32_t)addr);
 	putstr(buf);
-	putch('\n');
-	c->GPRx = 0;
+
+	c->GPRx = mm_brk((uintptr_t)addr);
 }
 
 void sys_open(Context *c, const char *pathname, int flags, int mode) {
