@@ -18,7 +18,7 @@ PCB* get_pcb(int index);
 
 void sys_exit(Context *c) {
   printf("sys_exit\n");
-  //halt(c->GPRx);
+  halt(c->GPRx);
   c->GPRx = 1;
 }
 
