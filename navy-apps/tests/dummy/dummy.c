@@ -11,6 +11,6 @@
 
 int main() {
   //return _syscall_(SYS_yield, 0, 0, 0);
-	char *p = malloc(4);
+	char *p = sbrk(4);
 	return 0;
 }
