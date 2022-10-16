@@ -33,7 +33,7 @@ void sys_brk(Context *c, intptr_t addr) {
   //c->GPRx = mm_brk(addr);
 	
 	char buf[20];
-	sprintf(buf, "%d", (uint32_t)addr);
+	sprintf(buf, "%08x", (uint32_t)addr);
 	putstr(buf);
 	putch('\n');
 	c->GPRx = 0;
