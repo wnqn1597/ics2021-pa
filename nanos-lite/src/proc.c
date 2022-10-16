@@ -83,8 +83,10 @@ static void map_ustack(AddrSpace *as){
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
 	protect(&(this_pcb->as));
+	printf("set satp=%p\n", this_pcb->as.ptr);
 	set_satp(this_pcb->as.ptr);
 	void *entry = (void*)loader(this_pcb, filename);
+	printf("entry=%p\n", entry);
 	Area kstack = {.start = (void*)this_pcb, .end = (void*)this_pcb + 8*PGSIZE};
 	map_ustack(&(this_pcb->as));
 	this_pcb->cp = ucontext(&(this_pcb->as), kstack, entry);
@@ -118,7 +120,7 @@ void init_proc() {
 
   //context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[0], "/bin/dummy", argv, envs);
+  context_uload(&pcb[0], "/bin/pal", argv, envs);
   //context_uload(&pcb[1], "/bin/pal", argv, envs);
   
   switch_boot_pcb();
