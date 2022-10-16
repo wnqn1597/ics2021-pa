@@ -77,6 +77,7 @@ void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
 static void map_ustack(AddrSpace *as){
 	for(int i = 1; i <= 8; i++){
 		void *pptr = new_page(1);
+		printf("ustack vptr=%p, pptr=%p\n", as->area.end - i*PGSIZE, pptr);
 		map(as, as->area.end - i*PGSIZE, pptr, 0);
 	}
 }
@@ -91,7 +92,8 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 	map_ustack(&(this_pcb->as));
 	this_pcb->cp = ucontext(&(this_pcb->as), kstack, entry);
   void *argc_ptr = set_mainargs(&(this_pcb->as), argv, envp); // *(uint32_t*)argc_ptr = argc
-  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;	
+  this_pcb->cp->GPRx = (uintptr_t)argc_ptr;
+	printf("argc-ptr=%p\n", argc_ptr);	
 
 	  
 	// The Following codes work with arguments without Page
