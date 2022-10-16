@@ -84,7 +84,6 @@ static void map_ustack(AddrSpace *as){
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
 	protect(&(this_pcb->as));
-	printf("set satp=%p\n", this_pcb->as.ptr);
 	set_satp(this_pcb->as.ptr);
 	void *entry = (void*)loader(this_pcb, filename);
 	printf("entry=%p\n", entry);
