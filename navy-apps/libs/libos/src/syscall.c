@@ -57,7 +57,7 @@ void _exit(int status) {
   int ret = _syscall_(SYS_exit, status, 0, 0);
   if(ret == 1) {
     const char *base_filename = "/bin/menu";
-    _syscall_(SYS_execve, base_filename, NULL, NULL);
+    _syscall_(SYS_execve, (intptr_t)base_filename, 0, 0);
   }
   while(1);
 }
@@ -75,7 +75,7 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  intptr_t ret = _syscall_(SYS_brk, increment, 0, 0);
+  intptr_t ret = _syscall_(SYS_brk, brk + increment, 0, 0);
   //if(ret == 0) {
   //  intptr_t pre_brk = brk;
   //  brk += increment;
@@ -109,7 +109,7 @@ int _gettimeofday(struct timeval *tv, struct timezone *tz) {
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
-  return _syscall_(SYS_execve, fname, (intptr_t)argv, (intptr_t)envp);
+  return _syscall_(SYS_execve, (intptr_t)fname, (intptr_t)argv, (intptr_t)envp);
   //_exit(SYS_execve);
   //return 0;
 }
