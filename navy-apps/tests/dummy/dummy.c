@@ -1,5 +1,5 @@
 //#include <stdint.h>
-//#include <stdio.h>
+#include <stdio.h>
 #include <malloc.h>
 
 #ifdef __ISA_NATIVE__
@@ -11,6 +11,11 @@
 
 int main() {
   //return _syscall_(SYS_yield, 0, 0, 0);
-	char *c = (char*)malloc(4);
+	char *c = (char*)malloc(100);
+	for(int i = 0; i < 50; i++){
+		*(c+i) = 'a';
+	}
+	*(c+50)=0;
+	printf("%s\n", c);
 	return 0;
 }
