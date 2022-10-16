@@ -1,6 +1,5 @@
 //#include <stdint.h>
 //#include <stdio.h>
-#include <malloc.h>
 
 #ifdef __ISA_NATIVE__
 #error can not support ISA=native
@@ -11,6 +10,5 @@
 
 int main() {
   //return _syscall_(SYS_yield, 0, 0, 0);
-	char *p = sbrk(4);
 	return 0;
 }
