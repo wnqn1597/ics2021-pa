@@ -31,7 +31,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, offset + bias, ehdr.e_phnum * sizeof(Elf_Phdr));
   //ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
-	
 
 	//Log("Load start");
 	for(int i = 0; i < ehdr.e_phnum; i++){
@@ -48,6 +47,8 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 			}
 			ramdisk_read((void*)phdr[i].p_vaddr, offset + phdr[i].p_offset, phdr[i].p_memsz);
       memset((void*)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
+
+			// record the start of the user heap
 			if(phdr[i].p_vaddr + phdr[i].p_memsz > pcb->max_brk){
 				pcb->max_brk = phdr[i].p_vaddr + phdr[i].p_memsz;
 			}

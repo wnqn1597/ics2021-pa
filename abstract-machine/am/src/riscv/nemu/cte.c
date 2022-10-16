@@ -45,7 +45,7 @@ Context* __am_irq_handle(Context *c) {
 
 
 	// Page
-	__am_switch(c);
+	if(c->pdir != NULL) __am_switch(c);
 	//printf("Irq return context %p\n", c);
   return c;
 }
@@ -63,6 +63,10 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(uint32_t), uint32_t arg) {
+	// Page
+	uint32_t *pdir = (uint32_t*)(kstack.end - 1 * 4);
+	*pdir = 0;
+
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);
   uint32_t *arg_ptr = (uint32_t*)(kstack.end - 26 * 4); // a0

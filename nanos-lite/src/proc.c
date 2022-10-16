@@ -70,7 +70,7 @@ void hello_fun(uint32_t arg) {
 
 void context_kload(PCB *this_pcb, void (*entry)(uint32_t), uint32_t arg){
   this_pcb->as.area.start = (void*)this_pcb;
-  this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*4096);
+  this_pcb->as.area.end = (void*)(((uint8_t*)this_pcb) + 8*PGSIZE);
   this_pcb->cp = kcontext(this_pcb->as.area, entry, arg);
 	this_pcb->cp->GPRx = (uintptr_t)this_pcb->as.area.end;
 }
@@ -87,7 +87,7 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 
 	protect(&(this_pcb->as));
 	set_satp(this_pcb->as.ptr);
-	void *entry = (void*)loader(this_pcb, filename);
+	void *entry = (void*)loader(this_pcb, filename); // this_pcb->max_brk set at here
 	Area kstack = {.start = (void*)this_pcb, .end = (void*)this_pcb + 8*PGSIZE};
 	map_ustack(&(this_pcb->as));
 	this_pcb->cp = ucontext(&(this_pcb->as), kstack, entry);
@@ -119,10 +119,10 @@ void init_proc() {
   char *argv[] = {"/bin/exec-test", "skip", NULL};
 	char *envs[] = {"hello", "sdlpal"};
 
-  //context_kload(&pcb[0], hello_fun, 2);
+  context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[0], "/bin/pal", argv, envs);
-  //context_uload(&pcb[1], "/bin/pal", argv, envs);
+  //context_uload(&pcb[0], "/bin/pal", argv, envs);
+  context_uload(&pcb[1], "/bin/pal", argv, envs);
   
   switch_boot_pcb();
 

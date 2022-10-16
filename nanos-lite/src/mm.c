@@ -7,11 +7,11 @@ extern PCB *current;
 void* new_page(size_t nr_page) {
   void *ret = pf;
   pf += nr_page * PGSIZE;
-  //if((uintptr_t)pf > (uintptr_t)heap.end) {
-  //  printf("Insufficient memory.\n");
-  //  pf = ret;
-  //  return NULL;
-  //}
+  if((uintptr_t)pf > (uintptr_t)heap.end) {
+    printf("Insufficient memory.\n");
+    pf = ret;
+    return NULL;
+  }
   return ret;
 }
 
@@ -52,5 +52,4 @@ void init_mm() {
 #ifdef HAS_VME
   vme_init(pg_alloc, free_page);
 #endif
-	Log("Map Finish");
 }
