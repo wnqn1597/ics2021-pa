@@ -7,7 +7,6 @@ static PCB pcb_boot = {};
 PCB *current = NULL;
 
 void naive_uload(PCB *pcb, const char *filename);
-
 uintptr_t loader(PCB *pcb, const char *filename);
 
 PCB* get_pcb(int index){
@@ -83,6 +82,8 @@ static void map_ustack(AddrSpace *as){
 }
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
+
+
 	protect(&(this_pcb->as));
 	set_satp(this_pcb->as.ptr);
 	void *entry = (void*)loader(this_pcb, filename);
