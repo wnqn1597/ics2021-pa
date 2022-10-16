@@ -63,6 +63,7 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
+	printf("brk=%08x\n", brk);
   return _syscall_(SYS_open, (intptr_t)path, flags, mode);
   //_exit(SYS_open);
   //return 0;
