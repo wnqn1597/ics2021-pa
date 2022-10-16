@@ -31,7 +31,7 @@ void free_page(void *p) {
 int mm_brk(uintptr_t brk) {
 
 	char buf[20];
-	sprintf(buf, "%08x\n", (uint32_t)current->max_brk);
+	sprintf(buf, "mm%08x\n", (uint32_t)current->max_brk);
 	putstr(buf);
 	if(brk > current->max_brk){
 		if((current->max_brk & 0xfff) == 0){
