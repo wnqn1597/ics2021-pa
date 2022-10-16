@@ -33,13 +33,12 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   //ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
 	
 
-	Log("Load start");
+	//Log("Load start");
 	for(int i = 0; i < ehdr.e_phnum; i++){
 		if(phdr[i].p_type == PT_LOAD){
+			// Build the map
 			int size = phdr[i].p_memsz + phdr[i].p_vaddr - (phdr[i].p_vaddr & ~0xfff);
 			char *vptr = (char*)(phdr[i].p_vaddr & ~0xfff);
-
-			// build the map
 			while(size > 0){
 				void *pptr = new_page(1);
 				//printf("vptr=%p, pptr=%p\n", vptr, pptr);
@@ -62,7 +61,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   }
 	*/
   fs_close(fd);
-	Log("Load success.");
+	//Log("Load success.");
   return ehdr.e_entry;
 }
 

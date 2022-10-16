@@ -128,9 +128,6 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 		*(ptabBase + vaddr.vpn0) = ptabPTE.val;
 	}else{
 		printf("Overwrite pageTable\n");
-		ptabPTE.ppn = paddr.ppn;
-		ptabPTE.v = 1;
-		*(ptabBase + vaddr.vpn0) = ptabPTE.val;
 	}
 
 }
