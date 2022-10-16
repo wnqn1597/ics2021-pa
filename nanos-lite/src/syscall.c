@@ -30,11 +30,6 @@ void sys_yield(Context *c) {
 
 void sys_brk(Context *c, intptr_t addr) {
   //printf("CALL BRK\n");
-	
-	char buf[20];
-	sprintf(buf, "_end=%08x\n", (uint32_t)addr);
-	putstr(buf);
-
 	c->GPRx = mm_brk((uintptr_t)addr);
 }
 

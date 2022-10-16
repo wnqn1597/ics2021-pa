@@ -30,8 +30,8 @@ void free_page(void *p) {
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
 
-	char buf[20];
-	sprintf(buf, "mm%08x\n", (uint32_t)current->max_brk);
+	char buf[40];
+	sprintf(buf, "maxbrk=%08x, brk=%08x\n", (uint32_t)current->max_brk, (uint32_t)brk);
 	putstr(buf);
 	if(brk > current->max_brk){
 		if((current->max_brk & 0xfff) == 0){
