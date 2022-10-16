@@ -48,10 +48,9 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 			}
 			ramdisk_read((void*)phdr[i].p_vaddr, offset + phdr[i].p_offset, phdr[i].p_memsz);
       memset((void*)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
-			char buffer[20];
-			sprintf(buffer, "end=%08x\n", phdr[i].p_vaddr + phdr[i].p_memsz);
-			putstr(buffer);
-
+			if(phdr[i].p_vaddr + phdr[i].p_memsz > pcb->max_brk){
+				pcb->max_brk = phdr[i].p_vaddr + phdr[i].p_memsz;
+			}
 		}
 	}
 		

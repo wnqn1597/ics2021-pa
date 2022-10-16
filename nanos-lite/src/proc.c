@@ -84,7 +84,6 @@ static void map_ustack(AddrSpace *as){
 }
 
 void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char *const envp[]) {
-	this_pcb->max_brk = (uintptr_t)(&_end);
 
 	protect(&(this_pcb->as));
 	set_satp(this_pcb->as.ptr);
