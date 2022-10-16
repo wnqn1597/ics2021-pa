@@ -31,7 +31,9 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, offset + bias, ehdr.e_phnum * sizeof(Elf_Phdr));
   //ramdisk_read(phdr, bias, ehdr.e_phnum * sizeof(Elf_Phdr));
-	printf("Load start\n");
+	
+
+	Log("Load start");
 	for(int i = 0; i < ehdr.e_phnum; i++){
 		if(phdr[i].p_type == PT_LOAD){
 			size_t rptr = offset + phdr[i].p_offset;
@@ -40,7 +42,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 			// FIXME: more precise read ramdisk
 			while(size > 0){
 				void *pptr = new_page(1);
-				printf("vptr=%p, pptr=%p\n", vptr, pptr);
+				//printf("vptr=%p, pptr=%p\n", vptr, pptr);
 				map(&(pcb->as), (void*)vptr, pptr, 0);
 				ramdisk_read((void*)vptr, rptr, PGSIZE);
 				rptr += PGSIZE;
@@ -61,7 +63,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   }
 	*/
   fs_close(fd);
-	printf("Load success.\n");
+	Log("Load success.");
   return ehdr.e_entry;
 }
 
