@@ -136,8 +136,8 @@ void init_proc() {
 
 Context* schedule(Context *prev) {
   current->cp = prev;
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+	current = &pcb[0];
   //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   return current->cp;
 }
