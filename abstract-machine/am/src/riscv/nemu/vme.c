@@ -102,7 +102,6 @@ void __am_switch(Context *c) {
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
 	//printf("MAP FROM %p TO %p\n", va, pa);
-	putch('a');
 	Vaddr vaddr = {.val = (uintptr_t)va};
 	Paddr paddr = {.val = (uintptr_t)pa};
 	if(vaddr.offs != paddr.offs){
