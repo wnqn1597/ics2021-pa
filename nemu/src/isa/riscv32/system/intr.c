@@ -2,7 +2,7 @@
 
 #define IRQ_TIMER 0x80000007
 
-CSR csr_reg = {.mstatus.val = 0x1808};
+CSR csr_reg = {.mstatus.val = 0x1800};
 
 //TODO: add etrace here.
 
@@ -36,7 +36,6 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 	// mstatus
 	csr_reg.mstatus.MPIE = csr_reg.mstatus.MIE;
 	csr_reg.mstatus.MIE = 0;
-	printf("mtvec=%08x\n", csr_reg.mtvec);
 
 	csr_reg.mcause = NO;
   /* + 4 ? */
