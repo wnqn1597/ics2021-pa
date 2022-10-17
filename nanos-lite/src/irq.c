@@ -4,7 +4,7 @@ void do_syscall(Context *c);
 Context* schedule(Context *prev);
 
 static Context* do_event(Event e, Context* c) {
-
+	printf("is %d", e.event==EVENT_IRQ_TIMER);
   // strace implement here
 	Context *newContext;
   switch (e.event) {

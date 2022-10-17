@@ -37,7 +37,7 @@ Context* __am_irq_handle(Context *c) {
       case 17: 
       case 18: 
       case 19: ev.event = EVENT_SYSCALL; break;
-			case 0x80000007: printf("e\n");ev.event = EVENT_IRQ_TIMER; break;
+			case 0x80000007: ev.event = EVENT_IRQ_TIMER; break;
       default: ev.event = EVENT_ERROR; break;
     }
     c = user_handler(ev, c);
