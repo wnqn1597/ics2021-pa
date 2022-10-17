@@ -8,7 +8,7 @@ static Context* do_event(Event e, Context* c) {
 	Context *newContext;
   switch (e.event) {
 		case EVENT_IRQ_TIMER:
-			Log("IRQ_TIMER");
+			//Log("IRQ_TIMER");
 		case EVENT_YIELD: 
 	    //printf("YIELD EXECUTED\n");
 		  newContext = schedule(c);
