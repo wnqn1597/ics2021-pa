@@ -45,7 +45,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 }
 
 word_t isa_out_intr(word_t NO) {
-
+	
+	// mstatus
 	csr_reg.mstatus.MIE = csr_reg.mstatus.MPIE;
 	csr_reg.mstatus.MPIE = 1;
 	
