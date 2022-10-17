@@ -37,6 +37,7 @@ Context* __am_irq_handle(Context *c) {
       case 17: 
       case 18: 
       case 19: ev.event = EVENT_SYSCALL; break;
+			case 0x80000007: ev.event = EVENT_IRQ_TIMER; break;
       default: ev.event = EVENT_ERROR; break;
     }
     c = user_handler(ev, c);
@@ -55,6 +56,7 @@ extern void __am_asm_trap(void);
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));
+  asm volatile("csrw mstatus, %0" : : "r"(0x1808));
 
   // register event handler
   user_handler = handler;
