@@ -10,6 +10,9 @@ typedef struct {
   } gpr[32];
 
   vaddr_t pc;
+	// device intr
+	bool INTR;
+
 } riscv32_CPU_state;
 
 // decode

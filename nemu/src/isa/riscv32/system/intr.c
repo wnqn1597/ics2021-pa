@@ -1,5 +1,7 @@
 #include <isa.h>
 
+#define IRQ_TIMER 0x80000007
+
 CSR csr_reg = {.mstatus = 0x1800};
 
 //TODO: add etrace here.
@@ -34,6 +36,9 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* + 4 ? */
   csr_reg.mepc = epc + 4;
   //printf("ECALL PC=%x\n", epc);
+	
+	// mstatus implement
+
   return csr_reg.mtvec;
 }
 
@@ -45,5 +50,11 @@ word_t isa_out_intr(word_t NO) {
 }
 
 word_t isa_query_intr() {
+
+	if(cpu.INTR && (csr_reg.mstatus & 0x8)){
+		cpu.INTR = false;
+		return IRQ_TIMER;
+	}
+	
   return INTR_EMPTY;
 }
