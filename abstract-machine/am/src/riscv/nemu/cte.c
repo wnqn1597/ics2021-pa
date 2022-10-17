@@ -47,7 +47,7 @@ Context* __am_irq_handle(Context *c) {
 
 	// Page
 	if(c->pdir != NULL) __am_switch(c);
-	printf("Irq return context %p\n", c);
+	//printf("Irq return context %p\n", c);
   return c;
 }
 
