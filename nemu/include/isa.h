@@ -38,11 +38,21 @@ vaddr_t isa_raise_intr(word_t NO, vaddr_t epc);
 #define INTR_EMPTY ((word_t)-1)
 word_t isa_query_intr();
 
+typedef union{
+	struct{
+		uint32_t sec1:3;
+		uint32_t MIE:1;
+		uint32_t sec2:3;
+		uint32_t MPIE:1;
+	};
+	uint32_t val;
+} Mstatus;
+
 typedef struct csr {
   uint32_t satp;
   uint32_t mtvec;
   uint32_t mepc;
-  uint32_t mstatus;
+  Mstatus  mstatus;
   uint32_t mcause;
 } CSR;
 

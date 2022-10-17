@@ -2,14 +2,14 @@
 
 #define IRQ_TIMER 0x80000007
 
-CSR csr_reg = {.mstatus = 0x1800};
+CSR csr_reg = {.mstatus.val = 0x1800};
 
 //TODO: add etrace here.
 
 uint32_t* get_csr(uint32_t code) {
   switch(code) {
     case 0x180: return &csr_reg.satp;
-    case 0x300: return &csr_reg.mstatus;
+    case 0x300: return &csr_reg.mstatus.val;
     case 0x305: return &csr_reg.mtvec;
     case 0x341: return &csr_reg.mepc;
     case 0x342: return &csr_reg.mcause;
@@ -20,7 +20,7 @@ uint32_t* get_csr(uint32_t code) {
 void write_csr(uint32_t code, word_t value) {
   switch(code) {
     case 0x180: csr_reg.satp = value;printf("satp=%08x\n", value);break;
-    case 0x300: csr_reg.mstatus = value;break;
+    case 0x300: csr_reg.mstatus.val = value;break;
     case 0x305: csr_reg.mtvec = value;break;
     case 0x341: csr_reg.mepc = value;break;
     case 0x342: csr_reg.mcause = value;break;
@@ -32,17 +32,24 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
    */
-  csr_reg.mcause = NO;
+  
+	// mstatus
+	csr_reg.mstatus.MPIE = csr_reg.mstatus.MIE;
+	csr_reg.mstatus.MIE = 0;
+
+
+	csr_reg.mcause = NO;
   /* + 4 ? */
   csr_reg.mepc = epc + 4;
   //printf("ECALL PC=%x\n", epc);
-	
-	// mstatus implement
-
   return csr_reg.mtvec;
 }
 
 word_t isa_out_intr(word_t NO) {
+
+	csr_reg.mstatus.MIE = csr_reg.mstatus.MPIE;
+	csr_reg.mstatus.MPIE = 1;
+	
   csr_reg.mcause = NO;
   // not + 4, otherwise the entry will be modified.
   //printf("MRET  PC=%x\n", csr_reg.mepc);
@@ -51,7 +58,8 @@ word_t isa_out_intr(word_t NO) {
 
 word_t isa_query_intr() {
 
-	if(cpu.INTR && (csr_reg.mstatus & 0x8)){
+	if(cpu.INTR && csr_reg.mstatus.MIE){
+		printf("receive the irq\n");
 		cpu.INTR = false;
 		return IRQ_TIMER;
 	}
