@@ -58,12 +58,8 @@ word_t isa_out_intr(word_t NO) {
 word_t isa_query_intr() {
 
 	if(cpu.INTR && csr_reg.mstatus.MIE){
-		printf("receive the irq\n");
 		cpu.INTR = false;
 		return IRQ_TIMER;
-	}else if(!csr_reg.mstatus.MIE){
-		//printf("CLOSE INTR\n");
 	}
-	
   return INTR_EMPTY;
 }
