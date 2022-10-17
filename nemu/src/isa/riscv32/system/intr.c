@@ -36,8 +36,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 	// mstatus
 	csr_reg.mstatus.MPIE = csr_reg.mstatus.MIE;
 	csr_reg.mstatus.MIE = 0;
-printf("mtvec=%08x\n", csr_reg.mtvec);
-printf("mstatus=%08x\n", csr_reg.mstatus.val);
+	
 	csr_reg.mcause = NO;
   /* + 4 ? */
   csr_reg.mepc = epc + 4;
