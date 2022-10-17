@@ -62,6 +62,8 @@ word_t isa_query_intr() {
 		printf("receive the irq\n");
 		cpu.INTR = false;
 		return IRQ_TIMER;
+	}else if(!csr_reg.mstatus.MIE){
+		printf("CLOSE INTR\n");
 	}
 	
   return INTR_EMPTY;
