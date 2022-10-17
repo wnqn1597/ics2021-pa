@@ -8,7 +8,7 @@ void __am_get_cur_as(Context *c);
 void __am_switch(Context *c);
 
 Context* __am_irq_handle(Context *c) {
-	//printf("Irq accept context %p, mcause=%d\n", c, c->mcause);
+	printf("Irq accept context %p, mcause=%08x\n", c, c->mcause);
 	// Page
 	__am_get_cur_as(c);
 
