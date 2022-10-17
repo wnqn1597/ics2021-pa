@@ -2,7 +2,7 @@
 
 #define IRQ_TIMER 0x80000007
 
-CSR csr_reg = {.mstatus.val = 0x1800};
+CSR csr_reg = {.mstatus.val = 0x1808};
 
 //TODO: add etrace here.
 
