@@ -137,9 +137,23 @@ void init_proc() {
 	*/
 }
 
+static int count = 0;
+
 Context* schedule(Context *prev) {
   current->cp = prev;
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+
+	// time piece
+	if(current == &pcb[1]){
+		if(count == 500){
+			count = 0;
+			current = &pcb[0];
+		}else{
+			count ++;
+		}
+	}else{
+		current = &pcb[1];
+	}
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 	//current = &pcb[0];
   //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   return current->cp;
