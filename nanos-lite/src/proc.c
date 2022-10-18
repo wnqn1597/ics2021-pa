@@ -157,16 +157,15 @@ Context* schedule(Context *prev) {
 	}
 	// time piece
 	if(current != &pcb[0]){
-		if(count == 500){
-			count = 0;
+		if(count == 0){
+			count = 500;
 			current = &pcb[0];
 		}else{
-			count ++;
+			count --;
 		}
 	}else{
 		current = fg_pcb;
 	}
-	if(current == NULL) current = &pcb[0];
 	//current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 	//current = &pcb[0];
   printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
