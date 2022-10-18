@@ -5,6 +5,7 @@
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
+PCB *fg_pcb = NULL;
 
 void naive_uload(PCB *pcb, const char *filename);
 uintptr_t loader(PCB *pcb, const char *filename);
@@ -118,13 +119,14 @@ void context_uload(PCB *this_pcb, const char *filename, char *const argv[], char
 }
 
 void init_proc() {
-  char *argv[] = {"/bin/exec-test", "skip", NULL};
-	char *envs[] = {"hello", "sdlpal"};
+  char *argv[] = {"skip"};
 
   //context_kload(&pcb[0], hello_fun, 2);
   //context_kload(&pcb[1], hello_fun, 3);
-  context_uload(&pcb[0], "/bin/hello", argv, envs);
-  context_uload(&pcb[1], "/bin/pal", argv, envs);
+  context_uload(&pcb[0], "/bin/hello", NULL, NULL);
+  context_uload(&pcb[1], "/bin/pal", argv, NULL);
+  context_uload(&pcb[2], "/bin/bird", NULL, NULL);
+  context_uload(&pcb[3], "/bin/nslider", NULL, NULL);
   
   switch_boot_pcb();
 
@@ -147,10 +149,14 @@ Context* schedule(Context *prev) {
 	// fg_pcb
 	char buf[20];
 	uint32_t key = events_read((void*)buf, 0, 10);
-	if(key != 0) printf("key = %08x\n", key);
-
+	switch(key){
+		case 1: fg_pcb = &pcb[1]; current = &pcb[1]; break;
+		case 2: fg_pcb = &pcb[2]; current = &pcb[2]; break;
+		case 3: fg_pcb = &pcb[3]; current = &pcb[3]; break;
+		default: break;
+	}
 	// time piece
-	if(current == &pcb[1]){
+	if(current != &pcb[0]){
 		if(count == 500){
 			count = 0;
 			current = &pcb[0];
@@ -158,9 +164,9 @@ Context* schedule(Context *prev) {
 			count ++;
 		}
 	}else{
-		current = &pcb[1];
+		current = fg_pcb;
 	}
-  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+	//current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 	//current = &pcb[0];
   //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   return current->cp;
