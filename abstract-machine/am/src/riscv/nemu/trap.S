@@ -13,10 +13,10 @@
 #endif
 
 #define REGS(f) \
-                  f( 3) f( 4) f( 5) f( 6) f( 7) f( 8) f( 9) \
+      f( 1)       f( 3) f( 4) f( 5) f( 6) f( 7) f( 8) f( 9) \
 f(10) f(11) f(12) f(13) f(14) f(15) f(16) f(17) f(18) f(19) \
 f(20) f(21) f(22) f(23) f(24) f(25) f(26) f(27) f(28) f(29) \
-f(30) f(31)
+f(30)
 
 #define PUSH(n) STORE concat(x, n), (n * XLEN)(sp);
 #define POP(n)  LOAD  concat(x, n), (n * XLEN)(sp);
@@ -39,23 +39,23 @@ __am_asm_trap:
 
 set_np_kernel:
 	addi sp, sp, -CONTEXT_SIZE
-	STORE ra, (1*XLEN)(sp)
-	lui ra, 0
-	addi ra, ra, 1
-	STORE ra, 0(sp)
+	STORE t6, (31*XLEN)(sp)
+	lui t6, 0
+	addi t6, t6, 1
+	STORE t6, 0(sp)
 	jal save_load_context
 
 set_np_user:
   addi sp, sp, -CONTEXT_SIZE
-	STORE ra, (1*XLEN)(sp)
-	lui ra, 0
-	STORE ra, 0(sp)
+	STORE t6, (31*XLEN)(sp)
+	lui t6, 0
+	STORE t6, 0(sp)
 	jal save_load_context
 
 save_load_context:
-	csrrw ra, mscratch, ra
-	sw ra, OFFSET_SP(sp)
-	csrrw ra, mscratch, ra
+	csrrw t6, mscratch, t6
+	sw t6, OFFSET_SP(sp)
+	csrrw t6, mscratch, t6
 
   MAP(REGS, PUSH)
 
@@ -85,19 +85,19 @@ save_load_context:
 
   MAP(REGS, POP)
 
-	LOAD ra, 0(sp)
-	bnez ra, load_sp_kernel
+	LOAD t6, 0(sp)
+	bnez t6, load_sp_kernel
 	jal load_sp_user
 
 load_sp_user:
-	LOAD ra, OFFSET_SP(sp)
-	csrw mscratch, ra
-	LOAD ra, (1*XLEN)(sp)
+	LOAD t6, OFFSET_SP(sp)
+	csrw mscratch, t6
+	LOAD t6, (31*XLEN)(sp)
 	addi sp, sp, CONTEXT_SIZE
 	csrrw sp, mscratch, sp
 	mret
 
 load_sp_kernel:
-	LOAD ra, (1*XLEN)(sp)
+	LOAD t6, (31*XLEN)(sp)
 	LOAD sp, OFFSET_SP(sp)
   mret
