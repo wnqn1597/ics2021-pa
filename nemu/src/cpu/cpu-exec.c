@@ -143,6 +143,9 @@ void cpu_exec(uint64_t n) {
     fetch_decode_exec_updatepc(&s);
     g_nr_guest_instr ++;
     trace_and_difftest(&s, cpu.pc);
+
+		if(cpu.pc == 0x80001c18) nemu_state.state = NEMU_STOP;
+
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
 		
@@ -151,7 +154,6 @@ void cpu_exec(uint64_t n) {
 		if(intr != INTR_EMPTY){
 			cpu.pc = isa_raise_intr(intr, cpu.pc-4);// not + 4 !!!
 		}
-
   }
 
   uint64_t timer_end = get_time();

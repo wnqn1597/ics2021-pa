@@ -73,7 +73,7 @@ Context *kcontext(Area kstack, void (*entry)(uint32_t), uint32_t arg) {
 
 	// Stack Exchange
 	uint32_t *sp = (uint32_t*)(kstack.end - 34 * 4);
-	*sp = (uintptr_t)&_end;
+	*sp = (uintptr_t)kstack.end;
 	uint32_t *np = (uint32_t*)(kstack.end - 36 * 4);
 	*np = 1;
 
