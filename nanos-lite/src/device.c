@@ -9,6 +9,8 @@
 #define NAME(key) \
   [AM_KEY_##key] = #key,
 
+void exchangeFGPCB(int index);
+
 static const char *keyname[256] __attribute__((used)) = {
   [AM_KEY_NONE] = "NONE",
   AM_KEYS(NAME)
@@ -28,6 +30,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   uint32_t val = get_keyboard_val();
   if(val == 0) return 0;
   if(val < 256) {
+		exchangeFGPCB(val);
     const char *name = keyname[val];
     strcpy(buf, "ku ");
     strncpy(buf+3, name, len);

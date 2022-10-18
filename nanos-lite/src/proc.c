@@ -5,18 +5,21 @@
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
-PCB *fg_pcb = &pcb[1];
+PCB *fg_pcb = NULL;
 
 void naive_uload(PCB *pcb, const char *filename);
 uintptr_t loader(PCB *pcb, const char *filename);
 
 extern char _end;
 
-size_t events_read(void *buf, size_t offset, size_t len);
-
 PCB* get_pcb(int index){
   if(index < 0 || index >= MAX_NR_PROC) return NULL;
   return &pcb[index];
+}
+
+void exchangeFGPCB(int index){
+	if(index < 1 || index > 3) return;
+	fg_pcb = &pcb[index];
 }
 
 static uint32_t len(char *const arr[]) {
@@ -146,27 +149,14 @@ static int count = 0;
 Context* schedule(Context *prev) {
   current->cp = prev;
 
-	// fg_pcb
-	char buf[20];
-	uint32_t key = events_read((void*)buf, 0, 10);
-	if(key != 0) printf("key=%04x\n", key);
-	switch(key){
-		case 1: fg_pcb = &pcb[1]; current = &pcb[1]; break;
-		case 2: fg_pcb = &pcb[2]; current = &pcb[2]; break;
-		case 3: fg_pcb = &pcb[3]; current = &pcb[3]; break;
-		default: break;
-	}
 	// time piece
-	if(current != &pcb[0]){
-		if(count == 0){
-			count = 500;
-			current = &pcb[0];
-		}else{
-			count --;
-		}
-	}else{
+	if(current == &pcb[0]){
 		current = fg_pcb;
-	}
+	}else if(count == 0){
+		count = 300;
+		current = &pcb[0];
+	}else count --;
+
 	//current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 	//current = &pcb[0];
   //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);

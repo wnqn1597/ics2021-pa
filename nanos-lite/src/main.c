@@ -31,5 +31,5 @@ int main() {
   yield();
 #endif
 
-  panic("It's the end of nanos-lite, should not reach here.");
+  panic("Should not reach here.");
 }
