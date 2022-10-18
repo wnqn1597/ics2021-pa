@@ -136,6 +136,10 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
 	// Page
 	uint32_t *pdir = (uint32_t*)(kstack.end - 1 * 4);
 	*pdir = (uintptr_t)as->ptr;
+
+	// Stack Exchange
+	uint32_t *sp = (uint32_t*)(kstack.end - 2 * 4);
+	*sp = 0x80000000;
 	
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);
