@@ -19,7 +19,7 @@ PCB* get_pcb(int index){
 
 void exchangeFGPCB(int index){
 	if(index < 2 || index > 4) return;
-	Log("Change to process %d\n", index);
+	Log("Change to process %d", index);
 	fg_pcb = &pcb[index-1];
 }
 
@@ -130,7 +130,7 @@ void init_proc() {
   context_uload(&pcb[0], "/bin/hello", NULL, NULL);
   context_uload(&pcb[1], "/bin/pal", argv, NULL);
   context_uload(&pcb[2], "/bin/bird", NULL, NULL);
-  context_uload(&pcb[3], "/bin/nslider", NULL, NULL);
+  context_uload(&pcb[3], "/bin/nterm", NULL, NULL);
 	fg_pcb = &pcb[1];
   
   switch_boot_pcb();
