@@ -143,9 +143,6 @@ void cpu_exec(uint64_t n) {
     fetch_decode_exec_updatepc(&s);
     g_nr_guest_instr ++;
     trace_and_difftest(&s, cpu.pc);
-
-		if(cpu.pc == 0x80001c38 || cpu.pc == 0x80001d24) nemu_state.state = NEMU_STOP;
-
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
 		
