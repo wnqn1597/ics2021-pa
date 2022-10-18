@@ -147,7 +147,7 @@ Context* schedule(Context *prev) {
 	// fg_pcb
 	char buf[20];
 	uint32_t key = events_read((void*)buf, 0, 10);
-	printf("key = %08x\n", key);
+	if(key != 0) printf("key = %08x\n", key);
 
 	// time piece
 	if(current == &pcb[1]){
