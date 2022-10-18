@@ -11,6 +11,7 @@ uint32_t* get_csr(uint32_t code) {
     case 0x180: return &csr_reg.satp;
     case 0x300: return &csr_reg.mstatus.val;
     case 0x305: return &csr_reg.mtvec;
+		case 0x340: return &csr_reg.mscratch;
     case 0x341: return &csr_reg.mepc;
     case 0x342: return &csr_reg.mcause;
     default: printf("Unknown csr code %x\n", code);assert(0);
@@ -22,6 +23,7 @@ void write_csr(uint32_t code, word_t value) {
     case 0x180: csr_reg.satp = value;printf("satp=%08x\n", value);break;
     case 0x300: csr_reg.mstatus.val = value;break;
     case 0x305: csr_reg.mtvec = value;break;
+		case 0x340: csr_reg.mscratch = value;break;
     case 0x341: csr_reg.mepc = value;break;
     case 0x342: csr_reg.mcause = value;break;
     default: printf("Unknown csr code %x\n", code);assert(0);

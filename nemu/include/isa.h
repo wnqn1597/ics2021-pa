@@ -54,6 +54,7 @@ typedef struct csr {
   uint32_t mepc;
   Mstatus  mstatus;
   uint32_t mcause;
+	uint32_t mscratch;
 } CSR;
 
 uint32_t* get_csr(uint32_t code);
