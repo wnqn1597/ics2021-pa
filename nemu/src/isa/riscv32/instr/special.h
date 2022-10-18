@@ -17,8 +17,9 @@ def_EHelper(mret) {
 }
 
 def_EHelper(csrrw) {
-  rtl_mv(s, ddest, get_csr(id_src2->imm));
+	rtl_mv(s, s0, get_csr(id_src2->imm));
   rtl_mv(s, get_csr(id_src2->imm), dsrc1);
+	rtl_mv(s, ddest, s0);
 }
 
 def_EHelper(csrrs) {
