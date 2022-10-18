@@ -12,6 +12,7 @@ extern CSR csr_reg;
 
 void isa_reg_display() {
   //for(int i = 0; i < 32; i++){
+  printf("R[%s]: %08x\n", regs[1], cpu.gpr[1]._32);
   printf("R[%s]: %08x\n", regs[2], cpu.gpr[2]._32);
   printf("R[%s]: %08x\n", regs[31], cpu.gpr[31]._32);
   printf("mscrt: %08x\n", csr_reg.mscratch);
