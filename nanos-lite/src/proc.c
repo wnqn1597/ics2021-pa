@@ -19,6 +19,7 @@ PCB* get_pcb(int index){
 
 void exchangeFGPCB(int index){
 	if(index < 1 || index > 3) return;
+	printf("exchange to process %d\n", index);
 	fg_pcb = &pcb[index];
 }
 
