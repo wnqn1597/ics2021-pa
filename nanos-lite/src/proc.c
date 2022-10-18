@@ -130,6 +130,7 @@ void init_proc() {
   context_uload(&pcb[1], "/bin/pal", argv, NULL);
   context_uload(&pcb[2], "/bin/bird", NULL, NULL);
   context_uload(&pcb[3], "/bin/nslider", NULL, NULL);
+	fg_pcb = &pcb[1];
   
   switch_boot_pcb();
 
@@ -159,6 +160,6 @@ Context* schedule(Context *prev) {
 
 	//current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 	//current = &pcb[0];
-  printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
+  //printf("from %x to %x\n", (uint32_t)prev, (uint32_t)current->cp);
   return current->cp;
 }
