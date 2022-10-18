@@ -35,7 +35,7 @@ __am_asm_trap:
 	csrrw sp, mscratch, sp
 	bnez sp, set_np_user
 	csrr sp, mscratch
-	jal set_np_kernel
+	j set_np_kernel
 
 set_np_kernel:
 	addi sp, sp, -CONTEXT_SIZE
@@ -43,14 +43,14 @@ set_np_kernel:
 	lui t6, 0
 	addi t6, t6, 1
 	STORE t6, 0(sp)
-	jal save_load_context
+	j save_load_context
 
 set_np_user:
   addi sp, sp, -CONTEXT_SIZE
 	STORE t6, (31*XLEN)(sp)
 	lui t6, 0
 	STORE t6, 0(sp)
-	jal save_load_context
+	j save_load_context
 
 save_load_context:
 	csrrw t6, mscratch, t6
@@ -87,7 +87,7 @@ save_load_context:
 
 	LOAD t6, 0(sp)
 	bnez t6, load_sp_kernel
-	jal load_sp_user
+	j load_sp_user
 
 load_sp_user:
 	LOAD t6, OFFSET_SP(sp)
