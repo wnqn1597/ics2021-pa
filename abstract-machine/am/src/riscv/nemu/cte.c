@@ -72,7 +72,7 @@ Context *kcontext(Area kstack, void (*entry)(uint32_t), uint32_t arg) {
 	*pdir = 0;
 
 	// Stack Exchange
-	uint32_t *sp = (uint32_t*)(kstack.end - 2 * 4);
+	uint32_t *sp = (uint32_t*)(kstack.end - 34 * 4);
 	*sp = (uintptr_t)&_end;
 
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
