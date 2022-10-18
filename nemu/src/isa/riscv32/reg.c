@@ -8,11 +8,14 @@ const char *regs[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+extern CSR csr_reg;
+
 void isa_reg_display() {
   //for(int i = 0; i < 32; i++){
   printf("R[%s]: %08x\n", regs[0], cpu.gpr[0]._32);
   printf("R[%s]: %08x\n", regs[2], cpu.gpr[2]._32);
   printf("R[%s]: %08x\n", regs[31], cpu.gpr[31]._32);
+  printf("mscrt: %08x\n", csr_reg.mscratch);
   //}
 }
 
