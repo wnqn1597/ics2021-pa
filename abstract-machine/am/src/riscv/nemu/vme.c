@@ -139,9 +139,9 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
 
 	// Stack Exchange
 	uint32_t *sp = (uint32_t*)(kstack.end - 34 * 4);
-	*sp = 0x80000000;
+	*sp = (uint32_t)(uintptr_t)USER_SPACE.end;
 	uint32_t *np = (uint32_t*)(kstack.end - 36 * 4);
-	*np = 0;
+	*np = 0; // USER_CONTEXT_TAG
 	
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);

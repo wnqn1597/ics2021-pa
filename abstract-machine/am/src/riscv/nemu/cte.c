@@ -75,7 +75,7 @@ Context *kcontext(Area kstack, void (*entry)(uint32_t), uint32_t arg) {
 	uint32_t *sp = (uint32_t*)(kstack.end - 34 * 4);
 	*sp = (uintptr_t)kstack.end;
 	uint32_t *np = (uint32_t*)(kstack.end - 36 * 4);
-	*np = 1;
+	*np = 1; // KERNEL_CONTEXT_TAG
 
   uint32_t *mstatus_ptr = (uint32_t*)(kstack.end - 3 * 4);
   uint32_t *mepc_ptr = (uint32_t*)(kstack.end - 2 * 4);

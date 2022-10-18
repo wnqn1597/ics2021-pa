@@ -11,6 +11,8 @@ uintptr_t loader(PCB *pcb, const char *filename);
 
 extern char _end;
 
+size_t events_read(void *buf, size_t offset, size_t len);
+
 PCB* get_pcb(int index){
   if(index < 0 || index >= MAX_NR_PROC) return NULL;
   return &pcb[index];
@@ -141,6 +143,11 @@ static int count = 0;
 
 Context* schedule(Context *prev) {
   current->cp = prev;
+
+	// fg_pcb
+	char buf[20];
+	uint32_t key = events_read((void*)buf, 0, 10);
+	printf("key = %08x\n", key);
 
 	// time piece
 	if(current == &pcb[1]){
