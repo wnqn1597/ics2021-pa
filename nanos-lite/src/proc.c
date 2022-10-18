@@ -149,6 +149,7 @@ Context* schedule(Context *prev) {
 	// fg_pcb
 	char buf[20];
 	uint32_t key = events_read((void*)buf, 0, 10);
+	if(key != 0) printf("key=%04x\n", key);
 	switch(key){
 		case 1: fg_pcb = &pcb[1]; current = &pcb[1]; break;
 		case 2: fg_pcb = &pcb[2]; current = &pcb[2]; break;
