@@ -30,6 +30,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   uint32_t val = get_keyboard_val();
   if(val == 0) return 0;
   if(val < 256) {
+		// fg_pcb
 		exchangeFGPCB(val);
     const char *name = keyname[val];
     strcpy(buf, "ku ");

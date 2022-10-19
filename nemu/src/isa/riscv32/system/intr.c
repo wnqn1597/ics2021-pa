@@ -52,7 +52,7 @@ word_t isa_out_intr(word_t NO) {
 	csr_reg.mstatus.MIE = csr_reg.mstatus.MPIE;
 	csr_reg.mstatus.MPIE = 1;
 	
-  csr_reg.mcause = NO;
+  //csr_reg.mcause = NO;
   // not + 4, otherwise the entry will be modified.
   //printf("MRET  PC=%x\n", csr_reg.mepc);
   return csr_reg.mepc;
