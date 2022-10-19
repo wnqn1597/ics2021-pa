@@ -41,7 +41,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 	
 	csr_reg.mcause = NO;
   /* + 4 ? */
-  csr_reg.mepc = epc + 4;
+  csr_reg.mepc = epc;
   //printf("ECALL PC=%x\n", epc);
   return csr_reg.mtvec;
 }

@@ -6,13 +6,12 @@ Context* schedule(Context *prev);
 static Context* do_event(Event e, Context* c) {
   // strace implement here
   switch (e.event) {
-		case EVENT_IRQ_TIMER:
-			//Log("IRQ_TIMER");
 		case EVENT_YIELD: 
-	    //printf("YIELD EXECUTED\n");
+			c->mepc += 4;
+		case EVENT_IRQ_TIMER:
 	    return schedule(c);
-    case EVENT_SYSCALL: 
-	    //printf("SYSCALL START\n");
+    case EVENT_SYSCALL:
+		 	c->mepc += 4;
 	    break;
     default: panic("Unhandled event ID = %d", e.event);
   }
