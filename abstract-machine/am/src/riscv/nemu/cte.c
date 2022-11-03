@@ -10,10 +10,8 @@ void __am_switch(Context *c);
 extern char _end;
 
 Context* __am_irq_handle(Context *c) {
-	//printf("Irq accept context %p, c->np=%08x, c->sp=%08x\n", c, c->gpr[0], c->gpr[2]);
 	// Page
 	__am_get_cur_as(c);
-
 
   if (user_handler) {
     Event ev = {0};
@@ -27,10 +25,8 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
 
-
 	// Page
 	if(c->pdir != NULL) __am_switch(c);
-	//printf("Irq return context %p, c->np=%08x, c->sp=%08x\n", c, c->gpr[0], c->gpr[2]);
   return c;
 }
 

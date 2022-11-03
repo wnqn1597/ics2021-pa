@@ -10,7 +10,6 @@ def_EHelper(nemu_trap) {
 
 def_EHelper(ecall) {
   s->dnpc = isa_raise_intr(((int)cpu.gpr[17]._32 < 0) ? 0x80000003 : 0xb , s->pc);
-  //s->dnpc = isa_raise_intr((int)cpu.gpr[17]._32, s->pc);
 }
 
 def_EHelper(mret) {
